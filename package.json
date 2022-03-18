@@ -1,0 +1,21 @@
+{
+  "name": "@niur/googleads-node-lib",
+  "version": "0.0.1",
+  "description": "Google Ads APIs Client Library for NodeJs (AdWords and Ad Manager)",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "format": "prettier --write \"**/*.ts\"",
+    "lint": "eslint 'lib/**/*.ts' --fix",
+    "prepublish:npm": "npm run build",
+    "publish:npm": "npm publish --access public",
+    "test:e2e": "jest --config ./tests/jest-e2e.json --runInBand",
+    "test:e2e:dev": "jest --config ./tests/jest-e2e.json --runInBand --watch",
+    "prerelease": "npm run build"
+  },
+  "author": "Niurmiguel Gonzalez",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.6.2"
+  }
+}
