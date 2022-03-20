@@ -1,1 +1,1 @@
-export { googleSACredential } from './auth';
+export { googleSACredential, googleSAFileCredential } from './auth';

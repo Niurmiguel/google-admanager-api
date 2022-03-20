@@ -1,18 +1,25 @@
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
 import { GoogleAuth, JWTInput, RefreshOptions } from 'google-auth-library';
+
 import { SCOPES } from '@common/constants';
 
 type ScopeOptions = keyof typeof SCOPES;
 
 export class googleSACredential {
   private _json: string | JWTInput;
-  private _scopes: ScopeOptions[];
+  private _scopes: ScopeOptions | ScopeOptions[];
   private _options: RefreshOptions | undefined;
   protected auth: JSONClient;
 
+  /**
+   *
+   * @param json The input object.
+   * @param scopes Required scopes for the desired API request
+   * @param options The JWT or UserRefresh options for the client
+   */
   constructor(
     json: string | JWTInput,
-    scopes: ScopeOptions[],
+    scopes: ScopeOptions | ScopeOptions[],
     options?: RefreshOptions,
   ) {
     if (!json) {
@@ -30,16 +37,14 @@ export class googleSACredential {
   }
 
   private async build() {
-    const scopes = SCOPES as Record<string, string>;
-
-    let json = this._json as JWTInput;
-
-    if (typeof this._json === 'string') {
-      json = JSON.parse(this._json);
-    }
+    const json =
+      typeof this._json === 'string' ? JSON.parse(this._json) : this._json;
 
     this.auth = new GoogleAuth({
-      scopes: this._scopes.map((scope) => scopes[scope]),
+      scopes:
+        typeof this._scopes === 'string'
+          ? SCOPES[this._scopes]
+          : this._scopes.map((scope) => SCOPES[scope]),
     }).fromJSON(json, this._options);
   }
 
