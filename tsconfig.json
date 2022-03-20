@@ -11,8 +11,13 @@
     "sourceMap": false,
     "outDir": "./dist",
     "rootDir": "./lib",
+    "baseUrl": ".",
     "skipLibCheck": true,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@common/*": ["./lib/common/*"]
+    }
   },
   "include": ["lib/**/*"],
   "exclude": ["node_modules"]

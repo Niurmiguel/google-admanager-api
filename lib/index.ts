@@ -1,0 +1,1 @@
+export { googleSACredential } from './auth';
