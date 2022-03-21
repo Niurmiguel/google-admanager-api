@@ -16,7 +16,8 @@
     "useUnknownInCatchVariables": false,
     "strictPropertyInitialization": false,
     "paths": {
-      "@common/*": ["./lib/common/*"]
+      "@common/*": ["./lib/common/*"],
+      "@auth": ["./lib/auth"]
     }
   },
   "include": ["lib/**/*"],

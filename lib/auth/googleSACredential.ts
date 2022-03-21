@@ -1,14 +1,13 @@
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
 import { GoogleAuth, JWTInput, RefreshOptions } from 'google-auth-library';
 
+import { SACredential, ScopeOptions } from './interfaces';
 import { SCOPES } from '@common/constants';
 
-type ScopeOptions = keyof typeof SCOPES;
-
-export class googleSACredential {
-  private _json: string | JWTInput;
-  private _scopes: ScopeOptions | ScopeOptions[];
-  private _options: RefreshOptions | undefined;
+export class googleSACredential implements SACredential {
+  private json: string | JWTInput;
+  private scopes: ScopeOptions | ScopeOptions[];
+  private options: RefreshOptions | undefined;
   protected auth: JSONClient;
 
   /**
@@ -29,26 +28,26 @@ export class googleSACredential {
     if (!scopes)
       throw new Error("'scopes' must be set when using service account flow.");
 
-    this._json = json;
-    this._scopes = scopes;
-    this._options = options;
+    this.json = json;
+    this.scopes = scopes;
+    this.options = options;
 
     this.build();
   }
 
   private async build() {
     const json =
-      typeof this._json === 'string' ? JSON.parse(this._json) : this._json;
+      typeof this.json === 'string' ? JSON.parse(this.json) : this.json;
 
     this.auth = new GoogleAuth({
       scopes:
-        typeof this._scopes === 'string'
-          ? SCOPES[this._scopes]
-          : this._scopes.map((scope) => SCOPES[scope]),
-    }).fromJSON(json, this._options);
+        typeof this.scopes === 'string'
+          ? SCOPES[this.scopes]
+          : this.scopes.map((scope) => SCOPES[scope]),
+    }).fromJSON(json, this.options);
   }
 
-  async getToken() {
+  async getToken(): Promise<string | null | undefined> {
     return await (
       await this.auth.getAccessToken()
     ).token;
