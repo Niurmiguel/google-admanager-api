@@ -15,6 +15,9 @@
     "skipLibCheck": true,
     "useUnknownInCatchVariables": false,
     "strictPropertyInitialization": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
     "paths": {
       "@common/*": ["./lib/common/*"],
       "@auth": ["./lib/auth"]

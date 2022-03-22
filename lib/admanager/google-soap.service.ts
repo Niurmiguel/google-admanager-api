@@ -1,16 +1,21 @@
 import { BearerSecurity, Client, createClientAsync } from 'soap';
 
-import { ApiVersion, GoogleSoapServiceOptions } from '@common/types';
+import { promiseFromCallback } from '@common/utils';
 import { SERVICE_MAP } from '@common/constants';
+import {
+  ApiVersion,
+  GoogleSoapServiceOptions,
+  ServiceNameToTypeMapping,
+} from '@common/types';
 
 export class GoogleSoapService<
   T extends ApiVersion,
-  K extends keyof typeof SERVICE_MAP[T],
+  K extends keyof ServiceNameToTypeMapping[T],
 > {
   private version: T;
   private networkCode: number;
   private applicationName: string;
-  private service: K;
+  private service: string;
   private token: string;
   private _client: Client;
 
@@ -18,31 +23,32 @@ export class GoogleSoapService<
     this.applicationName = options.applicationName;
     this.version = options.version as T;
     this.networkCode = options.networkCode;
-    this.service = service as K;
+    this.service = service;
     this.token = options.token;
   }
 
-  public async createClient() {
+  public async createClient(): Promise<ServiceNameToTypeMapping[T][K]> {
     const self = this;
     const serviceUrl = `https://ads.google.com/apis/ads/publisher/${this.version}/${this.service}?wsdl`;
-    self._client = await createClientAsync(serviceUrl);
-    self._client.addSoapHeader(self.getSoapHeaders());
-    self._client.setToken = function setToken(token: string) {
-      self._client.setSecurity(new BearerSecurity(token));
+    const client = await createClientAsync(serviceUrl);
+    client.addSoapHeader(self.getSoapHeaders());
+    client.setToken = function setToken(token: string) {
+      client.setSecurity(new BearerSecurity(token));
     };
 
-    self._client.setToken(self.token);
+    if (this.token) client.setToken(self.token);
 
-    const client = new Proxy(self._client, {
+    this._client = new Proxy(client, {
       get: function get(target, propertyKey) {
         const method = propertyKey.toString();
+
         if (target.hasOwnProperty(method) && !['setToken'].includes(method)) {
           return async function run(dto: any = {}) {
-            const res = await self.promiseFromCallback((cb) =>
-              self._client[method](dto, cb),
+            const res = await promiseFromCallback((cb) =>
+              client[method](dto, cb),
             );
 
-            return res.rval;
+            return res?.rval || null;
           };
         } else {
           return target[method];
@@ -52,22 +58,9 @@ export class GoogleSoapService<
 
     const services = SERVICE_MAP[this.version] as any;
 
-    return new services[this.service as string](client);
-  }
-
-  private promiseFromCallback(
-    fn: (callback: (err: Error, result: any) => void) => void,
-  ): Promise<any> {
-    return new Promise((resolve, reject) => {
-      fn((err, result) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        resolve(result);
-      });
-    });
+    return new services[this.service as string](
+      this._client,
+    ) as ServiceNameToTypeMapping[T][K];
   }
 
   private getSoapHeaders(): any {

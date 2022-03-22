@@ -1,4 +1,4 @@
-import { NetworkService } from 'lib/admanager/v202202/services/network.service';
+import { v202202 } from 'lib/admanager/v202202';
 
 export const SCOPES = {
   adwords: 'https://www.googleapis.com/auth/adwords',
@@ -8,10 +8,5 @@ export const SCOPES = {
 export const DEFAULT_APPLICATION_NAME = 'applicationName';
 
 export const SERVICE_MAP = {
-  v202111: {
-    NetworkService,
-  },
-  v202202: {
-    NetworkService,
-  },
+  v202202,
 };

@@ -33,6 +33,7 @@ export class AdManagerClient {
       }).createClient();
     } catch (err) {
       console.log(err);
+      throw new Error(err);
     }
   }
 }
