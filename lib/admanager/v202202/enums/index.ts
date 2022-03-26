@@ -1,4 +1,5 @@
 export * from './delegation.enum';
+export * from './user.enum';
 
 /**
  * The declaration about third party data usage on the associated entity.
