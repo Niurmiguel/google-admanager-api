@@ -1,10 +1,17 @@
 import { SERVICE_MAP } from '@common/constants';
-import { v202202Types } from 'lib/admanager/v202202';
 
-export * from './soap.type';
+export * from './google-soap-service.type';
+export * from './statement.type';
+export * from './date.type';
+
+export type ImportClass<T, K extends keyof T> = T extends Record<K, infer S>
+  ? S extends new (...args: any[]) => infer R
+    ? R
+    : never
+  : never;
+
+// type ImportType<T, K extends keyof T> = T extends Record<K, infer R>
+//   ? R
+//   : never;
 
 export type ApiVersion = keyof typeof SERVICE_MAP;
-
-export type ServiceNameToTypeMapping = {
-  v202202: v202202Types;
-};

@@ -1,3 +1,5 @@
+export { StatementBuilder } from './statement-builder.util';
+
 export function promiseFromCallback(
   fn: (callback: (err: Error, result: any) => void) => void,
 ): Promise<any> {

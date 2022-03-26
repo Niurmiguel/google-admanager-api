@@ -1,4 +1,4 @@
-import { v202202 } from 'lib/admanager/v202202';
+export { SERVICE_MAP } from './services.constant';
 
 export const SCOPES = {
   adwords: 'https://www.googleapis.com/auth/adwords',
@@ -6,7 +6,3 @@ export const SCOPES = {
 };
 
 export const DEFAULT_APPLICATION_NAME = 'applicationName';
-
-export const SERVICE_MAP = {
-  v202202,
-};
