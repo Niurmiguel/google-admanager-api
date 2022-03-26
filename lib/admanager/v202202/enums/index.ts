@@ -1,3 +1,4 @@
+export * from './activity-group.enum';
 export * from './delegation.enum';
 export * from './user.enum';
 export * from './order.enum';

@@ -1,8 +1,8 @@
 import { Client } from 'soap';
 
-import { PageResult, Statement, UpdateResult } from '@common/types';
+import { Order, OrderAction, OrderPage } from '../types';
+import { Statement, UpdateResult } from '@common/types';
 import { OrderServiceOperations } from '../interfaces';
-import { Order, OrderAction } from '../types';
 
 export class OrderService implements OrderServiceOperations {
   private _client: Client;
@@ -15,9 +15,7 @@ export class OrderService implements OrderServiceOperations {
     return this._client.createOrders({ orders });
   }
 
-  async getOrdersByStatement(
-    filterStatement: Statement,
-  ): Promise<PageResult<Order>> {
+  async getOrdersByStatement(filterStatement: Statement): Promise<OrderPage> {
     return this._client.getOrdersByStatement({
       filterStatement: { ...filterStatement },
     });

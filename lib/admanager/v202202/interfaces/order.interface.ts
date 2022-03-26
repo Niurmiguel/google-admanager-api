@@ -1,7 +1,5 @@
-import { PageResult, Statement, UpdateResult } from '@common/types';
-import { Order, OrderAction } from '../types';
-
-type OrderPage = PageResult<Order>;
+import { Order, OrderAction, OrderPage } from '../types';
+import { Statement, UpdateResult } from '@common/types';
 
 /**
  * Provides methods for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.Order Order} objects.

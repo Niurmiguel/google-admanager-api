@@ -1,4 +1,4 @@
-import { DateTime, Value } from '@common/types';
+import { DateTime, PageResult, Value } from '@common/types';
 import { OrderStatus } from '../enums';
 
 /**
@@ -259,3 +259,8 @@ export type OrderAction =
   | 'SubmitOrdersForApproval'
   | 'SubmitOrdersForApprovalWithoutReservationChanges'
   | 'UnarchiveOrders';
+
+/**
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.Order Order} objects.
+ */
+export type OrderPage = PageResult<Order>;

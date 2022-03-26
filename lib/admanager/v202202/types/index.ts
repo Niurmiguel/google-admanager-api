@@ -6,6 +6,7 @@ import {
   OnboardingTask,
 } from '../enums';
 
+export * from './activity-group.type';
 export * from './network.type';
 export * from './user.type';
 export * from './order.type';
