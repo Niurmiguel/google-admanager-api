@@ -3,7 +3,7 @@ import { Statement } from '@common/types';
 
 /**
  * Provides methods for creating, updating and retrieving
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/ActivityGroupService.ActivityGroupActivityGroup} objects.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202202/ActivityGroupService.ActivityGroup ActivityGroup} objects.
  *
  * An activity group contains {@link https://developers.google.com/ad-manager/api/reference/v202202/ActivityService.Activity Activity} objects.
  * Activities have a many-to-one relationship with activity groups, meaning each activity can belong to only one activity group,

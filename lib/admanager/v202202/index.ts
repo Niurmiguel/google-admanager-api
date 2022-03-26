@@ -1,5 +1,6 @@
 export {
   ActivityGroupService,
+  ActivityService,
   NetworkService,
   UserService,
   OrderService,

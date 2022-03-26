@@ -7,6 +7,7 @@ import {
 } from '../enums';
 
 export * from './activity-group.type';
+export * from './activity.type';
 export * from './network.type';
 export * from './user.type';
 export * from './order.type';
