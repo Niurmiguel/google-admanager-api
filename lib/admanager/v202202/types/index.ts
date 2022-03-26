@@ -8,6 +8,7 @@ import {
 
 export * from './network.type';
 export * from './user.type';
+export * from './order.type';
 
 /**
  * Represents a set of declarations about what (if any) third party companies are associated with a given creative.

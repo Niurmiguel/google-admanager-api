@@ -15,8 +15,3 @@ export enum RoleStatus {
    */
   UNKNOWN = 'UNKNOWN',
 }
-
-export enum UserAction {
-  Activate = 'ActivateUsers',
-  Deactivate = 'DeactivateUsers',
-}

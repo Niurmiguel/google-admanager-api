@@ -2,8 +2,7 @@ import { Client } from 'soap';
 
 import { PageResult, Statement, UpdateResult } from '@common/types';
 import { UserServiceOperations } from '../interfaces';
-import { User, Role } from '../types';
-import { UserAction } from '../enums';
+import { User, Role, UserAction } from '../types';
 
 export class UserService implements UserServiceOperations {
   private _client: Client;
