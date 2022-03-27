@@ -21,7 +21,7 @@ export class ActivityGroupService implements ActivityGroupServiceOperations {
     filterStatement: Statement,
   ): Promise<ActivityGroupPage> {
     return this._client.getActivityGroupsByStatement({
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
   }
 

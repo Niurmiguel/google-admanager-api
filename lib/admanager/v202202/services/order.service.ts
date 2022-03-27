@@ -17,7 +17,7 @@ export class OrderService implements OrderServiceOperations {
 
   async getOrdersByStatement(filterStatement: Statement): Promise<OrderPage> {
     return this._client.getOrdersByStatement({
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
   }
 
@@ -31,7 +31,7 @@ export class OrderService implements OrderServiceOperations {
           'xsi:type': orderAction,
         },
       },
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
   }
 

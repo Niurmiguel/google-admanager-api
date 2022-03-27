@@ -46,7 +46,7 @@ export class AdjustmentService implements AdjustmentServiceOperations {
     filterStatement: Statement,
   ): Promise<ForecastAdjustmentPage> {
     const res = this._client.getForecastAdjustmentsByStatement({
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
     return res;
   }
@@ -55,7 +55,7 @@ export class AdjustmentService implements AdjustmentServiceOperations {
     filterStatement: Statement,
   ): Promise<TrafficForecastSegmentPage> {
     const res = this._client.getTrafficForecastSegmentsByStatement({
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
     return res;
   }
@@ -70,7 +70,7 @@ export class AdjustmentService implements AdjustmentServiceOperations {
           'xsi:type': forecastAdjustmentAction,
         },
       },
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
     return res;
   }

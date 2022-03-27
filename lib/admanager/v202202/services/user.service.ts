@@ -27,7 +27,7 @@ export class UserService implements UserServiceOperations {
     filterStatement: Statement,
   ): Promise<PageResult<User>> {
     return this._client.getUsersByStatement({
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
   }
 
@@ -41,7 +41,7 @@ export class UserService implements UserServiceOperations {
           'xsi:type': userAction,
         },
       },
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
   }
 

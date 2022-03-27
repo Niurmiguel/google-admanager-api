@@ -19,7 +19,7 @@ export class ActivityService implements ActivityServiceOperations {
     filterStatement: Statement,
   ): Promise<ActivityPage> {
     return this._client.getActivitiesByStatement({
-      filterStatement: { ...filterStatement },
+      filterStatement,
     });
   }
 

@@ -1,5 +1,5 @@
 import { DEFAULT_APPLICATION_NAME, SERVICE_MAP } from '@common/constants';
-import { GoogleSoapService } from './google-soap.service';
+import { GoogleSoapService } from './googleSoap.service';
 import { ApiVersion, ImportClass } from '@common/types';
 import { SACredential } from '@auth';
 

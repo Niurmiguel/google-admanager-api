@@ -1,4 +1,4 @@
-export { StatementBuilder } from './statement-builder.util';
+export { StatementBuilder } from './statementBuilder.util';
 
 export function promiseFromCallback(
   fn: (callback: (err: Error, result: any) => void) => void,

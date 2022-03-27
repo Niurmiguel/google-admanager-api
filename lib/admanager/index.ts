@@ -1,1 +1,1 @@
-export * from './admanager.service';
+export * from './adManager.service';

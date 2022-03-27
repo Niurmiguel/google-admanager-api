@@ -1,6 +1,6 @@
 import { SERVICE_MAP } from '@common/constants';
 
-export * from './google-soap-service.type';
+export * from './googleSoapService.type';
 export * from './statement.type';
 export * from './date.type';
 

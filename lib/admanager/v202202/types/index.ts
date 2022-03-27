@@ -6,13 +6,15 @@ import {
   OnboardingTask,
 } from '../enums';
 
-export * from './activity-group.type';
 export * from './customCriteria.type';
+export * from './activityGroup.type';
 export * from './videoPosition.type';
 export * from './adjustment.type';
 export * from './targeting.type';
 export * from './activity.type';
 export * from './network.type';
+export * from './adRule.type';
+export * from './adSpot.type';
 export * from './order.type';
 export * from './user.type';
 
