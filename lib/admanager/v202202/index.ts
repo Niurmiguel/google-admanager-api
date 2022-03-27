@@ -6,6 +6,7 @@ export {
   AudienceSegmentService,
   CdnConfigurationService,
   CmsMetadataService,
+  CompanyService,
   NetworkService,
   UserService,
   OrderService,

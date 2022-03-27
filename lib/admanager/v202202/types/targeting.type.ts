@@ -447,6 +447,21 @@ export type BuyerUserListTargeting = {
 };
 
 /**
+ * The representation of an inventory Url that is used in targeting.
+ */
+export type InventoryUrl = {
+  id: number;
+};
+
+/**
+ * A collection of targeted inventory urls.
+ */
+export type InventoryUrlTargeting = {
+  targetedUrls: InventoryUrl[];
+  excludedUrls: InventoryUrl[];
+};
+
+/**
  * Provides line items the ability to target the platform that requests and renders the ad.
  *
  * The following rules apply for RequestPlatformTargeting
@@ -529,6 +544,12 @@ export type Targeting = {
    * Specifies whether buyer user lists are targeted on a programmatic LineItem or ProposalLineItem. This attribute is readonly and is populated by Google.
    */
   buyerUserListTargeting: BuyerUserListTargeting;
+
+  /**
+   * Specifies the URLs that are targeted by the entity.
+   * This is currently only supported by {@link https://developers.google.com/ad-manager/api/reference/v202202/YieldGroupService.YieldGroup YieldGroup}.
+   */
+  inventoryUrlTargeting: InventoryUrlTargeting;
 
   /**
    * Specifies the request platforms that are targeted by the LineItem. This attribute is required for video line items.
