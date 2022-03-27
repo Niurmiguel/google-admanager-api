@@ -9,6 +9,7 @@ export * from './targeting.type';
 export * from './activity.type';
 export * from './network.type';
 export * from './company.type';
+export * from './contact.type';
 export * from './general.type';
 export * from './adRule.type';
 export * from './adSpot.type';

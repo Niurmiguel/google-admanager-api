@@ -11,6 +11,7 @@ export * from './activity.enum';
 export * from './lineItem.enum';
 export * from './general.enum';
 export * from './company.enum';
+export * from './contact.enum';
 export * from './adRule.enum';
 export * from './order.enum';
 export * from './user.enum';

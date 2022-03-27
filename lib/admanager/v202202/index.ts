@@ -7,6 +7,7 @@ export {
   CdnConfigurationService,
   CmsMetadataService,
   CompanyService,
+  ContactService,
   NetworkService,
   UserService,
   OrderService,

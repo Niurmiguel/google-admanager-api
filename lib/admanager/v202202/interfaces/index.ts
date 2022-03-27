@@ -6,6 +6,7 @@ export * from './cdnConfiguration.interface';
 export * from './activityService.interface';
 export * from './networkService.interface';
 export * from './companyService.interface';
+export * from './contactService.interface';
 export * from './adRuleService.interface';
 export * from './orderService.interface';
 export * from './userService.interface';
