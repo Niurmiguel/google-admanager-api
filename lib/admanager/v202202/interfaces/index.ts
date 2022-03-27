@@ -1,4 +1,5 @@
 export * from './audienceSegmentService.interface';
+export * from './creativeReviewService.interface';
 export * from './activityGroupService.interface';
 export * from './contentBundleService.interface';
 export * from './cmsMetadataService.interface';

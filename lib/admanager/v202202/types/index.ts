@@ -1,6 +1,7 @@
 export * from './cdnConfiguration.type';
 export * from './audienceSegment.type';
 export * from './customCriteria.type';
+export * from './creativeReview.type';
 export * from './activityGroup.type';
 export * from './videoPosition.type';
 export * from './contentBundle.type';

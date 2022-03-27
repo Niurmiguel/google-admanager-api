@@ -10,6 +10,7 @@ export {
   ContactService,
   ContentBundleService,
   ContentService,
+  CreativeReviewService,
   NetworkService,
   UserService,
   OrderService,
