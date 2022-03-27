@@ -8,6 +8,8 @@ export {
   CmsMetadataService,
   CompanyService,
   ContactService,
+  ContentBundleService,
+  ContentService,
   NetworkService,
   UserService,
   OrderService,
