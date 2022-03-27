@@ -7,10 +7,14 @@ import {
 } from '../enums';
 
 export * from './activity-group.type';
+export * from './customCriteria.type';
+export * from './videoPosition.type';
+export * from './adjustment.type';
+export * from './targeting.type';
 export * from './activity.type';
 export * from './network.type';
-export * from './user.type';
 export * from './order.type';
+export * from './user.type';
 
 /**
  * Represents a set of declarations about what (if any) third party companies are associated with a given creative.
