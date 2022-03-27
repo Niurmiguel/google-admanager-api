@@ -6,6 +6,7 @@ import {
   OnboardingTask,
 } from '../enums';
 
+export * from './cdnConfiguration.type';
 export * from './audienceSegment.type';
 export * from './customCriteria.type';
 export * from './activityGroup.type';

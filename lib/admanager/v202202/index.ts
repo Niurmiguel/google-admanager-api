@@ -4,6 +4,7 @@ export {
   AdjustmentService,
   AdRuleService,
   AudienceSegmentService,
+  CdnConfigurationService,
   NetworkService,
   UserService,
   OrderService,

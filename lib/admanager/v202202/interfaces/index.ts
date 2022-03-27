@@ -2,6 +2,7 @@ export * from './audienceSegmentService.interface';
 export * from './activityGroupService.interface';
 export * from './adjustmentService.interface';
 export * from './adjustmentService.interface';
+export * from './cdnConfiguration.interface';
 export * from './activityService.interface';
 export * from './networkService.interface';
 export * from './adRuleService.interface';

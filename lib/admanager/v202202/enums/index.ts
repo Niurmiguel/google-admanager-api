@@ -1,3 +1,4 @@
+export * from './cdnConfiguration.enum';
 export * from './audienceSegment.enum';
 export * from './customCriteria.enum';
 export * from './activityGroup.enum';

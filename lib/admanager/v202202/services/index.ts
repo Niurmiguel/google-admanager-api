@@ -1,3 +1,4 @@
+export { CdnConfigurationService } from './cdnConfiguration.service';
 export { AudienceSegmentService } from './audienceSegment.service';
 export { ActivityGroupService } from './activityGroup.service';
 export { AdjustmentService } from './adjustment.service';
