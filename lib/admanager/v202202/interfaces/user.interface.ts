@@ -1,6 +1,5 @@
 import { PageResult, Statement, UpdateResult } from '@common/types';
-import { Role, User } from '../types';
-import { UserAction } from '../enums';
+import { Role, User, UserAction } from '../types';
 
 /**
  * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} objects.
