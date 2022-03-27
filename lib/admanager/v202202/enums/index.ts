@@ -3,6 +3,7 @@ export * from './audienceSegment.enum';
 export * from './customCriteria.enum';
 export * from './activityGroup.enum';
 export * from './videoPosition.enum';
+export * from './cmsMetadata.enum';
 export * from './adjustment.enum';
 export * from './delegation.enum';
 export * from './delivery.enum';

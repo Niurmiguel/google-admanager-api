@@ -1,6 +1,6 @@
 export * from './audienceSegmentService.interface';
 export * from './activityGroupService.interface';
-export * from './adjustmentService.interface';
+export * from './cmsMetadataService.interface';
 export * from './adjustmentService.interface';
 export * from './cdnConfiguration.interface';
 export * from './activityService.interface';

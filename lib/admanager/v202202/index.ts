@@ -5,6 +5,7 @@ export {
   AdRuleService,
   AudienceSegmentService,
   CdnConfigurationService,
+  CmsMetadataService,
   NetworkService,
   UserService,
   OrderService,

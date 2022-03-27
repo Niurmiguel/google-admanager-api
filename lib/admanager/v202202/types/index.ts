@@ -11,6 +11,7 @@ export * from './audienceSegment.type';
 export * from './customCriteria.type';
 export * from './activityGroup.type';
 export * from './videoPosition.type';
+export * from './cmsMetadata.type';
 export * from './adjustment.type';
 export * from './targeting.type';
 export * from './activity.type';

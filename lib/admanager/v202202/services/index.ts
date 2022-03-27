@@ -1,6 +1,7 @@
 export { CdnConfigurationService } from './cdnConfiguration.service';
 export { AudienceSegmentService } from './audienceSegment.service';
 export { ActivityGroupService } from './activityGroup.service';
+export { CmsMetadataService } from './cmsMetadata.service';
 export { AdjustmentService } from './adjustment.service';
 export { ActivityService } from './activity.service';
 export { NetworkService } from './network.service';
