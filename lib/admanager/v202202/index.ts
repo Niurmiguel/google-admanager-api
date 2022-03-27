@@ -3,6 +3,7 @@ export {
   ActivityService,
   AdjustmentService,
   AdRuleService,
+  AudienceSegmentService,
   NetworkService,
   UserService,
   OrderService,

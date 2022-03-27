@@ -1,5 +1,5 @@
-import { PageResult, Statement, UpdateResult } from '@common/types';
-import { Role, User, UserAction } from '../types';
+import { Role, User, UserAction, UserPage } from '../types';
+import { Statement, UpdateResult } from '@common/types';
 
 /**
  * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} objects.
@@ -45,7 +45,7 @@ export interface UserServiceOperations {
    * @param filterStatement a Publisher Query Language statement used to filter a set of users
    * @returns the users that match the given filter
    */
-  getUsersByStatement(filterStatement: Statement): Promise<PageResult<User>>;
+  getUsersByStatement(filterStatement: Statement): Promise<UserPage>;
   /**
    * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User}
    * objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.Statement#query Statement.query}.

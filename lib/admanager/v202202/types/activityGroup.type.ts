@@ -1,5 +1,5 @@
-import { PageResult } from '@common/types';
 import { ActivityGroupStatus } from '../enums';
+import { PageResult } from '@common/types';
 
 /**
  * Activities are organized within activity groups, which are sets of activities that share the same configuration.
@@ -49,6 +49,6 @@ export type ActivityGroup = {
 };
 
 /**
- * Captures a page of ActivityGroup objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ActivityGroupService.ActivityGroup ActivityGroup} objects.
  */
 export type ActivityGroupPage = PageResult<ActivityGroup>;

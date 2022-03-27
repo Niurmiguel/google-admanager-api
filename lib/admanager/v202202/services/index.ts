@@ -1,3 +1,4 @@
+export { AudienceSegmentService } from './audienceSegment.service';
 export { ActivityGroupService } from './activityGroup.service';
 export { AdjustmentService } from './adjustment.service';
 export { ActivityService } from './activity.service';

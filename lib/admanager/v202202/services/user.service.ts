@@ -1,8 +1,8 @@
 import { Client } from 'soap';
 
-import { PageResult, Statement, UpdateResult } from '@common/types';
+import { User, Role, UserAction, UserPage } from '../types';
+import { Statement, UpdateResult } from '@common/types';
 import { UserServiceOperations } from '../interfaces';
-import { User, Role, UserAction } from '../types';
 
 export class UserService implements UserServiceOperations {
   private _client: Client;
@@ -23,9 +23,7 @@ export class UserService implements UserServiceOperations {
     return this._client.getCurrentUser();
   }
 
-  async getUsersByStatement(
-    filterStatement: Statement,
-  ): Promise<PageResult<User>> {
+  async getUsersByStatement(filterStatement: Statement): Promise<UserPage> {
     return this._client.getUsersByStatement({
       filterStatement,
     });

@@ -176,5 +176,12 @@ export type ForecastAdjustmentAction =
   | 'ActivateForecastAdjustments'
   | 'DeactivateForecastAdjustments';
 
+/**
+ * A page of **`ForecastAdjustmentDto`** objects.
+ */
 export type ForecastAdjustmentPage = PageResult<ForecastAdjustment>;
+
+/**
+ * A page of **`TrafficForecastSegmentDto`** objects.
+ */
 export type TrafficForecastSegmentPage = PageResult<TrafficForecastSegment>;

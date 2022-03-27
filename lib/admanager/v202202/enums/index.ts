@@ -1,3 +1,4 @@
+export * from './audienceSegment.enum';
 export * from './customCriteria.enum';
 export * from './activityGroup.enum';
 export * from './videoPosition.enum';

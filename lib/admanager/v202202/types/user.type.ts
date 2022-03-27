@@ -1,3 +1,4 @@
+import { PageResult } from '@common/types';
 import { RoleStatus } from '../enums';
 
 /**
@@ -96,3 +97,8 @@ export type Role = {
 export type UserAction = {
   action: 'ActivateUsers' | 'DeactivateUsers';
 };
+
+/**
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} objects
+ */
+export type UserPage = PageResult<User>;

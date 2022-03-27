@@ -1,19 +1,6 @@
 import { DateTime, PageResult, Value } from '@common/types';
+import { Money } from '.';
 import { OrderStatus } from '../enums';
-
-/**
- * Represents a money amount.
- */
-type Money = {
-  /**
-   * Three letter currency code in string format.
-   */
-  currencyCode: string;
-  /**
-   * Money values are always specified in terms of micros which are a millionth of the fundamental currency unit. For US dollars, $1 is 1,000,000 micros.
-   */
-  microAmount: number;
-};
 
 /**
  * Represents a {@link https://developers.google.com/ad-manager/api/reference/v202202/LabelService.Label Label} that can be applied to an entity.

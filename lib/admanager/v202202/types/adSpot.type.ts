@@ -73,4 +73,7 @@ export type AdSpot = {
   inventorySharingBlocked?: boolean;
 };
 
+/**
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdRuleService.AdSpot AdSpot} objects.
+ */
 export type AdSpotPage = PageResult<AdSpot>;
