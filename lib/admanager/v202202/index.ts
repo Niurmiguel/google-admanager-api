@@ -12,7 +12,10 @@ export {
   ContentService,
   CreativeReviewService,
   CustomTargetingService,
+  DaiAuthenticationKeyService,
   NetworkService,
   UserService,
   OrderService,
 } from './services';
+
+export * from './daiEncodingProfileService';

@@ -1,3 +1,4 @@
+export { DaiAuthenticationKeyService } from './daiAuthenticationKey.service';
 export { CdnConfigurationService } from './cdnConfiguration.service';
 export { AudienceSegmentService } from './audienceSegment.service';
 export { CustomTargetingService } from './customTargeting.service';

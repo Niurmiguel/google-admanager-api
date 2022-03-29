@@ -1,3 +1,4 @@
+export * from './daiAuthenticationKeyService.interface';
 export * from './audienceSegmentService.interface';
 export * from './creativeReviewService.interface';
 export * from './activityGroupService.interface';

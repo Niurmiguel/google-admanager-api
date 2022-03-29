@@ -1,3 +1,4 @@
+export * from './daiAuthenticationKey.type';
 export * from './cdnConfiguration.type';
 export * from './audienceSegment.type';
 export * from './customTargeting.type';

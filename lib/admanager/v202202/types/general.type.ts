@@ -41,3 +41,26 @@ export type Money = {
    */
   microAmount: number;
 };
+
+/**
+ * Represents the dimensions of an {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit},
+ * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem} or
+ * {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative}.
+ *
+ * For interstitial size (out-of-page), native, ignored and fluid size,
+ * {@link https://developers.google.com/ad-manager/api/reference/v202202/DaiEncodingProfileService.Size Size} must be 1x1.
+ */
+export type Size = {
+  /**
+   *  The width of the AdUnit, LineItem or Creative.
+   */
+  width: number;
+  /**
+   * The height of the AdUnit, LineItem or Creative.
+   */
+  height: number;
+  /**
+   * Whether this size represents an aspect ratio.
+   */
+  isAspectRatio: boolean;
+};

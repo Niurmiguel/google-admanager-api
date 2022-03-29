@@ -1,3 +1,4 @@
+export * from './daiAuthenticationKey.enum';
 export * from './cdnConfiguration.enum';
 export * from './audienceSegment.enum';
 export * from './customTargeting.enum';
