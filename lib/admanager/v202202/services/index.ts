@@ -19,6 +19,7 @@ export { ContentService } from './content';
 export { NetworkService } from './network';
 export { AdRuleService } from './adRule';
 export { OrderService } from './order';
+export { LabelService } from './label';
 export { UserService } from './user';
 export { SiteService } from './site';
 export { TeamService } from './team';
