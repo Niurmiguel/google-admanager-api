@@ -6,6 +6,7 @@ export * from './cmsMetadataService.interface';
 export * from './adjustmentService.interface';
 export * from './cdnConfiguration.interface';
 export * from './activityService.interface';
+export * from './customTargeting.interface';
 export * from './networkService.interface';
 export * from './companyService.interface';
 export * from './contactService.interface';

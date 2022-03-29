@@ -11,6 +11,7 @@ export {
   ContentBundleService,
   ContentService,
   CreativeReviewService,
+  CustomTargetingService,
   NetworkService,
   UserService,
   OrderService,

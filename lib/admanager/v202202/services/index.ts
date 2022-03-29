@@ -1,5 +1,6 @@
 export { CdnConfigurationService } from './cdnConfiguration.service';
 export { AudienceSegmentService } from './audienceSegment.service';
+export { CustomTargetingService } from './customTargeting.service';
 export { CreativeReviewService } from './creativeReview.service';
 export { ContentBundleService } from './contentBundles.service';
 export { ActivityGroupService } from './activityGroup.service';

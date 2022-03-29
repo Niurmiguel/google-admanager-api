@@ -1,5 +1,6 @@
 export * from './cdnConfiguration.enum';
 export * from './audienceSegment.enum';
+export * from './customTargeting.enum';
 export * from './customCriteria.enum';
 export * from './activityGroup.enum';
 export * from './videoPosition.enum';
