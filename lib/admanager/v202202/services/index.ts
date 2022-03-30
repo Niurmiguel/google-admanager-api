@@ -1,3 +1,4 @@
+export { LineItemCreativeAssociationService } from './lineItemCreativeAssociation';
 export { DaiAuthenticationKeyService } from './daiAuthenticationKey';
 export { UserTeamAssociationService } from './userTeamAssociation';
 export { CdnConfigurationService } from './cdnConfiguration';
