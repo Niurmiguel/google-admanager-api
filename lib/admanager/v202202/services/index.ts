@@ -13,6 +13,7 @@ export { CmsMetadataService } from './cmsMetadata';
 export { CustomFieldService } from './customField';
 export { AdjustmentService } from './adjustment';
 export { InventoryService } from './inventory';
+export { PlacementService } from './placement';
 export { ActivityService } from './activity';
 export { LineItemService } from './lineItem';
 export { CompanyService } from './company';
