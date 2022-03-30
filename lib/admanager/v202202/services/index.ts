@@ -13,6 +13,7 @@ export { CustomFieldService } from './customField';
 export { AdjustmentService } from './adjustment';
 export { InventoryService } from './inventory';
 export { ActivityService } from './activity';
+export { LineItemService } from './lineItem';
 export { CompanyService } from './company';
 export { ContactService } from './contact';
 export { ContentService } from './content';

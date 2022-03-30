@@ -82,3 +82,26 @@ export enum DeliveryForecastSource {
    */
   UNKNOWN = 'UNKNOWN',
 }
+
+/**
+ * The delivery option for companions.
+ * Used for line items whose environmentType is {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalLineItemService.EnvironmentType#VIDEO_PLAYER EnvironmentType.VIDEO_PLAYER}.
+ */
+export enum CompanionDeliveryOption {
+  /**
+   * Companions are not required to serve a creative set. The creative set can serve to inventory that has zero or more matching companions.
+   */
+  OPTIONAL = 'OPTIONAL',
+  /**
+   * At least one companion must be served in order for the creative set to be used.
+   */
+  AT_LEAST_ONE = 'AT_LEAST_ONE',
+  /**
+   * All companions in the set must be served in order for the creative set to be used. This can still serve to inventory that has more companions than can be filled.
+   */
+  ALL = 'ALL',
+  /**
+   * The delivery type is unknown.
+   */
+  UNKNOWN = 'UNKNOWN',
+}

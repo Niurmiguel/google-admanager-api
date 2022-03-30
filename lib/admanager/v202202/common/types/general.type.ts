@@ -1,11 +1,14 @@
 import { TimeUnit } from '@common/enums';
 import { Value } from '@common/types';
+import { AppliedLabel } from '.';
 import {
   AccountStatus,
   DeclarationType,
   DelegationStatus,
   DelegationType,
+  GoalType,
   OnboardingTask,
+  UnitType,
 } from '../enums';
 
 /**
@@ -130,4 +133,24 @@ export type FrequencyCap = {
    * The unit of time for specifying the time period.
    */
   timeUnit: TimeUnit;
+};
+
+/**
+ * Defines the criteria a {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} needs to satisfy to meet its delivery goal.
+ */
+export type Goal = {
+  /**
+   * The type of the goal for the LineItem. It defines the period over which the goal for LineItem should be reached.
+   */
+  goalType: GoalType;
+  /**
+   * The type of the goal unit for the LineItem.
+   */
+  unitType: UnitType;
+  /**
+   * If this is a primary goal, it represents the number or percentage of impressions or clicks that will be reserved for the LineItem. If the line item is of type LineItemType.SPONSORSHIP, it represents the percentage of available impressions reserved. If the line item is of type LineItemType.BULK or LineItemType.PRICE_PRIORITY, it represents the number of remaining impressions reserved. If the line item is of type LineItemType.NETWORK or LineItemType.HOUSE, it represents the percentage of remaining impressions reserved.
+   *
+   * If this is a secondary goal, it represents the number of impressions or conversions that the line item will stop serving at if reached. For valid line item types, see LineItem.secondaryGoals.
+   */
+  units: number;
 };
