@@ -1,0 +1,15 @@
+export enum ApprovalStatus {
+  DRAFT = 'DRAFT',
+  UNCHECKED = 'UNCHECKED',
+  APPROVED = 'APPROVED',
+  DISAPPROVED = 'DISAPPROVED',
+  REQUIRES_REVIEW = 'REQUIRES_REVIEW',
+  UNKNOWN = 'UNKNOWN',
+}
+
+export enum DisapprovalReasonType {
+  CONTENT = 'CONTENT',
+  OWNERSHIP = 'OWNERSHIP',
+  OTHER = 'OTHER',
+  UNKNOWN = 'UNKNOWN',
+}

@@ -17,3 +17,6 @@ npm-debug.log
 
 # dist
 dist
+
+credential.json
+/examples
