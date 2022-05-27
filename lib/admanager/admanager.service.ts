@@ -46,7 +46,7 @@ export class AdManagerClient {
           applicationName: this.applicationName,
         },
       ).createClient();
-    } catch (err) {
+    } catch (err: any) {
       throw new Error(err);
     }
   }

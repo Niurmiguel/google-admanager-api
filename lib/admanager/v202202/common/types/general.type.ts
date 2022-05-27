@@ -1,6 +1,5 @@
 import { TimeUnit } from '@common/enums';
 import { Value } from '@common/types';
-import { AppliedLabel } from '.';
 import {
   AccountStatus,
   DeclarationType,

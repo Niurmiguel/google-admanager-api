@@ -1,29 +1,18 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "declaration": true,
+    "target": "ES2022",
+    "module": "CommonJS",
     "strict": true,
-    "removeComments": false,
-    "noLib": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "target": "es6",
-    "sourceMap": false,
+    "declaration": true,
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true,
     "outDir": "./dist",
     "rootDir": "./lib",
-    "baseUrl": ".",
-    "skipLibCheck": true,
-    "useUnknownInCatchVariables": false,
-    "strictPropertyInitialization": false,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
     "paths": {
       "@v202202/*": ["./lib/admanager/v202202/*"],
       "@common/*": ["./lib/common/*"],
       "@auth": ["./lib/auth"]
     }
   },
-  "include": ["lib/**/*"],
-  "exclude": ["node_modules", "examples"]
+  "exclude": ["dist", "node_modules", "examples"]
 }

@@ -5,7 +5,7 @@ import {
   String_ValueMapEntry,
   Value,
 } from '@common/types';
-import { AdManagerClient } from 'lib/admanager';
+import { AdManagerClient } from '../../admanager';
 
 export class StatementBuilder {
   version: AdManagerClient['apiVersion'];
