@@ -1,6 +1,6 @@
 {
   "name": "googleads-node-lib",
-  "version": "0.0.1",
+  "version": "22.02.0",
   "description": "Google Ads APIs Client Library for NodeJs (AdWords and Ad Manager)",
   "main": "index.js",
   "scripts": {

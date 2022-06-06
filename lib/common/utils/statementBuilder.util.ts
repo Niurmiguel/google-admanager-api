@@ -4,12 +4,9 @@ import {
   Statement,
   String_ValueMapEntry,
   Value,
-} from '@common/types';
-import { AdManagerClient } from '../../admanager';
+} from '../../common/types';
 
 export class StatementBuilder {
-  version: AdManagerClient['apiVersion'];
-
   static SUGGESTED_PAGE_LIMIT: number = 500;
   private SELECT: string = 'SELECT';
   private FROM: string = 'FROM';

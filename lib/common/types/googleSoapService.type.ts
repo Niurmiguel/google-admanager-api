@@ -1,5 +1,3 @@
-import { ApiVersion } from '.';
-
 export type GoogleSoapServiceOptions = {
   /**
    * The network code of the network being addressed.
@@ -11,10 +9,6 @@ export type GoogleSoapServiceOptions = {
    * For example: "My Inventory Application" or "App_1".
    */
   applicationName: string;
-  /**
-   * version of Google Ad Manager API.
-   */
-  version: ApiVersion;
   /**
    *  OAuth2 access token
    */

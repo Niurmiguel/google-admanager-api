@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "es6",
     "module": "CommonJS",
     "strict": true,
     "declaration": true,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "rootDir": "./lib",
-    "paths": {
-      "@v202202/*": ["./lib/admanager/v202202/*"],
-      "@common/*": ["./lib/common/*"],
-      "@auth": ["./lib/auth"]
-    }
+    "rootDir": "./lib"
   },
   "exclude": ["dist", "node_modules", "examples"]
 }

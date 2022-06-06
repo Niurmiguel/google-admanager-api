@@ -1,35 +1,26 @@
 import { BearerSecurity, Client, createClientAsync } from 'soap';
 
-import {
-  ApiVersion,
-  GoogleSoapServiceOptions,
-  ImportClass,
-} from '@common/types';
-import { promiseFromCallback } from '@common/utils';
-import { SERVICE_MAP } from '@common/constants';
+import { GoogleSoapServiceOptions, ImportClass } from '../common/types';
+import { API_VERSION, SERVICE_MAP } from '../common/constants';
+import { promiseFromCallback } from '../common/utils';
 
-export class GoogleSoapService<
-  T extends ApiVersion,
-  K extends keyof typeof SERVICE_MAP[T],
-> {
-  private version: ApiVersion;
+export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
   private networkCode: number;
   private applicationName: string;
-  private service: string;
+  private service: T;
   private token: string;
   private _client: Client;
 
-  constructor(service: string, options: GoogleSoapServiceOptions) {
-    this.applicationName = options.applicationName;
-    this.version = options.version;
-    this.networkCode = options.networkCode;
+  constructor(service: T, options: GoogleSoapServiceOptions) {
     this.service = service;
+    this.applicationName = options.applicationName;
+    this.networkCode = options.networkCode;
     this.token = options.token;
   }
 
-  public async createClient(): Promise<ImportClass<typeof SERVICE_MAP[T], K>> {
+  public async createClient(): Promise<ImportClass<typeof SERVICE_MAP, T>> {
     const self = this;
-    const serviceUrl = `https://ads.google.com/apis/ads/publisher/${this.version}/${this.service}?wsdl`;
+    const serviceUrl = `https://ads.google.com/apis/ads/publisher/${API_VERSION}/${this.service}?wsdl`;
     const client = await createClientAsync(serviceUrl);
     client.addSoapHeader(self.getSoapHeaders());
     client.setToken = function setToken(token: string) {
@@ -56,9 +47,9 @@ export class GoogleSoapService<
       },
     });
 
-    const services = SERVICE_MAP[this.version] as any;
+    const services = SERVICE_MAP as any;
 
-    return new services[this.service as string](this._client);
+    return new services[this.service](this._client);
   }
 
   private getSoapHeaders(): any {
@@ -69,7 +60,7 @@ export class GoogleSoapService<
           'soapenv:mustUnderstand': 0,
           'xsi:type': 'ns1:SoapRequestHeader',
           'xmlns:ns1':
-            'https://www.google.com/apis/ads/publisher/' + this.version,
+            'https://www.google.com/apis/ads/publisher/' + API_VERSION,
           'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
           'xmlns:soapenv': 'http://schemas.xmlsoap.org/soap/envelope/',
         },

@@ -1,4 +1,4 @@
-import { SCOPES } from '@common/constants';
+import { SCOPES } from '../../common/constants';
 
 export interface SACredential {
   /**
