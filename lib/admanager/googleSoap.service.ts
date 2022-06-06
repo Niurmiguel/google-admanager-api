@@ -19,15 +19,14 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
   }
 
   public async createClient(): Promise<ImportClass<typeof SERVICE_MAP, T>> {
-    const self = this;
     const serviceUrl = `https://ads.google.com/apis/ads/publisher/${API_VERSION}/${this.service}?wsdl`;
     const client = await createClientAsync(serviceUrl);
-    client.addSoapHeader(self.getSoapHeaders());
+    client.addSoapHeader(this.getSoapHeaders());
     client.setToken = function setToken(token: string) {
       client.setSecurity(new BearerSecurity(token));
     };
 
-    if (this.token) client.setToken(self.token);
+    if (this.token) client.setToken(this.token);
 
     this._client = new Proxy(client, {
       get: function get(target, propertyKey) {

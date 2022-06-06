@@ -1,7 +1,7 @@
 {
-  "name": "googleads-node-lib",
+  "name": "@niur/google-admanager-api",
   "version": "22.02.0",
-  "description": "Google Ads APIs Client Library for NodeJs (AdWords and Ad Manager)",
+  "description": "Google Ad Manager API Client Library for NodeJs",
   "main": "index.js",
   "scripts": {
     "start": "tsc && ts-node -r tsconfig-paths/register ./lib/index.ts",
@@ -10,6 +10,7 @@
     "lint": "eslint 'lib/**/*.ts' --fix",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
+    "test": "jest --config jestconfig.json",
     "test:e2e": "jest --config ./tests/jest-e2e.json --runInBand",
     "test:e2e:dev": "jest --config ./tests/jest-e2e.json --runInBand --watch",
     "prerelease": "npm run build"
@@ -17,14 +18,16 @@
   "author": "Niurmiguel Gonzalez",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^27.5.2",
     "@types/node": "^17.0.21",
+    "@typescript-eslint/eslint-plugin": "^5.27.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^27.5.1",
     "prettier": "^2.6.1",
     "supertest": "^6.2.2",
-    "ts-jest": "^27.1.3",
+    "ts-jest": "^27.1.5",
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^3.14.0",
     "typescript": "^4.6.2"

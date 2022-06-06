@@ -7,13 +7,13 @@ import {
 } from '../../common/types';
 
 export class StatementBuilder {
-  static SUGGESTED_PAGE_LIMIT: number = 500;
-  private SELECT: string = 'SELECT';
-  private FROM: string = 'FROM';
-  private WHERE: string = 'WHERE';
-  private LIMIT: string = 'LIMIT';
-  private OFFSET: string = 'OFFSET';
-  private ORDER_BY: string = 'ORDER BY';
+  static SUGGESTED_PAGE_LIMIT = 500;
+  private SELECT = 'SELECT';
+  private FROM = 'FROM';
+  private WHERE = 'WHERE';
+  private LIMIT = 'LIMIT';
+  private OFFSET = 'OFFSET';
+  private ORDER_BY = 'ORDER BY';
 
   private _select: string;
   private _from: string;

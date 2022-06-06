@@ -24,6 +24,7 @@ module.exports = {
         '@typescript-eslint/ban-types': ['error', {
             'types': {
                 'Function': false,
+                "{}": false
             }
         }],
     },
