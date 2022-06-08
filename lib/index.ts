@@ -7,7 +7,4 @@ export * from './common/types/date.type';
 export * from './auth';
 
 // core
-export * from './admanager/adManager.service';
-export * from './admanager/common/enums';
-export * from './admanager/common/types';
-export * from './admanager/services';
+export * from './client';
