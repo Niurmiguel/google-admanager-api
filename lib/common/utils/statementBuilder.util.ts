@@ -1,10 +1,5 @@
-import {
-  DateTime,
-  Date,
-  Statement,
-  String_ValueMapEntry,
-  Value,
-} from '../../common/types';
+import { DateTime, Date, Statement, String_ValueMapEntry, Value } from '../../common/types';
+import { InvalidOperationException } from '../handlers/exceptions.handler';
 
 export class StatementBuilder {
   static SUGGESTED_PAGE_LIMIT = 500;
@@ -26,9 +21,8 @@ export class StatementBuilder {
 
   private removeKeyword(clause: string, keyword: string): string {
     const formattedKeyword: string = keyword.trim() + ' ';
-    return clause.startsWith(formattedKeyword)
-      ? clause.substring(formattedKeyword.length)
-      : clause;
+
+    return clause.toUpperCase().startsWith(formattedKeyword) ? clause.substring(formattedKeyword.length) : clause;
   }
 
   public select(columns: string): StatementBuilder {
@@ -162,8 +156,7 @@ export class StatementBuilder {
 
   private validateQuery(): void {
     if (!this._limit && this._offset) {
-      throw new Error('Invalid Offset And Limit');
-      // throw new InvalidOperationException(AdManagerErrorMessages.InvalidOffsetAndLimit);
+      throw new InvalidOperationException('OFFSET cannot be set if LIMIT is not set.');
     }
   }
 
