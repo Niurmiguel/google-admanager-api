@@ -7,9 +7,9 @@
 
   <p align="center"><a href="https://developers.google.com/ad-manager/api/start" target="_blank">Google Ad Manager API</a> Client Library for NodeJs.</p>
     <p align="center">
-<a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/v/@niur/google-admanager-node-lib.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/l/@niur/google-admanager-node-lib.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/dm/@niur/google-admanager-node-lib.svg" alt="NPM Downloads" /></a>
+<a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/v/@niur/google-admanager-api.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/l/@niur/google-admanager-api.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/dm/@niur/google-admanager-api.svg" alt="NPM Downloads" /></a>
 </p>
 
 ## Description
@@ -19,7 +19,7 @@ Developers can use the Google Ad Manager API to build applications that manage i
 ### Installing the library
 
 ```bash
-$ npm install @niur/google-admanager-node-lib
+$ npm install @niur/google-admanager-api
 ```
 ### Overview
 
@@ -41,11 +41,11 @@ const credential = new GoogleSACredential({
     "auth_uri": "...",
     "token_uri": "...",
     ...
-}, ['ad_manager']);
+});
 
 //or
 
-const credential = new GoogleSAFileCredential('./credentials.json', ['ad_manager']);
+const credential = new GoogleSAFileCredential('./credentials.json');
 
 ```
 
@@ -53,7 +53,7 @@ const credential = new GoogleSAFileCredential('./credentials.json', ['ad_manager
 
 ```typescript
 
-const adManagerClient = new AdManagerClient('network code',credential,'application name');
+const adManagerClient = new AdManagerClient('networkCode',credential,'applicationName');
 
 const orderService = await adManagerClient.getService("OrderService");
 const statement = new StatementBuilder().limit(10);
