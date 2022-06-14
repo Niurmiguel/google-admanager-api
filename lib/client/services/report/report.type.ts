@@ -21,11 +21,11 @@ export type ReportDownloadOptions = {
   /**
    * Whether or not to include the report properties (e.g. network, user, date generated...) in the generated report. Default is false.
    */
-  includeReportProperties: boolean;
+  includeReportProperties?: boolean;
   /**
    * Whether or not to include the totals row. Default is true for all formats except ExportFormat.CSV_DUMP.
    */
-  includeTotalsRow: boolean;
+  includeTotalsRow?: boolean;
   /**
    * Whether or not to compress the report file to a gzip file. Default is true.
    *

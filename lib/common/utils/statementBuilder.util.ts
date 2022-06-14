@@ -156,7 +156,6 @@ export class StatementBuilder {
 
   private validateQuery(): void {
     if (!this._limit && this._offset) {
-      // throw new Error('Invalid Offset And Limit');
       throw new InvalidOperationException('OFFSET cannot be set if LIMIT is not set.');
     }
   }

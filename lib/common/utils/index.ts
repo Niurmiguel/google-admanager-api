@@ -1,5 +1,6 @@
 export { DateTimeUtilities } from './dateTimeUtilities.util';
 export { StatementBuilder } from './statementBuilder.util';
+export { HttpUtilities } from './httpUtilities.util';
 
 export function promiseFromCallback(fn: (callback: (err: Error, result: any) => void) => void): Promise<any> {
   return new Promise((resolve, reject) => {
