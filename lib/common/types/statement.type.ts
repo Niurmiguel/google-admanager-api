@@ -70,14 +70,7 @@ export type String_ValueMapEntry = {
   value: Value;
 };
 
-export type Value =
-  | string
-  | number
-  | object
-  | boolean
-  | DateTime
-  | Date
-  | Value[];
+export type Value = string | number | object | boolean | DateTime | Date | Value[];
 
 /**
  * Captures a page of any objects.

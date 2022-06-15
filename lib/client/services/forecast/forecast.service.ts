@@ -41,19 +41,14 @@ export class ForecastService implements ForecastServiceOperations {
     return this._client.getDeliveryForecast({ lineItems, forecastOptions });
   }
 
-  getDeliveryForecastByIds(
-    lineItemIds: number[],
-    forecastOptions: DeliveryForecastOptions,
-  ): Promise<DeliveryForecast> {
+  getDeliveryForecastByIds(lineItemIds: number[], forecastOptions: DeliveryForecastOptions): Promise<DeliveryForecast> {
     return this._client.getDeliveryForecastByIds({
       lineItemIds,
       forecastOptions,
     });
   }
 
-  getTrafficData(
-    trafficDataRequest: TrafficDataRequest,
-  ): Promise<TrafficDataResponse> {
+  getTrafficData(trafficDataRequest: TrafficDataRequest): Promise<TrafficDataResponse> {
     return this._client.getTrafficData({ trafficDataRequest });
   }
 }
