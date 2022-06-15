@@ -2,7 +2,8 @@
   "name": "@niur/google-admanager-api",
   "version": "0.0.3",
   "description": "Google Ad Manager API Client Library for NodeJs",
-  "main": "index.js",
+  "main": "dist/index",
+  "types": "dist/index",
   "scripts": {
     "start": "tsc && ts-node -r tsconfig-paths/register ./lib/index.ts",
     "build": "rm -rf dist && tsc -p tsconfig.json",
