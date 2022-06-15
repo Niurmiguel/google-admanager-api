@@ -1,6 +1,6 @@
 {
   "name": "@niur/google-admanager-api",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "Google Ad Manager API Client Library for NodeJs",
   "main": "dist/index",
   "types": "dist/index",
