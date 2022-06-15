@@ -5,27 +5,27 @@ export enum VideoPositionType {
   /**
    * 	The value returned if the actual value is not exposed by the requested API version.
    */
-  UNKNOWN = "UNKNOWN",
+  UNKNOWN = 'UNKNOWN',
 
   /**
    * 	This position targets all of the above video positions.
    */
-  ALL = "ALL",
+  ALL = 'ALL',
 
   /**
    * 	The position defined as showing before the video starts playing.
    */
-  PREROLL = "PREROLL",
+  PREROLL = 'PREROLL',
 
   /**
    * 	The position defined as showing within the middle of the playing video.
    */
-  MIDROLL = "MIDROLL",
+  MIDROLL = 'MIDROLL',
 
   /**
    * 	The position defined as showing after the video is completed.
    */
-  POSTROLL = "POSTROLL",
+  POSTROLL = 'POSTROLL',
 }
 
 /**
@@ -35,10 +35,10 @@ export enum VideoBumperType {
   /**
    * 	Represents the bumper position before the ad pod.
    */
-  BEFORE = "BEFORE",
+  BEFORE = 'BEFORE',
 
   /**
    * 	Represents the bumper position after the ad pod.
    */
-  AFTER = "AFTER",
+  AFTER = 'AFTER',
 }
