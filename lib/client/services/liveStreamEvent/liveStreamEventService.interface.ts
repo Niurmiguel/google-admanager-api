@@ -1,11 +1,5 @@
-import {
-  LiveStreamEvent,
-  LiveStreamEventAction,
-  LiveStreamEventPage,
-  Slate,
-  SlateAction,
-  SlatePage,
-} from './liveStreamEvent.type';
+import { LiveStreamEvent, LiveStreamEventPage, Slate, SlateAction, SlatePage } from './liveStreamEvent.type';
+import { LiveStreamEventAction } from './liveStreamEvent.action';
 import { Statement, UpdateResult } from '../../../common/types';
 
 /**

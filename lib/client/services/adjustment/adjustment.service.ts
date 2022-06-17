@@ -7,8 +7,8 @@ import {
   ForecastAdjustmentPage,
   TrafficForecastSegment,
   TrafficForecastSegmentPage,
-  ForecastAdjustmentAction,
 } from './adjustment.type';
+import { ForecastAdjustmentAction } from './adjustment.action';
 
 export class AdjustmentService implements AdjustmentServiceOperations {
   private _client: Client;
@@ -57,7 +57,7 @@ export class AdjustmentService implements AdjustmentServiceOperations {
     const res = this._client.performForecastAdjustmentAction({
       forecastAdjustmentAction: {
         attributes: {
-          'xsi:type': forecastAdjustmentAction,
+          'xsi:type': forecastAdjustmentAction.constructor.name,
         },
       },
       filterStatement,

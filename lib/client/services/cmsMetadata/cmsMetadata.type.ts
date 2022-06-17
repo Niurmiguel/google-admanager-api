@@ -20,12 +20,6 @@ type CmsMetadataKey = {
 };
 
 /**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CmsMetadataService.CmsMetadataKey CmsMetadataKey} objects.
- */
-export type CmsMetadataKeyAction = 'ActivateCmsMetadataKeys' | 'DeactivateCmsMetadataKeys';
-
-/**
  * Captures a page of CMS metadata key objects.
  */
 export type CmsMetadataKeyPage = PageResult<CmsMetadataKey>;
@@ -49,12 +43,6 @@ type CmsMetadataValue = {
    */
   status: CmsMetadataValueStatus;
 };
-
-/**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CmsMetadataService.CmsMetadataValue CmsMetadataValue} objects.
- */
-export type CmsMetadataValueAction = 'ActivateCmsMetadataValues' | 'DeactivateCmsMetadataValues';
 
 /**
  * Captures a page of CMS metadata value objects.

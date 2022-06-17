@@ -1,15 +1,9 @@
 import { Client } from 'soap';
 
+import { LiveStreamEvent, LiveStreamEventPage, Slate, SlateAction, SlatePage } from './liveStreamEvent.type';
 import { LiveStreamEventServiceOperations } from './liveStreamEventService.interface';
+import { LiveStreamEventAction } from './liveStreamEvent.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import {
-  LiveStreamEvent,
-  LiveStreamEventAction,
-  LiveStreamEventPage,
-  Slate,
-  SlateAction,
-  SlatePage,
-} from './liveStreamEvent.type';
 
 export class LiveStreamEventService implements LiveStreamEventServiceOperations {
   private _client: Client;
@@ -44,7 +38,7 @@ export class LiveStreamEventService implements LiveStreamEventServiceOperations 
     return this._client.performLiveStreamEventAction({
       liveStreamEventAction: {
         attributes: {
-          'xsi:type': liveStreamEventAction,
+          'xsi:type': liveStreamEventAction.constructor.name,
         },
       },
       filterStatement,

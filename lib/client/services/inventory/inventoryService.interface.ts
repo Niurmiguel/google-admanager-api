@@ -1,5 +1,6 @@
-import { AdUnit, AdUnitAction, AdUnitPage, AdUnitSize } from './adUnit.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { AdUnit, AdUnitPage, AdUnitSize } from './adUnit.type';
+import { AdUnitAction } from './adUnit.action';
 
 /**
  * Provides operations for creating, updating and retrieving

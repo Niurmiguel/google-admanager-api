@@ -1,5 +1,6 @@
+import { MobileApplication, MobileApplicationPage } from './mobileApplication.type';
+import { MobileApplicationAction } from './mobileApplication.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import { MobileApplication, MobileApplicationAction, MobileApplicationPage } from './mobileApplication.type';
 
 /**
  * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/MobileApplicationService.MobileApplication MobileApplication} objects.

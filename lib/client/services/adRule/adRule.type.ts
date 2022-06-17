@@ -220,11 +220,6 @@ export type BreakTemplate = {
 };
 
 /**
- * Represents the actions that can be performed on AdRule objects.
- */
-export type AdRuleAction = 'ActivateAdRules' | 'DeactivateAdRules' | 'DeleteAdRules';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdRuleService.AdRule AdRule} objects.
  */
 export type AdRulePage = PageResult<AdRule>;

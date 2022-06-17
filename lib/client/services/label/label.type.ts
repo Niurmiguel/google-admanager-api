@@ -50,11 +50,6 @@ export type Label = {
 };
 
 /**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/LabelService.Label Label} objects.
- */
-export type LabelAction = 'ActivateLabels' | 'DeactivateLabels';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/LabelService.Label Label} objects.
  */
 export type LabelPage = PageResult<Label>;

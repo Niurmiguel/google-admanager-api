@@ -47,12 +47,6 @@ export type CustomTargetingKey = {
 };
 
 /**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomTargetingService.CustomTargetingKey CustomTargetingKey} objects.
- */
-export type CustomTargetingKeyAction = 'ActivateCustomTargetingKeys' | 'DeleteCustomTargetingKeys';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomTargetingService.CustomTargetingKey CustomTargetingKey} objects.
  */
 export type CustomTargetingKeyPage = PageResult<CustomTargetingKey>;
@@ -95,12 +89,6 @@ export type CustomTargetingValue = {
    */
   status: CustomTargetingValueStatus;
 };
-
-/**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomTargetingService.CustomTargetingValue CustomTargetingValue} objects.
- */
-export type CustomTargetingValueAction = 'ActivateCustomTargetingValues' | 'DeleteCustomTargetingValues';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomTargetingService.CustomTargetingValue CustomTargetingValue} objects.

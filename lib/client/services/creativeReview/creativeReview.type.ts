@@ -15,6 +15,4 @@ export type CreativeReview = {
   impressions: number;
 };
 
-export type CreativeReviewAction = 'ApproveCreativeReviews' | 'ArchiveCreativeReviews' | 'DisapproveCreativeReviews';
-
 export type CreativeReviewPage = PageResult<CreativeReview>;

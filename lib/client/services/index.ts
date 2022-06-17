@@ -7,7 +7,7 @@ export { CdnConfigurationService } from './cdnConfiguration';
 export { CmsMetadataService } from './cmsMetadata';
 export { CompanyService } from './company';
 export { ContactService } from './contact';
-export { ContentBundleService } from './contentBundles';
+export { ContentBundleService } from './contentBundle';
 export { ContentService } from './content';
 export { CreativeReviewService } from './creativeReview';
 export { CreativeService } from './creative';

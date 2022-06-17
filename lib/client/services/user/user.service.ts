@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { UserServiceOperations } from './userService.interface';
-import { User, Role, UserAction, UserPage } from './user.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { User, Role, UserPage } from './user.type';
+import { UserAction } from './user.action';
 
 export class UserService implements UserServiceOperations {
   private _client: Client;
@@ -33,7 +34,7 @@ export class UserService implements UserServiceOperations {
     return this._client.performUserAction({
       userAction: {
         attributes: {
-          'xsi:type': userAction,
+          'xsi:type': userAction.constructor.name,
         },
       },
       filterStatement,

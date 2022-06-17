@@ -2,7 +2,8 @@ import { Client } from 'soap';
 
 import { AudienceSegmentServiceOperations } from './audienceSegmentService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
-import { AudienceSegmentAction, AudienceSegmentPage, FirstPartyAudienceSegment } from './audienceSegment.type';
+import { AudienceSegmentPage, FirstPartyAudienceSegment } from './audienceSegment.type';
+import { AudienceSegmentAction } from './audienceSegment.action';
 
 export class AudienceSegmentService implements AudienceSegmentServiceOperations {
   private _client: Client;
@@ -25,7 +26,7 @@ export class AudienceSegmentService implements AudienceSegmentServiceOperations 
     return this._client.performAudienceSegmentAction({
       action: {
         attributes: {
-          'xsi:type': action,
+          'xsi:type': action.constructor.name,
         },
       },
       filterStatement,

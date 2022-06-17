@@ -1,12 +1,8 @@
 import { Client } from 'soap';
 
+import { ProposalLineItem, ProposalLineItemMakegoodInfo, ProposalLineItemPage } from './proposalLineItem.type';
 import { ProposalLineItemServiceOperations } from './proposalLineItemService.interface';
-import {
-  ProposalLineItem,
-  ProposalLineItemAction,
-  ProposalLineItemMakegoodInfo,
-  ProposalLineItemPage,
-} from './proposalLineItem.type';
+import { ProposalLineItemAction } from './proposalLineItem.action';
 import { Statement, UpdateResult } from '../../../common/types';
 
 export class ProposalLineItemService implements ProposalLineItemServiceOperations {
@@ -37,8 +33,9 @@ export class ProposalLineItemService implements ProposalLineItemServiceOperation
     return this._client.performProposalLineItemAction({
       proposalLineItemAction: {
         attributes: {
-          'xsi:type': proposalLineItemAction,
+          'xsi:type': proposalLineItemAction.constructor.name,
         },
+        ...proposalLineItemAction.buildAttributes(),
       },
       filterStatement,
     });

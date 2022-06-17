@@ -1,10 +1,9 @@
+import { CustomTargetingKeyAction, CustomTargetingValueAction } from './customTargeting.action';
 import { Statement, UpdateResult } from '../../../common/types';
 import {
   CustomTargetingKey,
-  CustomTargetingKeyAction,
   CustomTargetingKeyPage,
   CustomTargetingValue,
-  CustomTargetingValueAction,
   CustomTargetingValuePage,
 } from './customTargeting.type';
 

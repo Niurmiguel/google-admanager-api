@@ -112,7 +112,8 @@ export type Company = {
 /**
  * Represents the actions that can be performed on Company objects.
  */
-export type CompanyAction = 'EndAgreementAction' | 'ReInviteAction' | 'ResendInvitationAction';
+// export type CompanyAction = 'EndAgreementAction' | 'ReInviteAction' | 'ResendInvitationAction';
+// export type CompanyAction = EndAgreementAction | ReInviteAction | ResendInvitationAction;
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company} objects.

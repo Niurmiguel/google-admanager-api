@@ -1,5 +1,5 @@
-import { DateTime, PageResult } from '../../../common/types';
 import { DaiAuthenticationKeyStatus, DaiAuthenticationKeyType } from './daiAuthenticationKey.enum';
+import { DateTime, PageResult } from '../../../common/types';
 
 /**
  * A DaiAuthenticationKey is used to authenticate stream requests to the IMA SDK API.
@@ -34,12 +34,6 @@ export type DaiAuthenticationKey = {
    */
   keyType: DaiAuthenticationKeyType;
 };
-
-/**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/DaiAuthenticationKeyService.DaiAuthenticationKey DaiAuthenticationKey} objects.
- */
-export type DaiAuthenticationKeyAction = 'ActivateDaiAuthenticationKeys' | 'DeactivateDaiAuthenticationKeys';
 
 /**
  * Captures a page of https://developers.google.com/ad-manager/api/reference/v202202/DaiAuthenticationKeyService.DaiAuthenticationKey DaiAuthenticationKey} objects.

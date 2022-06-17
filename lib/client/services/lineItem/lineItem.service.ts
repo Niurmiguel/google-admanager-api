@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
-import { LineItem, LineItemAction, LineItemPage } from './lineItem.type';
 import { LineItemServiceOperations } from './lineItemService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
+import { LineItem, LineItemPage } from './lineItem.type';
+import { LineItemAction } from './lineItem.action';
 
 export class LineItemService implements LineItemServiceOperations {
   private _client: Client;
@@ -25,8 +26,9 @@ export class LineItemService implements LineItemServiceOperations {
     return this._client.performLineItemAction({
       lineItemAction: {
         attributes: {
-          'xsi:type': lineItemAction,
+          'xsi:type': lineItemAction.constructor.name,
         },
+        ...lineItemAction.buildAttributes(),
       },
       filterStatement,
     });

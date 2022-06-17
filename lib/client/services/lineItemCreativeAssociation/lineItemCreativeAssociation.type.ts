@@ -1,7 +1,7 @@
-import { StartDateTimeType } from '../../../common/enums';
-import { DateTime, PageResult } from '../../../common/types';
-import { Money, Size, Stats } from '../../common/types';
 import { LineItemCreativeAssociationStatus } from './lineItemCreativeAssociation.enum';
+import { DateTime, PageResult } from '../../../common/types';
+import { StartDateTimeType } from '../../../common/enums';
+import { Money, Size, Stats } from '../../common/types';
 
 /**
  * This represents an entry in a map with a key of type Long and value of type Stats.
@@ -108,15 +108,6 @@ export type LineItemCreativeAssociation = {
    */
   targetingName: string;
 };
-
-/**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
- */
-export type LineItemCreativeAssociationAction =
-  | 'ActivateLineItemCreativeAssociations'
-  | 'DeactivateLineItemCreativeAssociations'
-  | 'DeleteLineItemCreativeAssociations';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.

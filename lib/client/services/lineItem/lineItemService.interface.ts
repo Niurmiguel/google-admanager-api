@@ -1,5 +1,6 @@
-import { LineItem, LineItemAction, LineItemPage } from './lineItem.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { LineItem, LineItemPage } from './lineItem.type';
+import { LineItemAction } from './lineItem.action';
 
 /**
  * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} objects.

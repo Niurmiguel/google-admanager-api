@@ -1,5 +1,6 @@
-import { Site, SiteAction, SitePage } from './site.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { Site, SitePage } from './site.type';
+import { SiteAction } from './site.action';
 
 export interface SiteServiceOperations {
   /**

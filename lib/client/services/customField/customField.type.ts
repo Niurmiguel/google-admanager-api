@@ -1,5 +1,5 @@
-import { PageResult } from '../../../common/types';
 import { CustomFieldDataType, CustomFieldEntityType, CustomFieldVisibility } from './customField.enum';
+import { PageResult } from '../../../common/types';
 
 /**
  * An option represents a permitted value for a custom field that has a
@@ -64,11 +64,6 @@ export type CustomField = {
    */
   visibility: CustomFieldVisibility;
 } & DropDownCustomField;
-
-/**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} objects.
- */
-export type CustomFieldAction = 'ActivateCustomFields' | 'DeactivateCustomFields';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} objects.

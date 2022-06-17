@@ -1,7 +1,7 @@
 import { Statement, UpdateResult } from '../../../common/types';
+import { ForecastAdjustmentAction } from './adjustment.action';
 import {
   ForecastAdjustment,
-  ForecastAdjustmentAction,
   ForecastAdjustmentPage,
   TrafficForecastSegment,
   TrafficForecastSegmentPage,

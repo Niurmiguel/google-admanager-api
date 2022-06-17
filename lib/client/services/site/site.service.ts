@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { SiteServiceOperations } from './siteService.interface';
-import { Site, SiteAction, SitePage } from './site.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { Site, SitePage } from './site.type';
+import { SiteAction } from './site.action';
 
 export class SiteService implements SiteServiceOperations {
   private _client: Client;
@@ -25,7 +26,7 @@ export class SiteService implements SiteServiceOperations {
     return this._client.performSiteAction({
       siteAction: {
         attributes: {
-          'xsi:type': siteAction,
+          'xsi:type': siteAction.constructor.name,
         },
       },
       filterStatement,

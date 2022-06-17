@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { CdnConfigurationServiceOperations } from './cdnConfiguration.interface';
+import { CdnConfiguration, CdnConfigurationPage } from './cdnConfiguration.type';
+import { CdnConfigurationAction } from './cdnConfiguration.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import { CdnConfiguration, CdnConfigurationAction, CdnConfigurationPage } from './cdnConfiguration.type';
 
 export class CdnConfigurationService implements CdnConfigurationServiceOperations {
   private _client: Client;
@@ -28,7 +29,7 @@ export class CdnConfigurationService implements CdnConfigurationServiceOperation
     return this._client.performCdnConfigurationAction({
       cdnConfigurationAction: {
         attributes: {
-          'xsi:type': cdnConfigurationAction,
+          'xsi:type': cdnConfigurationAction.constructor.name,
         },
       },
       filterStatement,

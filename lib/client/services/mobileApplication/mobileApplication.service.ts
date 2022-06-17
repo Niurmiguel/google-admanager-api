@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { MobileApplicationServiceOperations } from './mobileApplicationService.interface';
+import { MobileApplication, MobileApplicationPage } from './mobileApplication.type';
+import { MobileApplicationAction } from './mobileApplication.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import { MobileApplication, MobileApplicationAction, MobileApplicationPage } from './mobileApplication.type';
 
 export class MobileApplicationService implements MobileApplicationServiceOperations {
   private _client: Client;
@@ -28,7 +29,7 @@ export class MobileApplicationService implements MobileApplicationServiceOperati
     return this._client.performMobileApplicationAction({
       mobileApplicationAction: {
         attributes: {
-          'xsi:type': mobileApplicationAction,
+          'xsi:type': mobileApplicationAction.constructor.name,
         },
       },
       filterStatement,

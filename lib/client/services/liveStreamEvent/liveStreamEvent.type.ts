@@ -1,5 +1,5 @@
-import { StartDateTimeType } from '../../../common/enums';
 import { DateTime, PageResult } from '../../../common/types';
+import { StartDateTimeType } from '../../../common/enums';
 import {
   AdBreakFillType,
   AdBreakMarkupType,
@@ -260,16 +260,6 @@ export type LiveStreamEvent = {
    */
   adServingFormat: AdServingFormat;
 };
-
-/**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} objects.
- */
-export type LiveStreamEventAction =
-  | 'ActivateLiveStreamEvents'
-  | 'ArchiveLiveStreamEvents'
-  | 'PauseLiveStreamEventAds'
-  | 'PauseLiveStreamEvents'
-  | 'RefreshLiveStreamEventMasterPlaylists';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} objects.

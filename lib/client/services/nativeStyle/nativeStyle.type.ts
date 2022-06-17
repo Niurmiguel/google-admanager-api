@@ -53,11 +53,6 @@ export type NativeStyle = {
 };
 
 /**
- * Represents an action that can be performed on native styles.
- */
-export type NativeStyleAction = 'ActivateNativeStyles' | 'ArchiveNativeStyles' | 'DeactivateNativeStyles';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/NativeStyleService.NativeStyle NativeStyle} objects.
  */
 export type NativeStylePage = PageResult<NativeStyle>;

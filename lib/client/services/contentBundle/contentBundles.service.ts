@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { ContentBundleServiceOperations } from './contentBundleService.interface';
+import { ContentBundle, ContentBundlePage } from './contentBundle.type';
 import { Statement, UpdateResult } from '../../../common/types';
-import { ContentBundle, ContentBundleAction, ContentBundlePage } from './contentBundle.type';
+import { ContentBundleAction } from './contentBundle.action';
 
 export class ContentBundleService implements ContentBundleServiceOperations {
   private _client: Client;
@@ -28,7 +29,7 @@ export class ContentBundleService implements ContentBundleServiceOperations {
     return this._client.performContentBundleAction({
       contentBundleAction: {
         attributes: {
-          'xsi:type': contentBundleAction,
+          'xsi:type': contentBundleAction.constructor.name,
         },
       },
       filterStatement,
