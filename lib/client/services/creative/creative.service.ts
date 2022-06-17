@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { CreativeServiceOperations } from './creativeService.interface';
-import { Creative, CreativeAction, CreativePage } from './creative.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { Creative, CreativePage } from './creative.type';
+import { CreativeAction } from './creative.action';
 
 export class CreativeService implements CreativeServiceOperations {
   private _client: Client;
@@ -25,7 +26,7 @@ export class CreativeService implements CreativeServiceOperations {
     return this._client.performCreativeAction({
       creativeAction: {
         attributes: {
-          'xsi:type': creativeAction,
+          'xsi:type': creativeAction.constructor.name,
         },
       },
       filterStatement,

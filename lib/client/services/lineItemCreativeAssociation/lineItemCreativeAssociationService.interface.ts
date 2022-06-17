@@ -1,9 +1,9 @@
+import { LineItemCreativeAssociationAction } from './lineItemCreativeAssociation.action';
 import { Statement, UpdateResult } from '../../../common/types';
 import {
   CreativeNativeStylePreview,
   CreativePushOptions,
   LineItemCreativeAssociation,
-  LineItemCreativeAssociationAction,
   LineItemCreativeAssociationPage,
 } from './lineItemCreativeAssociation.type';
 

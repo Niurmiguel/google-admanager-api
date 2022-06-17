@@ -1,6 +1,6 @@
-import { Size } from '../../common/types';
-import { PageResult } from '../../../common/types';
 import { ContainerType, DaiEncodingProfileStatus, VariantType } from './daiEncodingProfile.enum';
+import { PageResult } from '../../../common/types';
+import { Size } from '../../common/types';
 
 /**
  * Information about the video settings of an encoding profile.
@@ -91,12 +91,6 @@ export type DaiEncodingProfile = {
    */
   persistUnmatchedProfiles: boolean;
 };
-
-/**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/DaiEncodingProfileService.DaiEncodingProfile DaiEncodingProfile} objects.
- */
-export type DaiEncodingProfileAction = 'ActivateDaiEncodingProfiles' | 'ArchiveDaiEncodingProfiles';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/DaiEncodingProfileService.DaiEncodingProfile DaiEncodingProfile} objects.

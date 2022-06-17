@@ -41,11 +41,6 @@ export type SuggestedAdUnit = {
 };
 
 /**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/SuggestedAdUnitService.SuggestedAdUnit SuggestedAdUnit} objects.
- */
-export type SuggestedAdUnitAction = 'ApproveSuggestedAdUnits';
-
-/**
  * Contains a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/SuggestedAdUnitService.SuggestedAdUnit SuggestedAdUnit} objects.
  */
 export type SuggestedAdUnitPage = PageResult<SuggestedAdUnit>;

@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
+import { MarketplaceCommentPage, Proposal, ProposalPage } from './proposal.type';
 import { ProposalServiceOperations } from './proposalService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
-import { MarketplaceCommentPage, Proposal, ProposalAction, ProposalPage } from './proposal.type';
+import { ProposalAction } from './proposal.action';
 
 export class ProposalService implements ProposalServiceOperations {
   private _client: Client;
@@ -27,12 +28,13 @@ export class ProposalService implements ProposalServiceOperations {
     });
   }
 
-  async performProposalAction(ProposalAction: ProposalAction, filterStatement: Statement): Promise<UpdateResult> {
+  async performProposalAction(proposalAction: ProposalAction, filterStatement: Statement): Promise<UpdateResult> {
     return this._client.performProposalAction({
       ProposalAction: {
         attributes: {
-          'xsi:type': ProposalAction,
+          'xsi:type': proposalAction.constructor.name,
         },
+        ...proposalAction.buildAttributes(),
       },
       filterStatement,
     });

@@ -15,6 +15,4 @@ export type Site = {
   disapprovalReasons: DisapprovalReason[];
 };
 
-export type SiteAction = 'DeactivateSite' | 'SubmitSiteForApproval';
-
 export type SitePage = PageResult<Site>;

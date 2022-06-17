@@ -4,12 +4,11 @@ import { CustomTargetingServiceOperations } from './customTargeting.interface';
 import { Statement, UpdateResult } from '../../../common/types';
 import {
   CustomTargetingKey,
-  CustomTargetingKeyAction,
   CustomTargetingKeyPage,
   CustomTargetingValue,
-  CustomTargetingValueAction,
   CustomTargetingValuePage,
 } from './customTargeting.type';
+import { CustomTargetingKeyAction, CustomTargetingValueAction } from './customTargeting.action';
 
 export class CustomTargetingService implements CustomTargetingServiceOperations {
   private _client: Client;
@@ -45,7 +44,7 @@ export class CustomTargetingService implements CustomTargetingServiceOperations 
     return this._client.performCustomTargetingKeyAction({
       customTargetingKeyAction: {
         attributes: {
-          'xsi:type': customTargetingKeyAction,
+          'xsi:type': customTargetingKeyAction.constructor.name,
         },
       },
       filterStatement,
@@ -59,7 +58,7 @@ export class CustomTargetingService implements CustomTargetingServiceOperations 
     return this._client.performCustomTargetingValueAction({
       customTargetingValueAction: {
         attributes: {
-          'xsi:type': customTargetingValueAction,
+          'xsi:type': customTargetingValueAction.constructor.name,
         },
       },
       filterStatement,

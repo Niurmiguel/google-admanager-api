@@ -1,10 +1,6 @@
+import { ProposalLineItem, ProposalLineItemMakegoodInfo, ProposalLineItemPage } from './proposalLineItem.type';
+import { ProposalLineItemAction } from './proposalLineItem.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import {
-  ProposalLineItem,
-  ProposalLineItemAction,
-  ProposalLineItemMakegoodInfo,
-  ProposalLineItemPage,
-} from './proposalLineItem.type';
 
 /**
  * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.

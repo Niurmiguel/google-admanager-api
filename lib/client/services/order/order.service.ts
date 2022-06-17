@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { OrderServiceOperations } from './orderService.interface';
-import { Order, OrderAction, OrderPage } from './order.type';
+import { Order, OrderPage } from './order.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { OrderAction } from './order.action';
 
 export class OrderService implements OrderServiceOperations {
   private _client: Client;
@@ -25,8 +26,9 @@ export class OrderService implements OrderServiceOperations {
     return this._client.performOrderAction({
       orderAction: {
         attributes: {
-          'xsi:type': orderAction,
+          'xsi:type': orderAction.constructor.name,
         },
+        ...orderAction.buildAttributes(),
       },
       filterStatement,
     });

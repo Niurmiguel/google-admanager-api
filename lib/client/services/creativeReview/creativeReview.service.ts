@@ -2,7 +2,8 @@ import { Client } from 'soap';
 
 import { CreativeReviewServiceOperations } from './creativeReviewService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
-import { CreativeReviewAction, CreativeReviewPage } from './creativeReview.type';
+import { CreativeReviewAction } from './creativeReview.action';
+import { CreativeReviewPage } from './creativeReview.type';
 
 export class CreativeReviewService implements CreativeReviewServiceOperations {
   private _client: Client;
@@ -24,7 +25,7 @@ export class CreativeReviewService implements CreativeReviewServiceOperations {
     return this._client.performCreativeReviewAction({
       creativeReviewAction: {
         attributes: {
-          'xsi:type': creativeReviewAction,
+          'xsi:type': creativeReviewAction.constructor.name,
         },
       },
       filterStatement,

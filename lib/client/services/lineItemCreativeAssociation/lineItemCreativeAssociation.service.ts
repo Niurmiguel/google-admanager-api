@@ -1,12 +1,12 @@
 import { Client } from 'soap';
 
 import { LineItemCreativeAssociationServiceOperations } from './lineItemCreativeAssociationService.interface';
+import { LineItemCreativeAssociationAction } from './lineItemCreativeAssociation.action';
 import { Statement, UpdateResult } from '../../../common/types';
 import {
   CreativeNativeStylePreview,
   CreativePushOptions,
   LineItemCreativeAssociation,
-  LineItemCreativeAssociationAction,
   LineItemCreativeAssociationPage,
 } from './lineItemCreativeAssociation.type';
 
@@ -60,7 +60,7 @@ export class LineItemCreativeAssociationService implements LineItemCreativeAssoc
     return this._client.performLineItemCreativeAssociationAction({
       lineItemCreativeAssociationAction: {
         attributes: {
-          'xsi:type': lineItemCreativeAssociationAction,
+          'xsi:type': lineItemCreativeAssociationAction.constructor.name,
         },
       },
       filterStatement,

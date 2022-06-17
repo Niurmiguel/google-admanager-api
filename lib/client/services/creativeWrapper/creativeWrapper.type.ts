@@ -1,5 +1,5 @@
-import { PageResult } from '../../../common/types';
 import { ThirdPartyDataDeclaration } from '../../common/types';
+import { PageResult } from '../../../common/types';
 import {
   ConversionEvent,
   CreativeWrapperOrdering,
@@ -89,11 +89,6 @@ export type CreativeWrapper = {
    */
   status: CreativeWrapperStatus;
 };
-
-/**
- * Represents the actions that can be performed on CreativeWrapper objects.
- */
-export type CreativeWrapperAction = 'ActivateCreativeWrappers' | 'DeactivateCreativeWrappers';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeWrapperService.CreativeWrapper CreativeWrapper} objects.

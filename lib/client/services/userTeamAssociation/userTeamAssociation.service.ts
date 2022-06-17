@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { UserTeamAssociationServiceOperations } from './userTeamAssociationService.interface';
+import { UserTeamAssociation, UserTeamAssociationPage } from './userTeamAssociation.type';
+import { UserTeamAssociationAction } from './userTeamAssociation.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import { UserTeamAssociation, UserTeamAssociationAction, UserTeamAssociationPage } from './userTeamAssociation.type';
 
 export class UserTeamAssociationService implements UserTeamAssociationServiceOperations {
   private _client: Client;
@@ -28,7 +29,7 @@ export class UserTeamAssociationService implements UserTeamAssociationServiceOpe
     return this._client.performUserTeamAssociationAction({
       userTeamAssociationAction: {
         attributes: {
-          'xsi:type': userTeamAssociationAction,
+          'xsi:type': userTeamAssociationAction.constructor.name,
         },
       },
       filterStatement,

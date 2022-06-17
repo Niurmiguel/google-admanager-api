@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
-import { LabelServiceOperations } from './label.interface';
-import { Label, LabelAction, LabelPage } from './label.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { LabelServiceOperations } from './label.interface';
+import { Label, LabelPage } from './label.type';
+import { LabelAction } from './label.action';
 
 export class LabelService implements LabelServiceOperations {
   private _client: Client;
@@ -25,7 +26,7 @@ export class LabelService implements LabelServiceOperations {
     return this._client.performLabelAction({
       labelAction: {
         attributes: {
-          'xsi:type': labelAction,
+          'xsi:type': labelAction.constructor.name,
         },
       },
       filterStatement,

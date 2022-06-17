@@ -1,4 +1,7 @@
+import { ConversionEvent_TrackingUrlsMapEntry } from '../creativeWrapper/creativeWrapper.type';
+import { AppliedLabel, BaseCustomFieldValue, Size, ThirdPartyDataDeclaration } from '../../common/types';
 import { DateTime, PageResult } from '../../../common/types';
+import { SkippableAdType } from '../../common/enums';
 import {
   AdIdType,
   CreativePolicyViolation,
@@ -16,9 +19,6 @@ import {
   MimeType,
   VastRedirectType,
 } from './creative.enum';
-import { AppliedLabel, BaseCustomFieldValue, Size, ThirdPartyDataDeclaration } from '../../common/types';
-import { ConversionEvent_TrackingUrlsMapEntry } from '../creativeWrapper/creativeWrapper.type';
-import { SkippableAdType } from '../../common/enums';
 
 /**
  * An Ad Exchange dynamic allocation creative.
@@ -1209,11 +1209,6 @@ export type Creative = {
   ThirdPartyCreative &
   UnsupportedCreative &
   VastRedirectCreative;
-
-/**
- * Represents the actions that can be performed on Creative objects.
- */
-export type CreativeAction = 'ActivateCreatives' | 'DeactivateCreatives';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative} objects.

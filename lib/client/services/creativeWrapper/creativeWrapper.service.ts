@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { CreativeWrapperServiceOperations } from './creativeWrapperService.interface';
+import { CreativeWrapper, CreativeWrapperPage } from './creativeWrapper.type';
+import { CreativeWrapperAction } from './creativeWrapper.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import { CreativeWrapper, CreativeWrapperAction, CreativeWrapperPage } from './creativeWrapper.type';
 
 export class CreativeWrapperService implements CreativeWrapperServiceOperations {
   private _client: Client;
@@ -28,7 +29,7 @@ export class CreativeWrapperService implements CreativeWrapperServiceOperations 
     return this._client.performCreativeWrapperAction({
       creativeWrapperAction: {
         attributes: {
-          'xsi:type': creativeWrapperAction,
+          'xsi:type': creativeWrapperAction.constructor.name,
         },
       },
       filterStatement,

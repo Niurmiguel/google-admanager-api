@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
+import { SuggestedAdUnitPage, SuggestedAdUnitUpdateResult } from './suggestedAdUnit.type';
 import { SuggestedAdUnitServiceOperations } from './suggestedAdUnitService.interface';
+import { SuggestedAdUnitAction } from './suggestedAdUnit.action';
 import { Statement } from '../../../common/types';
-import { SuggestedAdUnitAction, SuggestedAdUnitPage, SuggestedAdUnitUpdateResult } from './suggestedAdUnit.type';
 
 export class SuggestedAdUnitService implements SuggestedAdUnitServiceOperations {
   private _client: Client;
@@ -24,7 +25,7 @@ export class SuggestedAdUnitService implements SuggestedAdUnitServiceOperations 
     return this._client.performSuggestedAdUnitAction({
       suggestedAdUnitAction: {
         attributes: {
-          'xsi:type': suggestedAdUnitAction,
+          'xsi:type': suggestedAdUnitAction.constructor.name,
         },
       },
       filterStatement,

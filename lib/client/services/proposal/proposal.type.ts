@@ -1,5 +1,5 @@
-import { DateTime, PageResult } from '../../../common/types';
 import { AppliedLabel, BaseCustomFieldValue, CreativePlaceholder, Money, Targeting } from '../../common/types';
+import { DateTime, PageResult } from '../../../common/types';
 import {
   AdExchangeEnvironment,
   NegotiationStatus,
@@ -277,22 +277,6 @@ export type Proposal = {
    */
   deliveryPausingEnabled: boolean;
 };
-
-/**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal} objects.
- */
-export type ProposalAction =
-  | 'ArchiveProposals'
-  | 'DiscardLocalVersionEdits'
-  | 'EditProposalsForNegotiation'
-  | 'PauseProposals'
-  | 'RequestBuyerAcceptance'
-  | 'RequestBuyerReview'
-  | 'ReserveProposals'
-  | 'ResumeProposals'
-  | 'TerminateNegotiations'
-  | 'UnarchiveProposals'
-  | 'UpdateOrderWithSellerData';
 
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal} objects.

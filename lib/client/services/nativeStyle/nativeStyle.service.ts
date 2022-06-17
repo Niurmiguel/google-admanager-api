@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { NativeStyleServiceOperations } from './nativeStyleService.interface';
+import { NativeStyle, NativeStylePage } from './nativeStyle.type';
 import { Statement, UpdateResult } from '../../../common/types';
-import { NativeStyle, NativeStyleAction, NativeStylePage } from './nativeStyle.type';
+import { NativeStyleAction } from './nativeStyle.action';
 
 export class NativeStyleService implements NativeStyleServiceOperations {
   private _client: Client;
@@ -22,13 +23,13 @@ export class NativeStyleService implements NativeStyleServiceOperations {
   }
 
   async performNativeStyleAction(
-    NativeStyleAction: NativeStyleAction,
+    nativeStyleAction: NativeStyleAction,
     filterStatement: Statement,
   ): Promise<UpdateResult> {
     return this._client.performNativeStyleAction({
       NativeStyleAction: {
         attributes: {
-          'xsi:type': NativeStyleAction,
+          'xsi:type': nativeStyleAction.constructor.name,
         },
       },
       filterStatement,

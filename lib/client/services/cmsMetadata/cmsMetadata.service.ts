@@ -1,13 +1,9 @@
 import { Client } from 'soap';
 
+import { CmsMetadataKeyAction, CmsMetadataValueAction } from './cmsMetadata.action';
 import { CmsMetadataServiceOperations } from './cmsMetadataService.interface';
+import { CmsMetadataKeyPage, CmsMetadataValuePage } from './cmsMetadata.type';
 import { Statement, UpdateResult } from '../../../common/types';
-import {
-  CmsMetadataKeyAction,
-  CmsMetadataKeyPage,
-  CmsMetadataValueAction,
-  CmsMetadataValuePage,
-} from './cmsMetadata.type';
 
 export class CmsMetadataService implements CmsMetadataServiceOperations {
   private _client: Client;
@@ -35,7 +31,7 @@ export class CmsMetadataService implements CmsMetadataServiceOperations {
     return this._client.performCmsMetadataKeyAction({
       cmsMetadataKeyAction: {
         attributes: {
-          'xsi:type': cmsMetadataKeyAction,
+          'xsi:type': cmsMetadataKeyAction.constructor.name,
         },
       },
       filterStatement,
@@ -49,7 +45,7 @@ export class CmsMetadataService implements CmsMetadataServiceOperations {
     return this._client.performCmsMetadataValueAction({
       cmsMetadataValueAction: {
         attributes: {
-          'xsi:type': cmsMetadataValueAction,
+          'xsi:type': cmsMetadataValueAction.constructor.name,
         },
       },
       filterStatement,

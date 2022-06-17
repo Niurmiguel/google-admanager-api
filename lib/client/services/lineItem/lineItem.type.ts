@@ -21,19 +21,6 @@ export type LineItem = LineItemSummary & {
 };
 
 /**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} objects.
- */
-export type LineItemAction =
-  | 'ActivateLineItems'
-  | 'ArchiveLineItems'
-  | 'DeleteLineItems'
-  | 'PauseLineItems'
-  | 'ReleaseLineItems'
-  | 'ReserveLineItems'
-  | 'ResumeLineItems'
-  | 'UnarchiveLineItems';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} objects.
  */
 export type LineItemPage = PageResult<LineItem>;

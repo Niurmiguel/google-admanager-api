@@ -1,5 +1,6 @@
-import { Team, TeamAction, TeamPage } from './team.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { Team, TeamPage } from './team.type';
+import { TeamAction } from './team.action';
 
 /**
  * Provides methods for creating, updating,

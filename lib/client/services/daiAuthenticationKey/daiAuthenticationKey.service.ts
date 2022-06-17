@@ -1,12 +1,9 @@
 import { Client } from 'soap';
 
 import { DaiAuthenticationKeyServiceOperations } from './daiAuthenticationKeyService.interface';
+import { DaiAuthenticationKey, DaiAuthenticationKeyPage } from './daiAuthenticationKey.type';
+import { DaiAuthenticationKeyAction } from './daiAuthenticationKey.action';
 import { Statement, UpdateResult } from '../../../common/types';
-import {
-  DaiAuthenticationKey,
-  DaiAuthenticationKeyAction,
-  DaiAuthenticationKeyPage,
-} from './daiAuthenticationKey.type';
 
 export class DaiAuthenticationKeyService implements DaiAuthenticationKeyServiceOperations {
   private _client: Client;
@@ -32,7 +29,7 @@ export class DaiAuthenticationKeyService implements DaiAuthenticationKeyServiceO
     return this._client.performDaiAuthenticationKeyAction({
       daiAuthenticationKeyAction: {
         attributes: {
-          'xsi:type': daiAuthenticationKeyAction,
+          'xsi:type': daiAuthenticationKeyAction.constructor.name,
         },
       },
       filterStatement,

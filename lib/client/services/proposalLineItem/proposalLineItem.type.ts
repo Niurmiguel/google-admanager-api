@@ -319,18 +319,6 @@ export type ProposalLineItem = {
 };
 
 /**
- * Represents the actions that can be performed on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.
- */
-export type ProposalLineItemAction =
-  | 'ArchiveProposalLineItems'
-  | 'PauseProposalLineItems'
-  | 'ReleaseProposalLineItems'
-  | 'ReserveProposalLineItems'
-  | 'ResumeProposalLineItems'
-  | 'UnarchiveProposalLineItems';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.
  */
 export type ProposalLineItemPage = PageResult<ProposalLineItem>;

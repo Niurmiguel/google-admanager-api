@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { CompanyServiceOperations } from './companyService.interface';
-import { Company, CompanyAction, CompanyPage } from './company.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { Company, CompanyPage } from './company.type';
+import { CompanyAction } from './company.action';
 
 export class CompanyService implements CompanyServiceOperations {
   private _client: Client;
@@ -22,13 +23,16 @@ export class CompanyService implements CompanyServiceOperations {
   }
 
   async performCompanyAction(companyAction: CompanyAction, filterStatement: Statement): Promise<UpdateResult> {
+    console.log(companyAction.constructor.name);
+
     return this._client.performCompanyAction({
       companyAction: {
         attributes: {
-          'xsi:type': companyAction,
+          'xsi:type': companyAction.constructor.name,
         },
+        ...companyAction.buildAttributes(),
       },
-      filterStatement,
+      statement: filterStatement,
     });
   }
 

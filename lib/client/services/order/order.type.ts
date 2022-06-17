@@ -172,21 +172,6 @@ export type Order = {
   customFieldValues: BaseCustomFieldValue[];
 };
 
-export type OrderAction =
-  | 'ApproveOrders'
-  | 'ApproveOrdersWithoutReservationChanges'
-  | 'ArchiveOrders'
-  | 'DeleteOrders'
-  | 'DisapproveOrders'
-  | 'DisapproveOrdersWithoutReservationChanges'
-  | 'PauseOrders'
-  | 'ResumeOrders'
-  | 'RetractOrders'
-  | 'RetractOrdersWithoutReservationChanges'
-  | 'SubmitOrdersForApproval'
-  | 'SubmitOrdersForApprovalWithoutReservationChanges'
-  | 'UnarchiveOrders';
-
 /**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.Order Order} objects.
  */

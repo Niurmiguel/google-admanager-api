@@ -37,11 +37,6 @@ export type Team = {
 };
 
 /**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/TeamService.Team Team} objects.
- */
-export type TeamAction = 'ActivateTeams' | 'DeactivateTeams';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/TeamService.Team Team} objects.
  */
 export type TeamPage = PageResult<Team>;

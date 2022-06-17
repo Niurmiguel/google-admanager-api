@@ -69,11 +69,6 @@ export type MobileApplication = {
 };
 
 /**
- * Represents the actions that can be performed on mobile applications.
- */
-export type MobileApplicationAction = 'ArchiveMobileApplications' | 'UnarchiveMobileApplications';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/MobileApplicationService.MobileApplication mobile applications}.
  */
 export type MobileApplicationPage = PageResult<MobileApplication>;

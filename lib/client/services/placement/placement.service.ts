@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
 import { PlacementServiceOperations } from './placementService.interface';
-import { Placement, PlacementAction, PlacementPage } from './placement.type';
 import { Statement, UpdateResult } from '../../../common/types';
+import { Placement, PlacementPage } from './placement.type';
+import { PlacementAction } from './placement.action';
 
 export class PlacementService implements PlacementServiceOperations {
   private _client: Client;
@@ -25,7 +26,7 @@ export class PlacementService implements PlacementServiceOperations {
     return this._client.performPlacementAction({
       placementAction: {
         attributes: {
-          'xsi:type': placementAction,
+          'xsi:type': placementAction.constructor.name,
         },
       },
       filterStatement,

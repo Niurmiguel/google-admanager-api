@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
+import { CustomField, CustomFieldOption, CustomFieldPage } from './customField.type';
 import { CustomFieldServiceOperations } from './customFieldService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
-import { CustomField, CustomFieldAction, CustomFieldOption, CustomFieldPage } from './customField.type';
+import { CustomFieldAction } from './customField.action';
 
 export class CustomFieldService implements CustomFieldServiceOperations {
   private _client: Client;
@@ -38,7 +39,7 @@ export class CustomFieldService implements CustomFieldServiceOperations {
     return this._client.performCustomFieldAction({
       customFieldAction: {
         attributes: {
-          'xsi:type': customFieldAction,
+          'xsi:type': customFieldAction.constructor.name,
         },
       },
       filterStatement,

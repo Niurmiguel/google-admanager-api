@@ -1,6 +1,6 @@
 {
   "name": "@niur/google-admanager-api",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Google Ad Manager API Client Library for NodeJs",
   "main": "dist/index",
   "types": "dist/index",
@@ -14,8 +14,16 @@
     "test": "jest --config jestconfig.json",
     "prerelease": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niurmiguel/google-admanager-api.git"
+  },
   "author": "Niurmiguel Gonzalez",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Niurmiguel/google-admanager-api/issues"
+  },
+  "homepage": "https://github.com/Niurmiguel/google-admanager-api#readme",
   "devDependencies": {
     "@types/jest": "^27.5.2",
     "@types/node": "^17.0.21",

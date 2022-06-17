@@ -32,11 +32,6 @@ export type UserTeamAssociation = UserRecordTeamAssociation & {
 };
 
 /**
- * Represents the actions that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/UserTeamAssociationService.UserTeamAssociation UserTeamAssociation} objects.
- */
-export type UserTeamAssociationAction = 'DeleteUserTeamAssociations';
-
-/**
  * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/UserTeamAssociationService.UserTeamAssociation UserTeamAssociation} objects.
  */
 export type UserTeamAssociationPage = PageResult<UserTeamAssociation>;

@@ -1,8 +1,9 @@
 import { Client } from 'soap';
 
-import { AdUnit, AdUnitAction, AdUnitPage, AdUnitSize } from './adUnit.type';
 import { InventoryServiceOperations } from './inventoryService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
+import { AdUnit, AdUnitPage, AdUnitSize } from './adUnit.type';
+import { AdUnitAction } from './adUnit.action';
 
 export class InventoryService implements InventoryServiceOperations {
   private _client: Client;
@@ -31,7 +32,7 @@ export class InventoryService implements InventoryServiceOperations {
     return this._client.performAdUnitAction({
       adUnitAction: {
         attributes: {
-          'xsi:type': adUnitAction,
+          'xsi:type': adUnitAction.constructor.name,
         },
       },
       filterStatement,

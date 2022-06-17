@@ -158,16 +158,6 @@ export type FirstPartyAudienceSegment =
   | RuleBasedFirstPartyAudienceSegmentSummary;
 
 /**
- * Action that can be performed on {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
- */
-export type AudienceSegmentAction =
-  | 'ActivateAudienceSegments'
-  | 'ApproveAudienceSegments'
-  | 'DeactivateAudienceSegments'
-  | 'PopulateAudienceSegments'
-  | 'RejectAudienceSegments';
-
-/**
  * Represents a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
  */
 export type AudienceSegmentPage = PageResult<

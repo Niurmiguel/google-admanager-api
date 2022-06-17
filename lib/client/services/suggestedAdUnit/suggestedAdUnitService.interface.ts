@@ -1,5 +1,6 @@
+import { SuggestedAdUnitPage, SuggestedAdUnitUpdateResult } from './suggestedAdUnit.type';
+import { SuggestedAdUnitAction } from './suggestedAdUnit.action';
 import { Statement } from '../../../common/types';
-import { SuggestedAdUnitAction, SuggestedAdUnitPage, SuggestedAdUnitUpdateResult } from './suggestedAdUnit.type';
 
 /**
  * This service provides operations for retrieving and approving

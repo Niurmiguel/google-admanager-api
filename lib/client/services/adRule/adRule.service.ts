@@ -3,7 +3,8 @@ import { Client } from 'soap';
 import { AdRuleServiceOperations } from './adRuleService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
 import { AdSpot, AdSpotPage } from './adSpot.type';
-import { AdRule, AdRulePage, BreakTemplate, BreakTemplatePage, AdRuleAction } from './adRule.type';
+import { AdRule, AdRulePage, BreakTemplate, BreakTemplatePage } from './adRule.type';
+import { AdRuleAction } from './adRule.action';
 
 export class AdRuleService implements AdRuleServiceOperations {
   private _client: Client;
@@ -46,7 +47,7 @@ export class AdRuleService implements AdRuleServiceOperations {
     return this._client.performAdRuleAction({
       adRuleAction: {
         attributes: {
-          'xsi:type': adRuleAction,
+          'xsi:type': adRuleAction.constructor.name,
         },
       },
       filterStatement,
