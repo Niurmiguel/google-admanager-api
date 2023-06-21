@@ -3,4 +3,4 @@ export { SERVICE_MAP };
 
 export const SCOPE = 'https://www.googleapis.com/auth/dfp';
 export const DEFAULT_APPLICATION_NAME = 'applicationName';
-export const API_VERSION = 'v202202';
+export const API_VERSION = 'v202305';
