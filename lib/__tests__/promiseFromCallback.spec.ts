@@ -69,6 +69,19 @@ const FAULTS = {
     "Invalid content was found starting with element 'adSports'. </faultstring></soap:Fault>",
   serverNoDetail:
     '<soap:Fault><faultcode>soap:Server</faultcode><faultstring>Internal error</faultstring></soap:Fault>',
+  // The trigger echoes user input, which can contain ": {", the separator
+  // node-soap puts between the faultstring and the JSON detail.
+  colonBraceInMessage:
+    "<soap:Fault><faultcode>soap:Server</faultcode><faultstring>[UniqueError.NOT_UNIQUE @ name; trigger:'Promo: {Q4}']</faultstring>" +
+    `<detail><ApiExceptionFault xmlns="${NS}"><message>[UniqueError.NOT_UNIQUE @ name; trigger:'Promo: {Q4}']</message>` +
+    '<applicationExceptionType>ApiException</applicationExceptionType>' +
+    '<errors xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="UniqueError"><fieldPath>name</fieldPath>' +
+    '<trigger>Promo: {Q4}</trigger><errorString>UniqueError.NOT_UNIQUE</errorString><reason>NOT_UNIQUE</reason>' +
+    '</errors></ApiExceptionFault></detail></soap:Fault>',
+  colonBraceNoDetail:
+    '<soap:Fault><faultcode>soap:Server</faultcode><faultstring>Bad value: {"a":1}</faultstring></soap:Fault>',
+  faultstringWithAttribute:
+    '<soap:Fault><faultcode>soap:Server</faultcode><faultstring xml:lang="en">Internal error</faultstring></soap:Fault>',
 } as const;
 
 type FaultName = keyof typeof FAULTS;
@@ -192,6 +205,44 @@ describe('promiseFromCallback with SOAP faults', () => {
 
   it('rejects a soap:Server fault without detail instead of hanging and crashing the process', async () => {
     expect(await call('serverNoDetail')).toEqual({
+      state: 'rejected',
+      reason: { code: 500, name: '', message: 'Internal error' },
+    });
+  });
+
+  it('keeps a message that contains ": {" whole, and parses the detail', async () => {
+    expect(await call('colonBraceInMessage')).toEqual({
+      state: 'rejected',
+      reason: {
+        code: 500,
+        name: 'UniqueError',
+        message: "[UniqueError.NOT_UNIQUE @ name; trigger:'Promo: {Q4}']",
+        details: {
+          ApiExceptionFault: {
+            message: "[UniqueError.NOT_UNIQUE @ name; trigger:'Promo: {Q4}']",
+            applicationExceptionType: 'ApiException',
+            errors: {
+              attributes: { 'xsi:type': 'UniqueError' },
+              fieldPath: 'name',
+              trigger: 'Promo: {Q4}',
+              errorString: 'UniqueError.NOT_UNIQUE',
+              reason: 'NOT_UNIQUE',
+            },
+          },
+        },
+      },
+    });
+  });
+
+  it('keeps a message that contains ": {" whole when the fault has no detail', async () => {
+    expect(await call('colonBraceNoDetail')).toEqual({
+      state: 'rejected',
+      reason: { code: 500, name: '', message: 'Bad value: {"a":1}' },
+    });
+  });
+
+  it('reads a faultstring that has attributes', async () => {
+    expect(await call('faultstringWithAttribute')).toEqual({
       state: 'rejected',
       reason: { code: 500, name: '', message: 'Internal error' },
     });
