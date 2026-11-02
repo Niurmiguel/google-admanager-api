@@ -219,4 +219,29 @@ describe('ReportResponse.save()', () => {
       expect(getEventListeners(controller.signal, 'abort')).toHaveLength(0);
     });
   });
+
+  describe('timers', () => {
+    /** Timers that keep the process alive. An unref'd one is not counted. */
+    const timers = () => process.getActiveResourcesInfo().filter((type) => type === 'Timeout').length;
+
+    it('leaves no timer running once the report is saved', async () => {
+      const before = timers();
+
+      for (let i = 0; i < 3; i++) {
+        const response = await getResponse('/report.csv', { downloadTimeoutMs: 10 * TIMEOUT_MS });
+        await response.save(join(dir, `timers-${i}.csv`));
+      }
+
+      expect(timers()).toBe(before);
+    });
+
+    it('leaves no timer running once a stalled save has failed', async () => {
+      const before = timers();
+      const response = await getResponse('/stalls.csv', { downloadTimeoutMs: TIMEOUT_MS });
+
+      await expect(response.save(join(dir, 'timers-stalled.csv'))).rejects.toBeInstanceOf(AdsReportsException);
+
+      expect(timers()).toBe(before);
+    });
+  });
 });
