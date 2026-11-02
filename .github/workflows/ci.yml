@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+# Read-only token. No pull_request_target: pull requests from forks run
+# without secrets and without write access.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Node ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # 20.19.0 is the floor declared in package.json "engines" (required by soap 1.x).
+        node-version: ['20.19.0', '22.x', '24.x']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        # No lifecycle scripts, as in the publish workflow: build and tests do not need them.
+        run: npm ci --ignore-scripts
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        # Without --fix, unlike `npm run lint`: CI must fail, not rewrite files.
+        run: npm run lint:check
+
+      - name: Test
+        run: npm test
+
+      - name: Check package contents
+        run: npm run check:pack

@@ -16,6 +16,7 @@
     "build": "rm -rf dist && tsc -p tsconfig.json",
     "format": "prettier --write \"**/*.ts\"",
     "lint": "eslint 'lib/**/*.ts' --fix",
+    "lint:check": "eslint 'lib/**/*.ts' --max-warnings 0",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
     "test": "jest --config jestconfig.json",
