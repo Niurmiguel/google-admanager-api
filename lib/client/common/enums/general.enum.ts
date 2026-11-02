@@ -402,4 +402,8 @@ export enum UnitType {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  /**
+   * The number of completed views reported by creatives associated with the line item. A completed view is defined as having watched the entirety of the in-stream video ad and is only supported for standard reservation video line items. The LineItem.lineItemType must be LineItemType.STANDARD.
+   */
+  COMPLETED_VIEWS = 'COMPLETED_VIEWS',
 }

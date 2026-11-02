@@ -18,6 +18,7 @@ export enum MobileApplicationStore {
   SAMSUNG_APP_STORE = 'SAMSUNG_APP_STORE',
   VIVO_APP_STORE = 'VIVO_APP_STORE',
   XIAOMI_APP_STORE = 'XIAOMI_APP_STORE',
+  LG_TV = 'LG_TV',
 }
 
 /**
@@ -35,4 +36,9 @@ export enum MobileApplicationPlatform {
   PLAYSTATION = 'PLAYSTATION',
   XBOX = 'XBOX',
   SAMSUNG_TV = 'SAMSUNG_TV',
+  LG_TV = 'LG_TV',
+  /**
+   * The value returned if the actual value is not supported by Ad Manager.
+   */
+  UNSUPPORTED = 'UNSUPPORTED',
 }

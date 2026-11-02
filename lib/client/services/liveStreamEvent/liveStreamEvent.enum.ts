@@ -40,6 +40,10 @@ export enum AdBreakFillType {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  /**
+   * Ad break should be filled with mostly underlying content. When ad content can't be aligned with underlying content during transition, the gap will be bridged with slate to maintain the timeline.
+   */
+  MINIMIZE_SLATE = 'MINIMIZE_SLATE',
 }
 
 /**

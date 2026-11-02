@@ -1475,6 +1475,22 @@ export enum Dimension {
    * Corresponds to "Unified pricing rule" in the Ad Manager UI. Compatible with any of the following report types: Historical, Reach.
    */
   UNIFIED_PRICING_RULE_NAME = 'UNIFIED_PRICING_RULE_NAME',
+  /**
+   * Breaks down reporting data by the ID of the type of video placement as defined by the updated IAB definition. The values of "in-stream" and "accompanying content" are declared via publisher inputted URL parameters. The values of "interstitial" and "no content" are populated automatically based on the declared inventory type. The video placement dimension only applies to backfill traffic.
+   */
+  VIDEO_PLCMT_ID = 'VIDEO_PLCMT_ID',
+  /**
+   * Breaks down reporting data by the name of the type of video placement as defined by the updated IAB definition. The values of "in-stream" and "accompanying content" are declared via publisher inputted URL parameters. The values of "interstitial" and "no content" are populated automatically based on the declared inventory type. The video placement dimension only applies to backfill traffic. Corresponds to "Video placement" in the Ad Manager UI. Compatible with the "Historical" report type.
+   */
+  VIDEO_PLCMT_NAME = 'VIDEO_PLCMT_NAME',
+  /**
+   * Breaks down impressions by inventory format id. Compatible with the "Historical" report type.
+   */
+  INVENTORY_FORMAT = 'INVENTORY_FORMAT',
+  /**
+   * Breaks down impressions by inventory format name. Corresponds to "Inventory format" in the Ad Manager UI. Compatible with the "Historical" report type.
+   */
+  INVENTORY_FORMAT_NAME = 'INVENTORY_FORMAT_NAME',
 }
 
 /**
@@ -4042,6 +4058,14 @@ export enum Column {
    * Corresponds to "Tag loaded to first ad request time >8s (%)" in the Ad Manager UI. Compatible with the "Ad speed" report type.
    */
   TAG_LOAD_TO_FIRST_AD_REQUEST_TIME_GREATER_THAN_8_S_PERCENT = 'TAG_LOAD_TO_FIRST_AD_REQUEST_TIME_GREATER_THAN_8_S_PERCENT',
+  /**
+   * The percentage of total impressions from video creatives with audible playback at start, from all total measurable impressions for Active View. Corresponds to "Active View % audible at start" in the Ad Manager UI. Compatible with the "Historical" report type.
+   */
+  ACTIVE_VIEW_PERCENT_AUDIBLE_START_IMPRESSIONS = 'ACTIVE_VIEW_PERCENT_AUDIBLE_START_IMPRESSIONS',
+  /**
+   * The percentage of total impressions from video creatives where volume > 0 at any point, from all total impressions measurable for Active View. Corresponds to "Active View % ever audible" in the Ad Manager UI. Compatible with the "Historical" report type.
+   */
+  ACTIVE_VIEW_PERCENT_EVER_AUDIBLE_IMPRESSIONS = 'ACTIVE_VIEW_PERCENT_EVER_AUDIBLE_IMPRESSIONS',
 }
 
 /**
@@ -4453,6 +4477,10 @@ export enum DimensionAttribute {
    * Corresponds to "Ad unit code" in the Ad Manager UI. Compatible with any of the following report types: Historical, Future sell-through, Reach, Ad speed.
    */
   AD_UNIT_CODE = 'AD_UNIT_CODE',
+  /**
+   * Describes the computed LineItem status that is derived from the current state of the line item. Compatible with any of the following report types: Historical, Future sell-through, Reach, Ad speed, Real-time video.
+   */
+  LINE_ITEM_COMPUTED_STATUS = 'LINE_ITEM_COMPUTED_STATUS',
 }
 
 /**

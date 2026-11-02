@@ -252,4 +252,32 @@ export enum DaiIngestErrorReason {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  /**
+   * The subtitles sent to DAI are too large. The trigger for this error is the URL that points to the master playlist.
+   */
+  SUBTITLES_TOO_LARGE = 'SUBTITLES_TOO_LARGE',
+  /**
+   * Error caused by the number of PTS being a different value than the number of discontinuity tags + 1.
+   */
+  DISCONTINUITY_COUNT_DOES_NOT_MATCH_PTS_COUNT = 'DISCONTINUITY_COUNT_DOES_NOT_MATCH_PTS_COUNT',
+  /**
+   * The DASH content has cue points but they do not match the Event durations from the DASH manifest EventStream, if present.
+   */
+  DASH_CUE_POINT_EVENT_MISMATCH = 'DASH_CUE_POINT_EVENT_MISMATCH',
+  /**
+   * The DASH manifest cannot be conditioned for midrolls.
+   */
+  DASH_MANIFEST_CONDITIONING_FAILED = 'DASH_MANIFEST_CONDITIONING_FAILED',
+  /**
+   * The DASH manifest cannot be conditioned for midrolls because one or more of the cue points do not lie on a media segment boundary.
+   */
+  DASH_MANIFEST_CONDITIONING_SEGMENT_BOUNDARY_ERROR = 'DASH_MANIFEST_CONDITIONING_SEGMENT_BOUNDARY_ERROR',
+  /**
+   * Error caused when the PTS values do not align across chapters.
+   */
+  CHAPTER_PTS_MISMATCH = 'CHAPTER_PTS_MISMATCH',
+  /**
+   * Error occurred while chaptering renditions in the content.
+   */
+  CHAPTER_RENDITION_ERROR = 'CHAPTER_RENDITION_ERROR',
 }

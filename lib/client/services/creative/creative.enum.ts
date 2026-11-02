@@ -331,6 +331,14 @@ export enum AdIdType {
    * The creative does not have an ad ID outside of Ad Manager.
    */
   NONE = 'NONE',
+  /**
+   * The ad ID is registered with ARPP Pub-ID.
+   */
+  ARPP = 'ARPP',
+  /**
+   * The ad ID is registered with Auditel Spot ID.
+   */
+  CUSV = 'CUSV',
 }
 
 /**
@@ -611,6 +619,10 @@ export enum MimeType {
    * application/zip
    */
   ZIP = 'ZIP',
+  /**
+   * video/mp2t
+   */
+  VIDEO_MP2T = 'VIDEO_MP2T',
 }
 
 /**

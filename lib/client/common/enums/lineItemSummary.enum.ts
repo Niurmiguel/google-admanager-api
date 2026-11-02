@@ -94,6 +94,10 @@ export enum CostType {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  /**
+   * Cost per completed view. This cost type is only supported for standard reservation video line items. The LineItem.lineItemType must be LineItemType.STANDARD
+   */
+  CPCV = 'CPCV',
 }
 
 /**
