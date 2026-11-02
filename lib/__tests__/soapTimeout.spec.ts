@@ -74,16 +74,18 @@ describe('SOAP call timeout and cancellation', () => {
     new AdManagerClient(123, credential, 'tests', clientOptions).getService('CompanyService', serviceOptions);
 
   it('rejects when the timeout passes, and closes the connection', async () => {
-    const companies = await service({ timeout: 100 });
+    // 1 s, not less: the request must reach the server before the timeout,
+    // and on a busy machine sending it can take a few hundred milliseconds.
+    const companies = await service({ timeout: 1_000 });
 
-    const outcome = await outcomeOf(companies.getCompaniesByStatement(query()), 2_000);
+    const outcome = await outcomeOf(companies.getCompaniesByStatement(query()), 4_000);
 
     expect(outcome.state).toBe('rejected');
     const err = (outcome as { reason: unknown }).reason;
     expect(err).toBeInstanceOf(AdManagerRequestError);
     expect(err).toMatchObject({
       code: 'ETIMEDOUT',
-      message: 'CompanyService.getCompaniesByStatement timed out after 100 ms',
+      message: 'CompanyService.getCompaniesByStatement timed out after 1000 ms',
     });
     expect(inspect(err, { depth: Infinity, showHidden: true })).not.toContain(FAKE_TOKEN);
     expect(requests).toBe(1);
