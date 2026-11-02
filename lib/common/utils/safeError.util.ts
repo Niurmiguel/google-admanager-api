@@ -11,6 +11,16 @@
  * are known not to hold credentials.
  */
 
+import { types } from 'node:util';
+
+/**
+ * `instanceof Error` misses errors created in another realm (a vm context,
+ * or Node internals seen from one, as under Jest).
+ */
+export function isError(value: unknown): value is Error {
+  return value instanceof Error || types.isNativeError(value);
+}
+
 /** HTTP response data that is safe to expose: no `config`, no `request`. */
 export type SafeResponse = {
   status?: number;
@@ -112,32 +122,38 @@ export function safeResponse(response: unknown): SafeResponse | undefined {
   return safe;
 }
 
-const ERROR_FIELDS = ['code', 'errno', 'syscall', 'address', 'port'] as const;
+const ERROR_FIELDS = ['code', 'errno', 'syscall', 'address', 'port', 'path', 'dest'] as const;
+
+/** Rewrites a string that may contain a secret (e.g. a signed URL). */
+export type Scrub = (text: string) => string;
+
+const keep: Scrub = (text) => text;
 
 /**
  * Copies an Error keeping only name, message, stack, the system error fields
  * and, recursively, its own `cause` and `errors` (AggregateError). Non-Error
  * objects are not copied: they may be axios responses or configs.
  */
-export function safeCause(err: unknown, depth = 0): unknown {
+export function safeCause(err: unknown, scrub: Scrub = keep, depth = 0): unknown {
+  if (typeof err === 'string') return scrub(err);
   if (err === null || (typeof err !== 'object' && typeof err !== 'function')) return err;
-  if (!(err instanceof Error) || depth >= MAX_CAUSE_DEPTH) return undefined;
+  if (!isError(err) || depth >= MAX_CAUSE_DEPTH) return undefined;
 
-  const copy = new Error(err.message);
+  const copy = new Error(scrub(String(err.message)));
   copy.name = err.name;
-  copy.stack = err.stack;
+  copy.stack = typeof err.stack === 'string' ? scrub(err.stack) : undefined;
   const source = err as Error & Record<string, unknown>;
   for (const field of ERROR_FIELDS) {
     const value = source[field];
-    if (typeof value === 'string' || typeof value === 'number')
-      (copy as unknown as Record<string, unknown>)[field] = value;
+    if (typeof value === 'string') (copy as unknown as Record<string, unknown>)[field] = scrub(value);
+    if (typeof value === 'number') (copy as unknown as Record<string, unknown>)[field] = value;
   }
   if (source.cause !== undefined) {
-    const cause = safeCause(source.cause, depth + 1);
+    const cause = safeCause(source.cause, scrub, depth + 1);
     if (cause !== undefined) copy.cause = cause;
   }
   if (Array.isArray(source.errors)) {
-    (copy as unknown as Record<string, unknown>).errors = source.errors.map((e) => safeCause(e, depth + 1));
+    (copy as unknown as Record<string, unknown>).errors = source.errors.map((e) => safeCause(e, scrub, depth + 1));
   }
   return copy;
 }
@@ -145,9 +161,10 @@ export function safeCause(err: unknown, depth = 0): unknown {
 /**
  * Builds the error a failed request rejects with. Never throws: it runs
  * inside node-soap's callback, where an exception would leave the caller's
- * promise pending forever.
+ * promise pending forever. `scrub` is applied to the messages and stacks
+ * copied, for secrets that may appear in them (such as a signed URL).
  */
-export function toRequestError(err: unknown): AdManagerRequestError {
+export function toRequestError(err: unknown, scrub: Scrub = keep): AdManagerRequestError {
   const source = asRecord(err) ?? {};
   let message: string;
   try {
@@ -160,17 +177,22 @@ export function toRequestError(err: unknown): AdManagerRequestError {
   } catch {
     message = 'Request failed';
   }
+  try {
+    message = scrub(message);
+  } catch {
+    message = 'Request failed';
+  }
 
   try {
     const response = safeResponse(source.response);
     const status = response?.status ?? (typeof source.status === 'number' ? source.status : undefined);
     return new AdManagerRequestError(message, {
-      cause: safeCause(err),
+      cause: safeCause(err, scrub),
       code: typeof source.code === 'string' ? source.code : undefined,
       status,
       body: typeof source.body === 'string' ? source.body : undefined,
       response,
-      root: source.root instanceof Error ? safeCause(source.root) : plainCopy(source.root),
+      root: isError(source.root) ? safeCause(source.root, scrub) : plainCopy(source.root),
       Fault: plainCopy(source.Fault),
     });
   } catch {

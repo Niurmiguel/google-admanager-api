@@ -3,6 +3,7 @@ import { createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
 
 import { AdsReportsException, ArgumentNullException } from '../../handlers';
+import { reportException, sanitizeDownloadError } from '../httpUtilities.util';
 
 /**
  * Represents a report response from the server.
@@ -31,7 +32,12 @@ export class ReportResponse {
       // download timeout) to the file stream and rejects instead of hanging.
       await pipeline(this.response.data, createWriteStream(path));
     } catch (err) {
-      throw new AdsReportsException('Failed to save report. See inner exception for more details.', err as Error);
+      // The error may come from the download (axios attaches the signed URL)
+      // or from the file: keep a sanitized copy only.
+      throw reportException(
+        'Failed to save report. See inner exception for more details.',
+        sanitizeDownloadError(err, String(this.response.config?.url ?? '')),
+      );
     }
   }
 
