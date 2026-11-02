@@ -1,3 +1,4 @@
+import { inspect, InspectOptionsStylized } from 'node:util';
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
 import { GoogleAuth, JWTInput, RefreshOptions } from 'google-auth-library';
 
@@ -39,5 +40,13 @@ export class GoogleSACredential implements SACredential {
 
   async getToken(): Promise<string | null | undefined> {
     return (await this.auth.getAccessToken()).token;
+  }
+
+  /**
+   * What console.log() and util.inspect() show: the service account email.
+   * The auth client holds the private key and the cached access token.
+   */
+  [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
+    return `GoogleSACredential ${inspectFn({ email: (this.auth as { email?: string }).email }, options)}`;
   }
 }

@@ -1,3 +1,4 @@
+import { inspect, InspectOptionsStylized } from 'node:util';
 import { JSONClient } from 'google-auth-library/build/src/auth/googleauth';
 import { GoogleAuth } from 'google-auth-library';
 
@@ -27,5 +28,14 @@ export class GoogleSAFileCredential implements SACredential {
 
   async getToken() {
     return await this.auth.getAccessToken();
+  }
+
+  /**
+   * What console.log() and util.inspect() show: the key file path. Once it
+   * has been read, the auth client holds the private key and the cached
+   * access token.
+   */
+  [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
+    return `GoogleSAFileCredential ${inspectFn({ keyFile: this._keyFile }, options)}`;
   }
 }

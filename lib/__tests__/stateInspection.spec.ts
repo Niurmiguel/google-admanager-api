@@ -3,11 +3,13 @@
  * (console.log) walks objects at any depth and goes through Proxies to their
  * target: a service reached its SOAP client, which holds the OAuth token
  * (`security`, `lastRequestHeaders`); a report response reached the signed
- * download URL.
+ * download URL; a credential, the private key.
  */
+import { generateKeyPairSync } from 'node:crypto';
 import { createServer, Server } from 'node:http';
 import { inspect } from 'node:util';
 
+import { GoogleSACredential, GoogleSAFileCredential } from '../auth';
 import { AdManagerClient, CompanyService, ReportService } from '../client';
 import { ReportJobStatus } from '../client/services/report/report.enum';
 import { StatementBuilder } from '../common/utils';
@@ -109,5 +111,32 @@ describe('a report response', () => {
     } finally {
       download.close();
     }
+  });
+});
+
+describe('credentials', () => {
+  const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 1024 });
+  const pem = privateKey.export({ type: 'pkcs8', format: 'pem' }) as string;
+
+  it('a client does not show the private key of its credential', () => {
+    const credential = new GoogleSACredential({
+      type: 'service_account',
+      client_email: 'tests@example.invalid',
+      private_key: pem,
+      private_key_id: 'fake-key-id-0000',
+    });
+    const client = new AdManagerClient(123, credential);
+
+    for (const value of [credential, client]) {
+      expect(dump(value)).not.toContain('PRIVATE KEY');
+      expect(dump(value, true)).not.toContain('PRIVATE KEY');
+    }
+    expect(dump(credential)).toBe("GoogleSACredential { email: 'tests@example.invalid' }");
+  });
+
+  it('a key file credential shows its path only', () => {
+    expect(dump(new GoogleSAFileCredential('./credentials.json'))).toBe(
+      "GoogleSAFileCredential { keyFile: './credentials.json' }",
+    );
   });
 });
