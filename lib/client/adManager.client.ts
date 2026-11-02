@@ -4,6 +4,7 @@ import { assertSoapCallOptions, ImportClass, SOAP_CALL_DEFAULTS, SoapCallOptions
 import { SACredential } from '../auth';
 import { AdManagerRequestError, toRequestError } from '../common/utils/safeError.util';
 import { Deadline } from '../common/utils/deadline.util';
+import { setHiddenProperty } from '../common/utils/hiddenProperty.util';
 
 /** The message getService() always had: `new Error(err)` in 0.0.6. */
 function legacyMessage(err: unknown): string {
@@ -23,7 +24,9 @@ export class AdManagerClient {
   constructor(networkCode: number, credential: SACredential, applicationName?: string, options: SoapCallOptions = {}) {
     assertSoapCallOptions(options);
     this.networkCode = networkCode;
-    this.credential = credential;
+    // Non-enumerable: out of JSON.stringify() and spreads, whatever the
+    // credential (a custom one may keep its token in a field).
+    setHiddenProperty(this, 'credential', credential);
     this.applicationName = applicationName || DEFAULT_APPLICATION_NAME;
     this.callOptions = { ...options };
   }

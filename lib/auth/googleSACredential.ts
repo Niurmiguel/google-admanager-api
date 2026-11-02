@@ -4,6 +4,7 @@ import { GoogleAuth, JWTInput, RefreshOptions } from 'google-auth-library';
 
 import { SACredential } from './interfaces';
 import { SCOPE } from '../common/constants';
+import { setHiddenProperty } from '../common/utils/hiddenProperty.util';
 
 /**
  * Parses the service account JSON. The error message never includes the
@@ -19,6 +20,10 @@ function parseCredentials(json: string): JWTInput {
 }
 
 export class GoogleSACredential implements SACredential {
+  /**
+   * Holds the private key and the cached access token. Non-enumerable: out of
+   * JSON.stringify(), Object.keys() and spreads.
+   */
   protected auth: JSONClient;
 
   /**
@@ -35,7 +40,7 @@ export class GoogleSACredential implements SACredential {
     // Everything here is synchronous: an invalid credential fails right here,
     // where the caller can catch it, instead of as an unhandled rejection.
     const credentials = typeof json === 'string' ? parseCredentials(json) : json;
-    this.auth = new GoogleAuth({ scopes: SCOPE }).fromJSON(credentials, options);
+    setHiddenProperty(this, 'auth', new GoogleAuth({ scopes: SCOPE }).fromJSON(credentials, options));
   }
 
   async getToken(): Promise<string | null | undefined> {
@@ -43,10 +48,15 @@ export class GoogleSACredential implements SACredential {
   }
 
   /**
-   * What console.log() and util.inspect() show: the service account email.
-   * The auth client holds the private key and the cached access token.
+   * What JSON.stringify() shows: the service account email, as console.log()
+   * does. The auth client holds the private key and the cached access token.
    */
+  toJSON(): { email: string | undefined } {
+    return { email: (this.auth as { email?: string }).email };
+  }
+
+  /** What console.log() and util.inspect() show: the class and the service account email. */
   [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
-    return `GoogleSACredential ${inspectFn({ email: (this.auth as { email?: string }).email }, options)}`;
+    return `${this.constructor.name} ${inspectFn(this.toJSON(), options)}`;
   }
 }
