@@ -21,7 +21,7 @@ export class CustomFieldService implements CustomFieldServiceOperations {
   }
 
   async getCustomFieldOption(customFieldOptionId: number): Promise<CustomFieldOption> {
-    return this._client.getCustomFieldsByStatement({
+    return this._client.getCustomFieldOption({
       customFieldOptionId,
     });
   }
@@ -47,10 +47,10 @@ export class CustomFieldService implements CustomFieldServiceOperations {
   }
 
   async updateCustomFieldOptions(customFieldOptions: CustomFieldOption[]): Promise<CustomFieldOption[]> {
-    return this._client.updateCustomFields({ customFieldOptions });
+    return this._client.updateCustomFieldOptions({ customFieldOptions });
   }
 
-  async updateCustomFields(CustomFields: CustomField[]): Promise<CustomField[]> {
-    return this._client.updateCustomFields({ CustomFields });
+  async updateCustomFields(customFields: CustomField[]): Promise<CustomField[]> {
+    return this._client.updateCustomFields({ customFields });
   }
 }

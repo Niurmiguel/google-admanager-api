@@ -1,26 +1,48 @@
+import { inspect } from 'node:util';
 import { BearerSecurity, Client, createClientAsync } from 'soap';
 
-import { GoogleSoapServiceOptions, ImportClass } from '../common/types';
+import {
+  assertSoapCallOptions,
+  GoogleSoapServiceOptions,
+  ImportClass,
+  SOAP_CALL_DEFAULTS,
+  SoapCallOptions,
+} from '../common/types';
 import { API_VERSION, SERVICE_MAP } from '../common/constants';
-import { promiseFromCallback } from '../common/utils';
+import { AdManagerRequestError, promiseFromCallback } from '../common/utils';
+import { neutralizeRawXml } from '../common/utils/soapArgs.util';
 
 export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
   private networkCode: number;
   private applicationName: string;
   private service: T;
   private token: string;
+  private callOptions: Required<Pick<SoapCallOptions, 'timeout'>> & Pick<SoapCallOptions, 'signal'>;
   private _client: Client;
 
   constructor(service: T, options: GoogleSoapServiceOptions) {
+    assertSoapCallOptions(options);
     this.service = service;
     this.applicationName = options.applicationName;
     this.networkCode = options.networkCode;
     this.token = options.token;
+    this.callOptions = {
+      timeout: options.timeout ?? SOAP_CALL_DEFAULTS.timeout,
+      signal: options.signal,
+    };
   }
 
-  public async createClient(): Promise<ImportClass<typeof SERVICE_MAP, T>> {
+  /**
+   * Downloads the WSDL and builds the service.
+   * @param options.signal Aborts the WSDL download (node-soap copies
+   * `wsdl_options` into the axios request).
+   */
+  public async createClient(options: { signal?: AbortSignal } = {}): Promise<ImportClass<typeof SERVICE_MAP, T>> {
     const serviceUrl = `https://ads.google.com/apis/ads/publisher/${API_VERSION}/${this.service}?wsdl`;
-    const client = await createClientAsync(serviceUrl);
+    const client = await createClientAsync(
+      serviceUrl,
+      options.signal ? { wsdl_options: { signal: options.signal } } : {},
+    );
     client.addSoapHeader(this.getSoapHeaders());
     client.setToken = function setToken(token: string) {
       client.setSecurity(new BearerSecurity(token));
@@ -28,15 +50,52 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
 
     if (this.token) client.setToken(this.token);
 
+    const serviceName = this.service;
+    const { timeout, signal } = this.callOptions;
+
+    // The client holds the token (`security`, `lastRequestHeaders`) and the
+    // whole WSDL. util.inspect skips the Proxy and reads the target, so this
+    // is what console.log prints for it, at any depth and with showHidden.
+    Object.defineProperty(client, inspect.custom, {
+      value: () => `[SoapClient ${serviceName}]`,
+      configurable: true,
+      enumerable: false,
+      writable: true,
+    });
+
     this._client = new Proxy(client, {
       get: function get(target, propertyKey) {
         const method = propertyKey.toString();
 
         if (target.hasOwnProperty(method) && !['setToken'].includes(method)) {
           return async function run(dto: any = {}) {
-            const res = await promiseFromCallback((cb) => client[method](dto, cb));
+            signal?.throwIfAborted();
+            // node-soap writes strings that look like CDATA unescaped: see soapArgs.util.
+            const args = neutralizeRawXml(dto);
 
-            return res?.rval || null;
+            // node-soap copies the call options into the axios request, so
+            // aborting this controller cancels the HTTP request.
+            const controller = new AbortController();
+            const onAbort = () => controller.abort(signal.reason);
+            signal?.addEventListener('abort', onAbort, { once: true });
+            const timer = timeout > 0 ? setTimeout(() => controller.abort(), timeout) : undefined;
+
+            try {
+              const res = await promiseFromCallback((cb) => client[method](args, cb, { signal: controller.signal }));
+
+              return res?.rval || null;
+            } catch (err) {
+              if (controller.signal.aborted) {
+                if (signal?.aborted) throw signal.reason;
+                throw new AdManagerRequestError(`${serviceName}.${method} timed out after ${timeout} ms`, {
+                  code: 'ETIMEDOUT',
+                });
+              }
+              throw err;
+            } finally {
+              clearTimeout(timer);
+              signal?.removeEventListener('abort', onAbort);
+            }
           };
         } else {
           return target[method];
@@ -45,12 +104,17 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
     });
 
     const services = SERVICE_MAP as any;
+    const instance = new services[this.service](this._client);
+    // Keeps the client out of JSON.stringify() and of console.log() without showHidden.
+    if (Object.prototype.hasOwnProperty.call(instance, '_client')) {
+      Object.defineProperty(instance, '_client', { enumerable: false });
+    }
 
-    return new services[this.service](this._client);
+    return instance;
   }
 
   private getSoapHeaders(): any {
-    return {
+    return neutralizeRawXml({
       RequestHeader: {
         attributes: {
           'soapenv:actor': 'http://schemas.xmlsoap.org/soap/actor/next',
@@ -63,6 +127,6 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
         'ns1:networkCode': this.networkCode,
         'ns1:applicationName': this.applicationName,
       },
-    };
+    });
   }
 }

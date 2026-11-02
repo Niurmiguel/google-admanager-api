@@ -1,6 +1,7 @@
 import { DateTime, PageResult } from '../../../common/types';
 import {
   AllowedFormats,
+  BuyerPermissionType,
   CompanionDeliveryOption,
   ComputedStatus,
   DeliveryRateType,
@@ -9,6 +10,7 @@ import {
   ProgrammaticCreativeSource,
   RoadblockingType,
   SkippableAdType,
+  SupplyPathType,
 } from '../../common/enums';
 import {
   AppliedLabel,
@@ -54,19 +56,19 @@ export type ProposalLineItem = {
   /**
    * The unique ID of the ProposalLineItem. This attribute is read-only.
    */
-  idproposals: number;
+  id: number;
   /**
    * The unique ID of the Proposal, to which the ProposalLineItem belongs. This attribute is required for creation and then is readonly.
    *
    * This attribute is required.
    */
-  proposalIdproposals: number;
+  proposalId: number;
   /**
    * The name of the ProposalLineItem which should be unique under the same Proposal. This attribute has a maximum length of 255 characters. This attribute can be configured as editable after the proposal has been submitted. Please check with your network administrator for editable fields configuration.
    *
    * This attribute is required.
    */
-  nameproposals: string;
+  name: string;
   /**
    * The date and time at which the line item associated with the ProposalLineItem is enabled to begin serving. This attribute is optional during creation, but required and must be in the future when it turns into a line item. The DateTime.timeZoneID is required if start date time is not null. This attribute becomes readonly once the ProposalLineItem has started delivering.
    */
@@ -76,17 +78,13 @@ export type ProposalLineItem = {
    */
   endDateTime: DateTime;
   /**
-   * The time zone ID in tz database format (e.g. "America/Los_Angeles") for this ProposalLineItem. The number of serving days is calculated in this time zone. So if rateType is RateType.CPD, it will affect the cost calculation. The startDateTime and endDateTime will be returned in this time zone. This attribute is optional and defaults to the network's time zone. This attribute is read-only.
-   */
-  timeZoneIdproposals: string;
-  /**
    * Provides any additional notes that may annotate the ProposalLineItem. This attribute is optional and has a maximum length of 65,535 characters. This attribute can be configured as editable after the proposal has been submitted. Please check with your network administrator for editable fields configuration.
    */
-  internalNotesproposals: string;
+  internalNotes: string;
   /**
    * The archival status of the ProposalLineItem. This attribute is read-only.
    */
-  isArchivedproposals: boolean;
+  isArchived: boolean;
   /**
    * The goal(i.e. contracted quantity, quantity or limit) that this ProposalLineItem is associated with, which is used in its pacing and budgeting.
    * Goal.units must be greater than 0 when the proposal line item turns into a line item, Goal.goalType and Goal.unitType are readonly.
@@ -102,7 +100,7 @@ export type ProposalLineItem = {
    *
    * This attribute is required for percentage-based-goal proposal line items. It does not impact ad-serving and is for reporting purposes only.
    */
-  contractedUnitsBoughtproposals: number;
+  contractedUnitsBought: number;
   /**
    * The strategy for delivering ads over the course of the ProposalLineItem's duration. This attribute is optional and default value is DeliveryRateType.EVENLY.
    * For a Preferred deal ProposalLineItem, the value can only be DeliveryRateType.FRONTLOADED.
@@ -261,10 +259,6 @@ export type ProposalLineItem = {
    * The set of AllowedFormats that this proposal line item can have. If the set is empty, this proposal line item allows all formats.
    */
   allowedFormats: AllowedFormats[];
-  /**
-   * Whether or not the Proposal for this ProposalLineItem is a programmatic deal. This attribute is populated from Proposal.isProgrammatic. This attribute is read-only.
-   */
-  isProgrammatic: boolean;
 
   /**
    * The marketplace info if this proposal line item is programmatic, null otherwise.
@@ -316,6 +310,18 @@ export type ProposalLineItem = {
    * The reason for pausing the ProposalLineItem, provided by the pauseRole. It is null when the ProposalLineItem is not paused. This attribute is read-only.
    */
   pauseReason: string;
+  /**
+   * The supply path type for this proposal line item.
+   */
+  supplyPath?: SupplyPathType;
+  /**
+   * The options for allowing buyers to transact on the deal. BuyerPermissionType.NEGOTIATOR_ONLY means that only the buyer listed on the deal can bid on the deal; BuyerPermissionType.BIDDER means that all buyers under the listed buyer's bidder can bid on the deal.
+   */
+  buyerPermissionType?: BuyerPermissionType;
+  /**
+   * The AllocationDeliveryProfile ID for this proposal line item.
+   */
+  deliveryAllocationProfileId?: number;
 };
 
 /**

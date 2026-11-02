@@ -29,7 +29,7 @@ export class CmsMetadataService implements CmsMetadataServiceOperations {
     filterStatement: Statement,
   ): Promise<UpdateResult> {
     return this._client.performCmsMetadataKeyAction({
-      cmsMetadataKeyAction: {
+      keyAction: {
         attributes: {
           'xsi:type': cmsMetadataKeyAction.constructor.name,
         },
@@ -43,7 +43,7 @@ export class CmsMetadataService implements CmsMetadataServiceOperations {
     filterStatement: Statement,
   ): Promise<UpdateResult> {
     return this._client.performCmsMetadataValueAction({
-      cmsMetadataValueAction: {
+      valueAction: {
         attributes: {
           'xsi:type': cmsMetadataValueAction.constructor.name,
         },

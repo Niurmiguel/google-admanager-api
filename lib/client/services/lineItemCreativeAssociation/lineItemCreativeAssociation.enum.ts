@@ -7,10 +7,6 @@ export enum LineItemCreativeAssociationStatus {
    */
   ACTIVE = 'ACTIVE',
   /**
-   * The association is active but the associated Creative may not be served, because its size is not targeted by the line item.
-   */
-  NOT_SERVING = 'NOT_SERVING',
-  /**
    * The association is inactive and the associated Creative is ineligible for being served.
    */
   INACTIVE = 'INACTIVE',

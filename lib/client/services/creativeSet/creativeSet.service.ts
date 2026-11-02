@@ -17,7 +17,7 @@ export class CreativeSetService implements CreativeSetServiceOperations {
 
   async getCreativeSetsByStatement(filterStatement: Statement): Promise<CreativeSetPage> {
     return this._client.getCreativeSetsByStatement({
-      filterStatement,
+      statement: filterStatement,
     });
   }
 

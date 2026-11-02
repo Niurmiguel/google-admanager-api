@@ -20,3 +20,5 @@ dist
 
 credential.json
 /examples
+# build artifacts
+*.tsbuildinfo

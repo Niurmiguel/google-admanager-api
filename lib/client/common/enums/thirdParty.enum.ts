@@ -56,6 +56,14 @@ export enum ThirdPartyBrandLiftIntegrationPartner {
    * Indicates third-party brand lift integration partner Dynata.
    */
   DYNATA = 'DYNATA',
+  /**
+   * Indicates third-party brand lift integration partner Intage.
+   */
+  INTAGE = 'INTAGE',
+  /**
+   * Indicates third-party brand lift integration partner Macromill.
+   */
+  MACROMILL = 'MACROMILL',
 }
 
 /**
@@ -82,4 +90,16 @@ export enum ThirdPartyReachIntegrationPartner {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  /**
+   * Indicates third-party reach integration partner VideoAmp
+   */
+  VIDEO_AMP = 'VIDEO_AMP',
+  /**
+   * Indicates third-party reach integration partner iSpot.TV
+   */
+  ISPOT_TV = 'ISPOT_TV',
+  /**
+   * Indicates third-party reach integration partner Audience Project
+   */
+  AUDIENCE_PROJECT = 'AUDIENCE_PROJECT',
 }

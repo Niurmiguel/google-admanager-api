@@ -442,4 +442,12 @@ export type LineItemSummary = {
    * Custom XML to be rendered in a custom VAST response at serving time.
    */
   customVastExtension: string;
+  /**
+   * Indicates whether repeated creative serving is enabled for this line item.
+   */
+  repeatedCreativeServingEnabled?: boolean;
+  /**
+   * The AllocationDeliveryProfile ID for this line item.
+   */
+  deliveryAllocationProfileId?: number;
 };

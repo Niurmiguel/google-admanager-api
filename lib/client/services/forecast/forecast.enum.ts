@@ -10,7 +10,6 @@ export enum TargetingDimension {
   OPERATING_SYSTEM = 'OPERATING_SYSTEM',
   USER_DOMAIN = 'USER_DOMAIN',
   CONTENT = 'CONTENT',
-  VIDEO_POSITION = 'VIDEO_POSITION',
   AD_SIZE = 'AD_SIZE',
   AD_UNIT = 'AD_UNIT',
   PLACEMENT = 'PLACEMENT',
@@ -24,6 +23,9 @@ export enum TargetingDimension {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  VERTICAL = 'VERTICAL',
+  CONTENT_LABEL = 'CONTENT_LABEL',
+  PUBLISHER_PROVIDED_SIGNALS = 'PUBLISHER_PROVIDED_SIGNALS',
 }
 
 /**

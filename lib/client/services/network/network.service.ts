@@ -11,23 +11,23 @@ export class NetworkService implements NetworkServiceOperations {
     this._client = client;
   }
 
-  getAllNetworks() {
+  async getAllNetworks(): Promise<Network[]> {
     return this._client.getAllNetworks();
   }
 
-  getCurrentNetwork(): Network {
+  async getCurrentNetwork(): Promise<Network> {
     return this._client.getCurrentNetwork();
   }
 
-  getDefaultThirdPartyDataDeclaration(): ThirdPartyDataDeclaration {
+  async getDefaultThirdPartyDataDeclaration(): Promise<ThirdPartyDataDeclaration> {
     return this._client.getDefaultThirdPartyDataDeclaration();
   }
 
-  makeTestNetwork(): Network {
+  async makeTestNetwork(): Promise<Network> {
     return this._client.makeTestNetwork();
   }
 
-  updateNetwork(network: Network): Network {
-    return this._client.updateNetwork(network);
+  async updateNetwork(network: Network): Promise<Network> {
+    return this._client.updateNetwork({ network });
   }
 }

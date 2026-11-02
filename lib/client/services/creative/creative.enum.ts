@@ -331,6 +331,14 @@ export enum AdIdType {
    * The creative does not have an ad ID outside of Ad Manager.
    */
   NONE = 'NONE',
+  /**
+   * The ad ID is registered with ARPP Pub-ID.
+   */
+  ARPP = 'ARPP',
+  /**
+   * The ad ID is registered with Auditel Spot ID.
+   */
+  CUSV = 'CUSV',
 }
 
 /**
@@ -611,6 +619,10 @@ export enum MimeType {
    * application/zip
    */
   ZIP = 'ZIP',
+  /**
+   * video/mp2t
+   */
+  VIDEO_MP2T = 'VIDEO_MP2T',
 }
 
 /**
@@ -647,4 +659,26 @@ export enum VastRedirectType {
    * The VAST XML contains both linear and nonlinear ads.
    */
   LINEAR_AND_NON_LINEAR = 'LINEAR_AND_NON_LINEAR',
+}
+
+/**
+ * The status of the ThirdPartyDataDeclaration associated with a given creative. This is calculated by comparing the companies detected via automated scanning/parsing, with the companies declared in the ThirdPartyDataDeclaration.
+ */
+export enum ThirdPartyDataDeclarationStatus {
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
+  /**
+   * At least one detected ad technology provider wasn't declared at the network level or on the creative's ThirdPartyDataDeclaration.
+   */
+  INCOMPLETE = 'INCOMPLETE',
+  /**
+   * All detected ad technology providers have been declared, either at the network level or on the creative's ThirdPartyDataDeclaration.
+   */
+  COMPLETE = 'COMPLETE',
+  /**
+   * This entity has not been recently scanned. There is either no scanning data for this creative, or the scanning data is stale. This can happen if the creative is not associated with any line items that are active or eligible to serve.
+   */
+  UNSCANNED = 'UNSCANNED',
 }

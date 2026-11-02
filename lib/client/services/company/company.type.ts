@@ -3,11 +3,6 @@ import { CompanyCreditStatus, CompanyType } from './company.enum';
 import { DateTime, PageResult } from '../../../common/types';
 
 /**
- * Settings for a {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company}.
- */
-export type CompanySettings = {};
-
-/**
  * Information required for {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company} of Type VIEWABILITY_PROVIDER.
  * It contains all of the data needed to capture viewability metrics.
  */
@@ -76,10 +71,6 @@ export type Company = {
    */
   creditStatus: CompanyCreditStatus;
   /**
-   * Specifies the default billing settings of this Company. This attribute is optional.
-   */
-  settings: CompanySettings;
-  /**
    * The set of labels applied to this company.
    */
   appliedLabels: AppliedLabel[];
@@ -107,6 +98,14 @@ export type Company = {
    * Info required for when Company Type is VIEWABILITY_PROVIDER.
    */
   viewabilityProvider: ViewabilityProvider;
+  /**
+   * The Google-recognized id for the canonicalized form of the company. This attribute is optional.
+   */
+  verifiedExchangeAdvertiserId?: number;
+  /**
+   * A unique ID for the brand mapped to this company. A brand is a subdivision of an advertiser; if the brand is set, the verifiedExchangeAdvertiserId representing the advertiser must also be set. This attribute is optional.
+   */
+  verifiedExchangeBrandId?: number;
 };
 
 /**

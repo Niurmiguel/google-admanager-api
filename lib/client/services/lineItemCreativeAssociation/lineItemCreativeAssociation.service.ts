@@ -5,7 +5,6 @@ import { LineItemCreativeAssociationAction } from './lineItemCreativeAssociation
 import { Statement, UpdateResult } from '../../../common/types';
 import {
   CreativeNativeStylePreview,
-  CreativePushOptions,
   LineItemCreativeAssociation,
   LineItemCreativeAssociationPage,
 } from './lineItemCreativeAssociation.type';
@@ -64,13 +63,6 @@ export class LineItemCreativeAssociationService implements LineItemCreativeAssoc
         },
       },
       filterStatement,
-    });
-  }
-
-  async pushCreativeToDevices(filterStatement: Statement, options: CreativePushOptions): Promise<UpdateResult> {
-    return this._client.pushCreativeToDevices({
-      filterStatement,
-      options,
     });
   }
 

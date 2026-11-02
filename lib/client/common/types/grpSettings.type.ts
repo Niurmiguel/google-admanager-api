@@ -22,10 +22,6 @@ export type GrpSettings = {
    */
   provider: GrpProvider;
   /**
-   * Specifies the impression goal for the given target demographic. This field is only applicable if provider is not null and demographics-based goal is selected by the user. If this field is set, LineItem.primaryGoal will have its Goal.units value set by Google to represent the estimated total quantity.
-   */
-  targetImpressionGoal: number;
-  /**
    * Estimate for the in-target ratio given the line item's audience targeting. This field is only applicable if provider is Nielsen, LineItem.primaryGoal is in-target impressions, and LineItem.CostType is in-target CPM. This field determines the in-target ratio to use for pacing Nielsen line items before Nielsen reporting data is available. Represented as a milli percent, so 55.7% becomes 55700.
    */
   inTargetRatioEstimateMilliPercent: number;

@@ -84,12 +84,6 @@ export type DaiEncodingProfile = {
    * Information about the audio media, if present. This field will only be set if the media contains audio. Only MEDIA and IFRAME variant types can set audio.
    */
   audioSettings: AudioSettings;
-  /**
-   * Whether to allow the creation or modification of this DaiEncodingProfile if its settings do not match one of the encoding profiles that is supported by Google DAI.
-   *
-   * Note that this field will not persist on the encoding profile itself, and will only affect the current request.
-   */
-  persistUnmatchedProfiles: boolean;
 };
 
 /**

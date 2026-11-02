@@ -3,9 +3,9 @@ import { Value } from '../../../common/types';
 import {
   AccountStatus,
   DeclarationType,
-  DelegationStatus,
   DelegationType,
   GoalType,
+  InvitationStatus,
   OnboardingTask,
   UnitType,
 } from '../enums';
@@ -24,7 +24,10 @@ export type ThirdPartyDataDeclaration = {
 export type ChildPublisher = {
   approvedDelegationType: DelegationType;
   proposedDelegationType: DelegationType;
-  status: DelegationStatus;
+  /**
+   * Invitation status of the delegation relationship between parent and child. This field is read-only.
+   */
+  invitationStatus?: InvitationStatus;
   accountStatus: AccountStatus;
   childNetworkCode: string;
   sellerId: string;

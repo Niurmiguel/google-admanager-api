@@ -44,7 +44,7 @@ export type LineItemTemplate = {
   /**
    * The default creative rotation strategy for a new LineItem. This attribute is required.
    */
-  reativeRotationType: CreativeRotationType;
+  creativeRotationType: CreativeRotationType;
 };
 
 /**

@@ -23,8 +23,6 @@ export class CompanyService implements CompanyServiceOperations {
   }
 
   async performCompanyAction(companyAction: CompanyAction, filterStatement: Statement): Promise<UpdateResult> {
-    console.log(companyAction.constructor.name);
-
     return this._client.performCompanyAction({
       companyAction: {
         attributes: {

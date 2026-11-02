@@ -1,0 +1,467 @@
+/**
+ * Report polling in ReportUtilities.getResponse, driven with Jest fake timers
+ * and a fake ReportService that counts status checks.
+ */
+import { AxiosResponse } from 'axios';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { createServer, Server } from 'node:http';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
+import { ReportService } from '../client';
+import { ReportJobStatus } from '../client/services/report/report.enum';
+import { AdsReportsException } from '../common/handlers';
+import { HttpUtilities } from '../common/utils';
+import { ReportResponse, ReportResponseOptions } from '../common/utils/reports';
+import { ReportUtilities } from '../common/utils/reportUtilities.util';
+import { listenOnLoopback } from './support/loopback';
+
+// Jest fake timers do not patch node:timers/promises, so route it through the
+// global setTimeout, which they do patch. Same contract: resolves after `ms`,
+// rejects with an AbortError when the signal aborts.
+jest.mock('node:timers/promises', () => ({
+  setTimeout: (ms: number, value?: unknown, options?: { signal?: AbortSignal }) =>
+    new Promise((resolve, reject) => {
+      const signal = options?.signal;
+      const abortError = () => Object.assign(new Error('The operation was aborted'), { name: 'AbortError' });
+      if (signal?.aborted) return reject(abortError());
+      const onAbort = () => {
+        clearTimeout(timer);
+        reject(abortError());
+      };
+      const timer = setTimeout(() => {
+        signal?.removeEventListener('abort', onAbort);
+        resolve(value);
+      }, ms);
+      signal?.addEventListener('abort', onAbort, { once: true });
+    }),
+}));
+
+const DOWNLOAD_URL = 'https://storage.example/report.csv.gz';
+
+function fakeReportService(statuses: ReportJobStatus[]) {
+  const service = {
+    statusChecks: 0,
+    getReportJobStatus: jest.fn(async () => {
+      const status = statuses[Math.min(service.statusChecks, statuses.length - 1)];
+      service.statusChecks++;
+      return status;
+    }),
+    getReportDownloadUrlWithOptions: jest.fn(async () => DOWNLOAD_URL),
+  };
+  return service;
+}
+
+function utilitiesFor(service: { getReportJobStatus: unknown; getReportDownloadUrlWithOptions: unknown }) {
+  return new ReportUtilities(service as unknown as ReportService, 42);
+}
+
+/** Lets the pending promise chain run without moving the clock. */
+const flush = () => jest.advanceTimersByTimeAsync(0);
+
+const { IN_PROGRESS, COMPLETED, FAILED } = ReportJobStatus;
+
+describe('ReportUtilities.getResponse', () => {
+  let buildRequest: jest.SpiedFunction<typeof HttpUtilities.buildRequest>;
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    buildRequest = jest
+      .spyOn(HttpUtilities, 'buildRequest')
+      .mockResolvedValue({ data: 'report' } as unknown as AxiosResponse);
+  });
+
+  afterEach(() => {
+    buildRequest.mockRestore();
+    jest.useRealTimers();
+  });
+
+  it('waits between status checks with backoff from 5 s, x1.5, capped at 60 s', async () => {
+    const service = fakeReportService([...Array(9).fill(IN_PROGRESS), COMPLETED]);
+    const response = utilitiesFor(service).getResponse();
+
+    await flush();
+    expect(service.statusChecks).toBe(1);
+
+    // 5 s, then x1.5 rounded to whole milliseconds, capped at 60 s.
+    const waits = [5_000, 7_500, 11_250, 16_875, 25_313, 37_970, 56_955, 60_000, 60_000];
+    for (const [i, wait] of waits.entries()) {
+      await jest.advanceTimersByTimeAsync(wait - 1);
+      expect(service.statusChecks).toBe(i + 1);
+      await jest.advanceTimersByTimeAsync(1);
+      expect(service.statusChecks).toBe(i + 2);
+    }
+
+    await expect(response).resolves.toBeDefined();
+    expect(service.getReportDownloadUrlWithOptions).toHaveBeenCalledTimes(1);
+  });
+
+  it('accepts custom backoff settings', async () => {
+    const service = fakeReportService([IN_PROGRESS, IN_PROGRESS, IN_PROGRESS, COMPLETED]);
+    const response = utilitiesFor(service).getResponse({ initialDelayMs: 1_000, backoffFactor: 2, maxDelayMs: 3_000 });
+
+    await flush();
+    await jest.advanceTimersByTimeAsync(1_000);
+    expect(service.statusChecks).toBe(2);
+    await jest.advanceTimersByTimeAsync(2_000);
+    expect(service.statusChecks).toBe(3);
+    await jest.advanceTimersByTimeAsync(3_000);
+    expect(service.statusChecks).toBe(4);
+
+    await expect(response).resolves.toBeDefined();
+  });
+
+  it('fails with AdsReportsException when the job is still running at the deadline', async () => {
+    const service = fakeReportService([IN_PROGRESS]);
+    const response = utilitiesFor(service).getResponse({ timeoutMs: 20_000 });
+    const settled = expect(response).rejects.toThrow(AdsReportsException);
+
+    // Checks at 0, 5 s, 12.5 s and a last one at the 20 s deadline.
+    await jest.advanceTimersByTimeAsync(20_000);
+    await settled;
+    expect(service.statusChecks).toBe(4);
+    await expect(response).rejects.toThrow('Report job 42 did not complete within 20000 ms.');
+    expect(service.getReportDownloadUrlWithOptions).not.toHaveBeenCalled();
+  });
+
+  it('defaults to a finite deadline of 30 minutes', async () => {
+    const service = fakeReportService([IN_PROGRESS]);
+    const response = utilitiesFor(service).getResponse();
+    const settled = expect(response).rejects.toThrow(AdsReportsException);
+
+    await jest.advanceTimersByTimeAsync(30 * 60_000);
+    await settled;
+  });
+
+  it('fails when the job fails', async () => {
+    const service = fakeReportService([IN_PROGRESS, FAILED]);
+    const response = utilitiesFor(service).getResponse();
+    const settled = expect(response).rejects.toThrow(new AdsReportsException('Report job 42 failed.'));
+
+    await jest.advanceTimersByTimeAsync(5_000);
+    await settled;
+    expect(service.statusChecks).toBe(2);
+  });
+
+  it('stops waiting when the signal aborts, rejecting with its reason', async () => {
+    const service = fakeReportService([IN_PROGRESS]);
+    const controller = new AbortController();
+    const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+    const reason = new Error('shutting down');
+    const settled = expect(response).rejects.toBe(reason);
+
+    await jest.advanceTimersByTimeAsync(2_000);
+    controller.abort(reason);
+    await settled;
+
+    await jest.advanceTimersByTimeAsync(10 * 60_000);
+    expect(service.statusChecks).toBe(1);
+  });
+
+  it('does not start when the signal is already aborted', async () => {
+    const service = fakeReportService([COMPLETED]);
+    const controller = new AbortController();
+    controller.abort();
+
+    await expect(utilitiesFor(service).getResponse({ signal: controller.signal })).rejects.toMatchObject({
+      name: 'AbortError',
+    });
+    expect(service.statusChecks).toBe(0);
+  });
+
+  describe('option validation', () => {
+    /** setTimeout's largest delay; a larger one fires after 1 ms. */
+    const MAX_TIMER_MS = 2 ** 31 - 1;
+
+    it.each<[keyof ReportResponseOptions, unknown]>([
+      ['initialDelayMs', 0],
+      ['initialDelayMs', -1],
+      ['initialDelayMs', NaN],
+      ['initialDelayMs', Infinity],
+      ['initialDelayMs', MAX_TIMER_MS + 1],
+      ['initialDelayMs', '5000'],
+      ['backoffFactor', 0.5],
+      ['backoffFactor', NaN],
+      ['backoffFactor', Infinity],
+      ['maxDelayMs', 0],
+      ['maxDelayMs', -1],
+      ['maxDelayMs', NaN],
+      ['maxDelayMs', Infinity],
+      ['maxDelayMs', MAX_TIMER_MS + 1],
+      ['timeoutMs', -1],
+      ['timeoutMs', NaN],
+      ['downloadTimeoutMs', -1],
+      ['downloadTimeoutMs', NaN],
+      ['downloadTimeoutMs', Infinity],
+      ['downloadTimeoutMs', MAX_TIMER_MS + 1],
+    ])('rejects %s = %p with a RangeError, before any call', async (name, value) => {
+      const service = fakeReportService([COMPLETED]);
+
+      await expect(utilitiesFor(service).getResponse({ [name]: value })).rejects.toThrow(
+        new RangeError(`Invalid ${name}: ${value}`),
+      );
+      expect(service.statusChecks).toBe(0);
+      expect(buildRequest).not.toHaveBeenCalled();
+    });
+
+    it.each<[keyof ReportResponseOptions, number]>([
+      ['initialDelayMs', MAX_TIMER_MS],
+      ['maxDelayMs', MAX_TIMER_MS],
+      ['timeoutMs', 0],
+      ['timeoutMs', Infinity],
+      ['downloadTimeoutMs', 0],
+      ['downloadTimeoutMs', MAX_TIMER_MS],
+    ])('accepts %s = %p', async (name, value) => {
+      await expect(utilitiesFor(fakeReportService([COMPLETED])).getResponse({ [name]: value })).resolves.toBeDefined();
+    });
+
+    it('does not poll in a tight loop with the longest delays and no deadline', async () => {
+      const service = fakeReportService([IN_PROGRESS]);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({
+        initialDelayMs: MAX_TIMER_MS,
+        maxDelayMs: MAX_TIMER_MS,
+        timeoutMs: Infinity,
+        signal: controller.signal,
+      });
+      const settled = expect(response).rejects.toMatchObject({ name: 'AbortError' });
+
+      await jest.advanceTimersByTimeAsync(60_000);
+      expect(service.statusChecks).toBe(1);
+      controller.abort();
+      await settled;
+    });
+  });
+
+  describe('API calls that never answer', () => {
+    const never = () => new Promise<never>(() => undefined);
+
+    /** Tracks whether `promise` settled, without awaiting it. */
+    function track(promise: Promise<unknown>) {
+      const state = { settled: false, reason: undefined as unknown };
+      promise.catch((reason: unknown) => {
+        state.settled = true;
+        state.reason = reason;
+      });
+      return state;
+    }
+
+    it('a hanging status check fails at the deadline (timeoutMs 200, abort at 300)', async () => {
+      const service = fakeReportService([IN_PROGRESS]);
+      service.getReportJobStatus.mockImplementation(never);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({ timeoutMs: 200, signal: controller.signal });
+      const state = track(response);
+
+      await jest.advanceTimersByTimeAsync(300);
+      controller.abort(new Error('too late'));
+      await jest.advanceTimersByTimeAsync(1_200);
+
+      expect(state.settled).toBe(true);
+      expect(state.reason).toBeInstanceOf(AdsReportsException);
+      expect(state.reason).toMatchObject({ message: 'Report job 42 did not complete within 200 ms.' });
+    });
+
+    it('a hanging status check stops when the signal aborts, with its reason', async () => {
+      const service = fakeReportService([IN_PROGRESS]);
+      service.getReportJobStatus.mockImplementation(never);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+      const state = track(response);
+      const reason = new Error('shutting down');
+
+      await jest.advanceTimersByTimeAsync(300);
+      controller.abort(reason);
+      await flush();
+
+      expect(state).toEqual({ settled: true, reason });
+    });
+
+    it('a hanging download URL call stops when the signal aborts, with its reason', async () => {
+      const service = fakeReportService([COMPLETED]);
+      service.getReportDownloadUrlWithOptions.mockImplementation(never);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+      const state = track(response);
+      const reason = new Error('shutting down');
+
+      await jest.advanceTimersByTimeAsync(300);
+      controller.abort(reason);
+      await flush();
+
+      expect(state).toEqual({ settled: true, reason });
+      expect(buildRequest).not.toHaveBeenCalled();
+    });
+
+    it('a hanging download URL call fails at the deadline', async () => {
+      const service = fakeReportService([COMPLETED]);
+      service.getReportDownloadUrlWithOptions.mockImplementation(never);
+      const state = track(utilitiesFor(service).getResponse({ timeoutMs: 200 }));
+
+      await jest.advanceTimersByTimeAsync(200);
+
+      expect(state.settled).toBe(true);
+      expect(state.reason).toBeInstanceOf(AdsReportsException);
+    });
+  });
+
+  it('aborting during the download rejects with the reason, not with the HTTP client error', async () => {
+    const service = fakeReportService([COMPLETED]);
+    buildRequest.mockImplementation(
+      (_url, _method, config) =>
+        new Promise((_resolve, reject) =>
+          config.signal?.addEventListener('abort', () =>
+            reject(Object.assign(new Error('canceled'), { name: 'CanceledError', code: 'ERR_CANCELED' })),
+          ),
+        ),
+    );
+    const controller = new AbortController();
+    const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+    const reason = new Error('shutting down');
+    const settled = expect(response).rejects.toBe(reason);
+
+    await flush();
+    expect(buildRequest).toHaveBeenCalledTimes(1);
+    controller.abort(reason);
+    await settled;
+  });
+
+  describe('download timeout until the response headers arrive', () => {
+    /** A download request that never answers, and fails as axios does when its signal aborts. */
+    const hangingDownload: typeof HttpUtilities.buildRequest = (_url, _method, config) =>
+      new Promise((_resolve, reject) =>
+        config.signal?.addEventListener('abort', () =>
+          reject(Object.assign(new Error('canceled'), { name: 'CanceledError', code: 'ERR_CANCELED' })),
+        ),
+      );
+
+    it('is 60 s by default', async () => {
+      buildRequest.mockImplementation(hangingDownload);
+      const response = utilitiesFor(fakeReportService([COMPLETED])).getResponse();
+      const settled = expect(response).rejects.toThrow(
+        `Failed to download the report from ${DOWNLOAD_URL}: timeout of 60000ms exceeded`,
+      );
+
+      await jest.advanceTimersByTimeAsync(59_999);
+      expect(buildRequest).toHaveBeenCalledTimes(1);
+      await jest.advanceTimersByTimeAsync(1);
+      await settled;
+      await expect(response).rejects.toBeInstanceOf(AdsReportsException);
+      await expect(response).rejects.toMatchObject({ cause: { code: 'ECONNABORTED' } });
+    });
+
+    it('takes downloadTimeoutMs', async () => {
+      buildRequest.mockImplementation(hangingDownload);
+      const response = utilitiesFor(fakeReportService([COMPLETED])).getResponse({ downloadTimeoutMs: 5_000 });
+      const settled = expect(response).rejects.toThrow('timeout of 5000ms exceeded');
+
+      await jest.advanceTimersByTimeAsync(5_000);
+      await settled;
+    });
+
+    it('is disabled by 0', async () => {
+      buildRequest.mockImplementation(hangingDownload);
+      const response = utilitiesFor(fakeReportService([COMPLETED])).getResponse({ downloadTimeoutMs: 0 });
+      let settled = false;
+      response.catch(() => undefined).finally(() => (settled = true));
+
+      await jest.advanceTimersByTimeAsync(24 * 60 * 60_000);
+      expect(settled).toBe(false);
+    });
+
+    it("is not axios' timeout, which would keep running on the socket after the headers", async () => {
+      await utilitiesFor(fakeReportService([COMPLETED])).getResponse();
+
+      expect(buildRequest).toHaveBeenCalledWith(DOWNLOAD_URL, 'GET', { signal: expect.any(AbortSignal) });
+    });
+  });
+});
+
+describe('ReportUtilities download timeout (real HTTP server)', () => {
+  // A 6x margin between the gaps and the timeout: a loaded machine delays
+  // timers by tens of milliseconds, and a 3x margin (50 ms vs 150 ms) failed.
+  const SLOW_ROWS = 15;
+  const SLOW_INTERVAL_MS = 100;
+  const SLOW_TIMEOUT_MS = 600;
+  let server: Server;
+  let baseUrl: string;
+  let dir: string;
+
+  beforeAll(async () => {
+    server = createServer((req, res) => {
+      if (req.url === '/never-answers') return; // keeps the socket open without headers
+      res.writeHead(200, { 'content-type': 'text/csv' });
+      res.write('a,b\n');
+      if (req.url === '/stalls') return; // headers and a first chunk, then silence
+      // The rest in SLOW_ROWS chunks SLOW_INTERVAL_MS apart: 1.5 s in total,
+      // well past SLOW_TIMEOUT_MS, while no gap comes close to it.
+      let row = 0;
+      const timer = setInterval(() => {
+        row++;
+        res.write(`${row},${row}\n`);
+        if (row === SLOW_ROWS) {
+          clearInterval(timer);
+          res.end();
+        }
+      }, SLOW_INTERVAL_MS);
+    });
+    baseUrl = await listenOnLoopback(server);
+    dir = await mkdtemp(join(tmpdir(), 'admanager-report-'));
+  });
+
+  afterAll(async () => {
+    server.closeAllConnections();
+    server.close();
+    await rm(dir, { recursive: true, force: true });
+  });
+
+  const openConnections = () =>
+    new Promise<number>((resolve, reject) => server.getConnections((e, n) => (e ? reject(e) : resolve(n))));
+
+  const serviceFor = (path: string) => ({
+    getReportJobStatus: async () => ReportJobStatus.COMPLETED,
+    getReportDownloadUrlWithOptions: async () => `${baseUrl}${path}`,
+  });
+
+  it('gives up when the server does not start answering in time', async () => {
+    await expect(utilitiesFor(serviceFor('/never-answers')).getResponse({ downloadTimeoutMs: 100 })).rejects.toThrow(
+      'timeout of 100ms exceeded',
+    );
+  });
+
+  it('aborting while waiting for the response headers rejects with the reason and closes the connection', async () => {
+    const controller = new AbortController();
+    const response = utilitiesFor(serviceFor('/never-answers')).getResponse({ signal: controller.signal });
+    const reason = new Error('shutting down');
+    while ((await openConnections()) === 0) await new Promise((resolve) => setTimeout(resolve, 10));
+
+    controller.abort(reason);
+
+    await expect(response).rejects.toBe(reason);
+    for (let i = 0; i < 100 && (await openConnections()) > 0; i++) await new Promise((r) => setTimeout(r, 10));
+    expect(await openConnections()).toBe(0);
+  });
+
+  it('does not cap the total download time while data keeps arriving', async () => {
+    const started = Date.now();
+    const response: ReportResponse = await utilitiesFor(serviceFor('/slow-body')).getResponse({
+      downloadTimeoutMs: SLOW_TIMEOUT_MS,
+    });
+    const file = join(dir, 'slow.csv');
+
+    await response.save(file);
+
+    const rows = Array.from({ length: SLOW_ROWS }, (_, i) => `${i + 1},${i + 1}\n`).join('');
+    expect(await readFile(file, 'utf8')).toBe(`a,b\n${rows}`);
+    // Otherwise the test would not prove anything about the total time.
+    expect(Date.now() - started).toBeGreaterThan(SLOW_TIMEOUT_MS);
+  });
+
+  it('fails the save, instead of hanging, when the download stalls', async () => {
+    const response: ReportResponse = await utilitiesFor(serviceFor('/stalls')).getResponse({
+      downloadTimeoutMs: SLOW_TIMEOUT_MS,
+    });
+
+    await expect(response.save(join(dir, 'stalled.csv'))).rejects.toThrow(AdsReportsException);
+  });
+});

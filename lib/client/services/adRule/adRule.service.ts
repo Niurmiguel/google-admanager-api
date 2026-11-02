@@ -17,8 +17,8 @@ export class AdRuleService implements AdRuleServiceOperations {
     return this._client.createAdRules({ adRules });
   }
 
-  createAdSpots(adSports: AdSpot[]): Promise<AdSpot[]> {
-    return this._client.createAdSpots({ adSports });
+  createAdSpots(adSpots: AdSpot[]): Promise<AdSpot[]> {
+    return this._client.createAdSpots({ adSpots });
   }
 
   createBreakTemplates(breakTemplate: BreakTemplate[]): Promise<BreakTemplate[]> {
@@ -58,8 +58,8 @@ export class AdRuleService implements AdRuleServiceOperations {
     return this._client.updateAdRules({ adRules });
   }
 
-  updateAdSpots(adSports: AdSpot[]): Promise<AdSpot[]> {
-    return this._client.updateAdSpots({ adSports });
+  updateAdSpots(adSpots: AdSpot[]): Promise<AdSpot[]> {
+    return this._client.updateAdSpots({ adSpots });
   }
 
   updateBreakTemplates(breakTemplate: BreakTemplate[]): Promise<BreakTemplate[]> {

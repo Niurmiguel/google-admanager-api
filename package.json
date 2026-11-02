@@ -1,18 +1,27 @@
 {
   "name": "@niur/google-admanager-api",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "Google Ad Manager API Client Library for NodeJs",
   "main": "dist/index",
   "types": "dist/index",
+  "files": [
+    "dist",
+    "!dist/__tests__"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "start": "tsc && ts-node -r tsconfig-paths/register ./lib/index.ts",
     "build": "rm -rf dist && tsc -p tsconfig.json",
     "format": "prettier --write \"**/*.ts\"",
     "lint": "eslint 'lib/**/*.ts' --fix",
+    "lint:check": "eslint 'lib/**/*.ts' --max-warnings 0",
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
     "test": "jest --config jestconfig.json",
-    "prerelease": "npm run build"
+    "prerelease": "npm run build",
+    "check:pack": "npm pack --dry-run --json | node scripts/check-pack.js"
   },
   "repository": {
     "type": "git",
@@ -25,24 +34,23 @@
   },
   "homepage": "https://github.com/Niurmiguel/google-admanager-api#readme",
   "devDependencies": {
-    "@types/jest": "^27.5.2",
-    "@types/node": "^17.0.21",
-    "@typescript-eslint/eslint-plugin": "^5.27.0",
-    "eslint": "^8.11.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "jest": "^27.5.1",
-    "prettier": "^2.6.1",
-    "supertest": "^6.2.2",
-    "ts-jest": "^27.1.5",
-    "ts-node": "^10.7.0",
-    "tsconfig-paths": "^3.14.0",
-    "typescript": "^4.6.2"
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20.19.43",
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "jest": "^30.5.2",
+    "prettier": "^3.9.10",
+    "ts-jest": "^29.4.15",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.71.2"
   },
   "dependencies": {
-    "axios": "^0.27.2",
-    "google-auth-library": "^7.14.0",
-    "soap": "^0.43.0"
+    "axios": "^1.20.0",
+    "google-auth-library": "^10.9.1",
+    "soap": "^1.14.0"
   },
   "keywords": [
     "admanager",

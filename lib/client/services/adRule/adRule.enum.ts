@@ -13,11 +13,6 @@ export enum AdRuleStatus {
   INACTIVE = 'INACTIVE',
 
   /**
-   * 	Marked as deleted, not user-visible.
-   */
-  DELETED = 'DELETED',
-
-  /**
    * 	The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',

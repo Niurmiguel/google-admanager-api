@@ -18,6 +18,7 @@ export enum MobileApplicationStore {
   SAMSUNG_APP_STORE = 'SAMSUNG_APP_STORE',
   VIVO_APP_STORE = 'VIVO_APP_STORE',
   XIAOMI_APP_STORE = 'XIAOMI_APP_STORE',
+  LG_TV = 'LG_TV',
 }
 
 /**
@@ -35,4 +36,39 @@ export enum MobileApplicationPlatform {
   PLAYSTATION = 'PLAYSTATION',
   XBOX = 'XBOX',
   SAMSUNG_TV = 'SAMSUNG_TV',
+  LG_TV = 'LG_TV',
+  /**
+   * The value returned if the actual value is not supported by Ad Manager.
+   */
+  UNSUPPORTED = 'UNSUPPORTED',
+}
+
+/**
+ * The approval status of the mobile application (MobileApplication.ApprovalStatus in the API).
+ */
+export enum MobileApplicationApprovalStatus {
+  /**
+   * Unknown approval status.
+   */
+  UNKNOWN = 'UNKNOWN',
+  /**
+   * The application is not yet ready for review.
+   */
+  DRAFT = 'DRAFT',
+  /**
+   * The application has not yet been reviewed.
+   */
+  UNCHECKED = 'UNCHECKED',
+  /**
+   * The application can serve ads.
+   */
+  APPROVED = 'APPROVED',
+  /**
+   * The application failed approval checks and it cannot serve any ads.
+   */
+  DISAPPROVED = 'DISAPPROVED',
+  /**
+   * The application is disapproved but has a pending review status, signaling an appeal.
+   */
+  APPEALING = 'APPEALING',
 }
