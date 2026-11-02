@@ -1,6 +1,7 @@
 import { DateTime, PageResult } from '../../../common/types';
 import {
   AllowedFormats,
+  BuyerPermissionType,
   CompanionDeliveryOption,
   ComputedStatus,
   DeliveryRateType,
@@ -9,6 +10,7 @@ import {
   ProgrammaticCreativeSource,
   RoadblockingType,
   SkippableAdType,
+  SupplyPathType,
 } from '../../common/enums';
 import {
   AppliedLabel,
@@ -308,6 +310,18 @@ export type ProposalLineItem = {
    * The reason for pausing the ProposalLineItem, provided by the pauseRole. It is null when the ProposalLineItem is not paused. This attribute is read-only.
    */
   pauseReason: string;
+  /**
+   * The supply path type for this proposal line item.
+   */
+  supplyPath?: SupplyPathType;
+  /**
+   * The options for allowing buyers to transact on the deal. BuyerPermissionType.NEGOTIATOR_ONLY means that only the buyer listed on the deal can bid on the deal; BuyerPermissionType.BIDDER means that all buyers under the listed buyer's bidder can bid on the deal.
+   */
+  buyerPermissionType?: BuyerPermissionType;
+  /**
+   * The AllocationDeliveryProfile ID for this proposal line item.
+   */
+  deliveryAllocationProfileId?: number;
 };
 
 /**

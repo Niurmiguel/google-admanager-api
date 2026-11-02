@@ -1,5 +1,6 @@
 import { AppliedLabel, BaseCustomFieldValue, CreativePlaceholder, Money, Targeting } from '../../common/types';
 import { DateTime, PageResult } from '../../../common/types';
+import { SupplyPathType } from '../../common/enums';
 import {
   AdExchangeEnvironment,
   NegotiationStatus,
@@ -75,6 +76,10 @@ export type ProposalMarketplaceInfo = {
    * The ID used to represent Display & Video 360 client buyer partner ID (if Display & Video 360) or Authorized Buyers client buyer account ID. This field is readonly and assigned by Google. This attribute is read-only.
    */
   partnerClientId: string;
+  /**
+   * The marketplace ID of this proposal. This is a shared ID between Ad Manager and the buy-side platform. This value is null if the proposal has not been sent to the buyer. This attribute is read-only.
+   */
+  marketplaceId?: string;
 };
 
 /**
@@ -276,6 +281,10 @@ export type Proposal = {
    * If false, it indicates that the buyer and the seller agree that the proposal should not be paused.
    */
   deliveryPausingEnabled: boolean;
+  /**
+   * The supply path type for this proposal.
+   */
+  supplyPath?: SupplyPathType;
 };
 
 /**

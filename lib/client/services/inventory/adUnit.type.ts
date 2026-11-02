@@ -8,6 +8,7 @@ import {
   AdSenseSettingsFontSize,
   AdUnitTargetWindow,
   InventoryStatus,
+  RefreshRateType,
   SmartSizeMode,
   ValueSourceType,
 } from './adUnit.enum';
@@ -272,6 +273,10 @@ export type AdUnit = {
    * The MobileApplication.applicationId for the CTV application that this ad unit is within. This attribute is optional.
    */
   applicationId: number;
+  /**
+   * The type of refresh rate for this ad unit.
+   */
+  refreshRateType?: RefreshRateType;
 };
 
 /**

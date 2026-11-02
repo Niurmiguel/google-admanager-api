@@ -131,3 +131,25 @@ export enum SmartSizeMode {
    */
   DYNAMIC_SIZE = 'DYNAMIC_SIZE',
 }
+
+/**
+ * The type of refresh rate for an InventoryUnit.
+ */
+export enum RefreshRateType {
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
+  /**
+   * Auto refresh is disabled.
+   */
+  DISABLED = 'DISABLED',
+  /**
+   * Auto refresh is enabled and optimized.
+   */
+  OPTIMIZED = 'OPTIMIZED',
+  /**
+   * Auto refresh is enabled and set to a custom fixed interval.
+   */
+  FIXED_INTERVAL = 'FIXED_INTERVAL',
+}

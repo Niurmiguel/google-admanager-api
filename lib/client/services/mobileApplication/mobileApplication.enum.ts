@@ -42,3 +42,33 @@ export enum MobileApplicationPlatform {
    */
   UNSUPPORTED = 'UNSUPPORTED',
 }
+
+/**
+ * The approval status of the mobile application (MobileApplication.ApprovalStatus in the API).
+ */
+export enum MobileApplicationApprovalStatus {
+  /**
+   * Unknown approval status.
+   */
+  UNKNOWN = 'UNKNOWN',
+  /**
+   * The application is not yet ready for review.
+   */
+  DRAFT = 'DRAFT',
+  /**
+   * The application has not yet been reviewed.
+   */
+  UNCHECKED = 'UNCHECKED',
+  /**
+   * The application can serve ads.
+   */
+  APPROVED = 'APPROVED',
+  /**
+   * The application failed approval checks and it cannot serve any ads.
+   */
+  DISAPPROVED = 'DISAPPROVED',
+  /**
+   * The application is disapproved but has a pending review status, signaling an appeal.
+   */
+  APPEALING = 'APPEALING',
+}

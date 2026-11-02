@@ -407,3 +407,39 @@ export enum UnitType {
    */
   COMPLETED_VIEWS = 'COMPLETED_VIEWS',
 }
+
+/**
+ * Indicates how the deal's demand will be supplied.
+ */
+export enum SupplyPathType {
+  /**
+   * The deal's demand will be supplied by the ad server directly.
+   */
+  DIRECT = 'DIRECT',
+  /**
+   * The deal's demand will be supplied by a demand side platform (DSP).
+   */
+  DEMAND_SIDE_PLATFORM = 'DEMAND_SIDE_PLATFORM',
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
+}
+
+/**
+ * Describes the buyer permission type.
+ */
+export enum BuyerPermissionType {
+  /**
+   * Only the buyer listed on the line item can transact.
+   */
+  NEGOTIATOR_ONLY = 'NEGOTIATOR_ONLY',
+  /**
+   * All buyers under the listed buyer's bidder can transact on the line item.
+   */
+  BIDDER = 'BIDDER',
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
+}

@@ -1,5 +1,5 @@
 import { ApprovalStatus, DisapprovalReasonType } from './site.enum';
-import { PageResult } from '../../../common/types';
+import { DateTime, PageResult } from '../../../common/types';
 
 export type DisapprovalReason = {
   type: DisapprovalReasonType;
@@ -12,6 +12,10 @@ export type Site = {
   childNetworkCode: string;
   approvalStatus: ApprovalStatus;
   disapprovalReasons: DisapprovalReason[];
+  /**
+   * The latest site approval status change time.
+   */
+  approvalStatusUpdateTime?: DateTime;
 };
 
 export type SitePage = PageResult<Site>;

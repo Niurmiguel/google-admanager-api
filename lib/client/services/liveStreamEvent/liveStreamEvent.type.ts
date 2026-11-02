@@ -259,6 +259,14 @@ export type LiveStreamEvent = {
    * Whether ads on this LiveStreamEvent are served by Google Ad Manager DAI or Google Ad Serving.
    */
   adServingFormat: AdServingFormat;
+  /**
+   * The duration (in seconds) that can be used when stitching ads for each livestream event. This attribute is only available for Pod Serving HLS Segment Redirect and Pod Serving Dash Segment Redirect.
+   */
+  podServingSegmentDuration?: number;
+  /**
+   * Whether multi-break scheduling for live stream events via Early Break Notification (EBN) is enabled.
+   */
+  ebnMultiBreakSchedulingEnabled?: boolean;
 };
 
 /**

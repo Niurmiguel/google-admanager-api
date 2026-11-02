@@ -18,6 +18,7 @@ import {
   VideoDeliveryType,
   MimeType,
   VastRedirectType,
+  ThirdPartyDataDeclarationStatus,
 } from './creative.enum';
 
 /**
@@ -1144,6 +1145,18 @@ export type VastRedirectCreative = {
    * Whether the 3rd party VAST XML points to an audio ad. When true, VastRedirectCreative.size will always be 1x1.
    */
   isAudio: boolean;
+  /**
+   * Whether pricing information from the VAST response will be used during ad selection.
+   */
+  vastPricingEnabled?: boolean;
+  /**
+   * Whether this is a redirect to a programmatic demand source.
+   */
+  isProgrammaticDemandSource?: boolean;
+  /**
+   * Whether server-side unwrapping is disabled.
+   */
+  serverSideUnwrappingDisabled?: boolean;
 };
 
 /**
@@ -1203,6 +1216,18 @@ export type Creative = {
    * This is distinct from any associated companies that Google may detect programmatically.
    */
   thirdPartyDataDeclaration: ThirdPartyDataDeclaration;
+  /**
+   * The status of the ThirdPartyDataDeclaration compared with the set of third party companies detected during automated scanning. For example, if automated scanning detects more companies than have been declared, this status will be ThirdPartyDataDeclarationStatus.INCOMPLETE.
+   */
+  thirdPartyDataDeclarationStatus?: ThirdPartyDataDeclarationStatus;
+  /**
+   * Whether the creative has ad badging enabled. Defaults to false for VAST redirect, third party, audio VAST redirect, programmatic and several legacy creative types; defaults to true for all other creative types.
+   */
+  adBadgingEnabled?: boolean;
+  /**
+   * Whether the publisher has declared that the creative contains European Union political content. Defaults to false for all creative types.
+   */
+  selfDeclaredEuropeanUnionPoliticalContent?: boolean;
 } & BaseDynamicAllocationCreative &
   BaseRichMediaStudioCreative &
   ClickTrackingCreative &

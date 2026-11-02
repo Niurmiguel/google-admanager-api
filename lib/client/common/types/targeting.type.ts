@@ -559,6 +559,18 @@ export type Targeting = {
    * This value is read-only for video line items generated from proposal line items.
    */
   requestPlatformTargeting: RequestPlatformTargeting;
+  /**
+   * Specifies the verticals that are targeted by the entity. The IDs listed here correspond to the IDs in the AD_CATEGORY table of type VERTICAL.
+   */
+  verticalTargeting?: VerticalTargeting;
+  /**
+   * Specifies the content labels that are excluded by the entity. The IDs listed here correspond to the IDs in the CONTENT_LABEL table.
+   */
+  contentLabelTargeting?: ContentLabelTargeting;
+  /**
+   * Publisher provided signals targeting information.
+   */
+  publisherProvidedSignalsTargeting?: PublisherProvidedSignalsTargeting;
 };
 
 /**
@@ -574,4 +586,27 @@ export type CreativeTargeting = {
    * The Targeting criteria of this creative targeting. This attribute is required.
    */
   targeting: Targeting;
+};
+
+/**
+ * Vertical targeting information.
+ */
+export type VerticalTargeting = {
+  targetedVerticalIds?: number[];
+  excludedVerticalIds?: number[];
+};
+
+/**
+ * Content label targeting information.
+ */
+export type ContentLabelTargeting = {
+  excludedContentLabelIds?: number[];
+};
+
+/**
+ * Publisher provided signals targeting information.
+ */
+export type PublisherProvidedSignalsTargeting = {
+  targetedTaxonomyCategoryIds?: number[];
+  excludedTaxonomyCategoryIds?: number[];
 };

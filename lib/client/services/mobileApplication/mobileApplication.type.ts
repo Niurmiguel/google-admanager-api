@@ -1,5 +1,9 @@
 import { PageResult } from '../../../common/types';
-import { MobileApplicationPlatform, MobileApplicationStore } from './mobileApplication.enum';
+import {
+  MobileApplicationApprovalStatus,
+  MobileApplicationPlatform,
+  MobileApplicationStore,
+} from './mobileApplication.enum';
 
 /**
  * A mobile application that has been added to or "claimed" by the network to be used for targeting purposes. These mobile apps can come from various app stores.
@@ -66,6 +70,10 @@ export type MobileApplication = {
    * The download URL of the mobile application on the app store it belongs to. This attribute is read-only and populated by Google.
    */
   downloadUrl: string;
+  /**
+   * The approval status for the mobile application.
+   */
+  approvalStatus?: MobileApplicationApprovalStatus;
 };
 
 /**

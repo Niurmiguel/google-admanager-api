@@ -98,6 +98,14 @@ export type Company = {
    * Info required for when Company Type is VIEWABILITY_PROVIDER.
    */
   viewabilityProvider: ViewabilityProvider;
+  /**
+   * The Google-recognized id for the canonicalized form of the company. This attribute is optional.
+   */
+  verifiedExchangeAdvertiserId?: number;
+  /**
+   * A unique ID for the brand mapped to this company. A brand is a subdivision of an advertiser; if the brand is set, the verifiedExchangeAdvertiserId representing the advertiser must also be set. This attribute is optional.
+   */
+  verifiedExchangeBrandId?: number;
 };
 
 /**
