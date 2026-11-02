@@ -134,8 +134,10 @@ export class ReportDownload {
     this.closed = true;
     this.settings.signal?.removeEventListener('abort', this.onAbort);
 
-    // Destroy the body before aborting: axios would emit 'error' on it, and a
-    // body that nobody reads yet has no listener for it.
+    // Destroy the body before aborting, so that axios finds it destroyed and
+    // does not emit 'error' on it. With no listener (a body nobody reads yet)
+    // that emit throws inside axios' abort handler, which swallows it; the
+    // outcome is the same either way, this order just avoids relying on that.
     const body = this.response?.data as Body | undefined;
     if (typeof body?.destroy === 'function' && !body.destroyed) body.destroy(isError(reason) ? reason : undefined);
     if (!this.controller.signal.aborted) this.controller.abort(reason);
