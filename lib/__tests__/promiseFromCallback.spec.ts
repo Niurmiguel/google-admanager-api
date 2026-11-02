@@ -5,10 +5,10 @@
  */
 import { once } from 'node:events';
 import { createServer, Server } from 'node:http';
-import { AddressInfo } from 'node:net';
 import { Client, createClientAsync } from 'soap';
 
 import { AdManagerRequestError, promiseFromCallback } from '../common/utils';
+import { listenOnLoopback } from './support/loopback';
 
 const NS = 'https://www.google.com/apis/ads/publisher/v202608';
 
@@ -115,15 +115,14 @@ describe('promiseFromCallback with SOAP faults', () => {
         );
       });
     });
-    server.listen(0, '127.0.0.1');
-    await once(server, 'listening');
-    const url = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`;
+    const url = `${await listenOnLoopback(server)}/`;
     client = await createClientAsync(`${url}?wsdl`, { endpoint: url });
     process.on('unhandledRejection', onUnhandled);
   });
 
   afterAll(async () => {
     process.off('unhandledRejection', onUnhandled);
+    server.closeAllConnections();
     server.close();
     await once(server, 'close');
   });

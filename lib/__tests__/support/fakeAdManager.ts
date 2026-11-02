@@ -16,6 +16,7 @@ import { createServer, IncomingHttpHeaders, IncomingMessage, Server, ServerRespo
 import { AddressInfo } from 'node:net';
 
 import { API_VERSION } from '../../common/constants';
+import { listenOnLoopback } from './loopback';
 
 const NS = `https://www.google.com/apis/ads/publisher/${API_VERSION}`;
 
@@ -91,8 +92,6 @@ export async function startFakeAdManager(): Promise<FakeAdManager> {
     },
   };
 
-  server.listen(0, '127.0.0.1');
-  await once(server, 'listening');
-  fake.wsdlUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}/svc?wsdl`;
+  fake.wsdlUrl = `${await listenOnLoopback(server)}/svc?wsdl`;
   return fake;
 }

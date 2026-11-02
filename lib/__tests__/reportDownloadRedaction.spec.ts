@@ -2,10 +2,8 @@
  * A report download URL is signed: its query is a credential. When the
  * download fails, the error must name the URL without it.
  */
-import { once } from 'node:events';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { createServer, Server } from 'node:http';
-import { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { inspect } from 'node:util';
@@ -16,6 +14,7 @@ import { AdsReportsException } from '../common/handlers';
 import { AdManagerRequestError, HttpUtilities } from '../common/utils';
 import { ReportResponse } from '../common/utils/reports';
 import { ReportUtilities } from '../common/utils/reportUtilities.util';
+import { listenOnLoopback } from './support/loopback';
 
 /** Obviously fake, so secret scanners do not flag it. */
 const SIGNATURE = 'fake-signature-for-tests-0000';
@@ -53,9 +52,7 @@ describe('failed report downloads do not expose the signed URL', () => {
         res.write('a,b\n'); // then silence
       }
     });
-    server.listen(0, '127.0.0.1');
-    await once(server, 'listening');
-    base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    base = await listenOnLoopback(server);
     dir = await mkdtemp(join(tmpdir(), 'admanager-report-'));
   });
 

@@ -3,10 +3,8 @@
  * and a fake ReportService that counts status checks.
  */
 import { AxiosResponse } from 'axios';
-import { once } from 'node:events';
 import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { createServer, Server } from 'node:http';
-import { AddressInfo } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -16,6 +14,7 @@ import { AdsReportsException } from '../common/handlers';
 import { HttpUtilities } from '../common/utils';
 import { ReportResponse } from '../common/utils/reports';
 import { ReportUtilities } from '../common/utils/reportUtilities.util';
+import { listenOnLoopback } from './support/loopback';
 
 // Jest fake timers do not patch node:timers/promises, so route it through the
 // global setTimeout, which they do patch. Same contract: resolves after `ms`,
@@ -310,9 +309,7 @@ describe('ReportUtilities download timeout (real HTTP server)', () => {
         }
       }, 50);
     });
-    server.listen(0, '127.0.0.1');
-    await once(server, 'listening');
-    baseUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+    baseUrl = await listenOnLoopback(server);
     dir = await mkdtemp(join(tmpdir(), 'admanager-report-'));
   });
 
