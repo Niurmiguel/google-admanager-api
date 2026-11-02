@@ -35,11 +35,15 @@ const ENTITIES: Record<string, string> = { lt: '<', gt: '>', amp: '&', quot: '"'
 
 /**
  * Text content of the TextValue in the request, decoded the way an XML parser
- * does it: CDATA sections, entities and character references. Throws on any
- * markup inside the value. (node-soap's parser is not used here: it drops
- * whitespace-only text between two CDATA sections, such as "&#xD;".)
+ * does it: line ends normalized, then CDATA sections, entities and character
+ * references. Throws on any markup inside the value. (node-soap's parser is
+ * not used here: it drops whitespace-only text between two CDATA sections,
+ * such as "&#xD;".)
  */
-function textValue(body: string): string {
+function textValue(raw: string): string {
+  // XML 1.0, 2.11: before parsing, every literal "\r\n" and lone "\r" become
+  // "\n", inside CDATA sections too. Only a character reference keeps a "\r".
+  const body = raw.replace(/\r\n?/g, '\n');
   const open = '<value xsi:type="TextValue"><value>';
   let i = body.indexOf(open) + open.length;
   let text = '';
@@ -121,9 +125,10 @@ describe('strings that look like CDATA cannot inject XML', () => {
     expect(soapBody(body)).toBe(soapBody(await sentByNodeSoap(value)));
   });
 
-  it('the server reads back the original text, \\r included', async () => {
-    const value = '<![CDATA[1\r2]]>3]]>';
-
+  it.each([
+    ['\\r', '<![CDATA[1\r2]]>3]]>'],
+    ['\\r\\n', '<![CDATA[1\r\n2]]>3\r]]>'],
+  ])('the server reads back the original text, %s included', async (_name, value) => {
     expect(textValue(await send(value))).toBe(value);
   });
 
