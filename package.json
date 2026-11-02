@@ -4,6 +4,10 @@
   "description": "Google Ad Manager API Client Library for NodeJs",
   "main": "dist/index",
   "types": "dist/index",
+  "files": [
+    "dist",
+    "!dist/__tests__"
+  ],
   "engines": {
     "node": ">=20.19.0"
   },
@@ -15,7 +19,8 @@
     "prepublish:npm": "npm run build",
     "publish:npm": "npm publish --access public",
     "test": "jest --config jestconfig.json",
-    "prerelease": "npm run build"
+    "prerelease": "npm run build",
+    "check:pack": "npm pack --dry-run --json | node scripts/check-pack.js"
   },
   "repository": {
     "type": "git",

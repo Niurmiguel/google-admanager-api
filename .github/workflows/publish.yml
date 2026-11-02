@@ -20,6 +20,9 @@ jobs:
         run: npm ci && npm run build
       - name: Test
         run: npm test
+      - name: Check package contents
+        # Fails if coverage reports, tests or .ts sources (other than .d.ts) would be published.
+        run: npm run check:pack
       - name: Publish package on NPM 📦
         run: npm publish --access=public
         env:
