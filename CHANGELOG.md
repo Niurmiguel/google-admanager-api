@@ -136,9 +136,10 @@ in 0.0.6; it is not an axios 1.x `AxiosHeaders` and has no `.get()`.
 `getService()` also rejects with an `AdManagerRequestError` when it cannot get the token or the WSDL, instead of a
 plain `Error`. Its `message` is the one 0.0.6 gave (`String(err)`, for example `'Error: socket hang up'`), and it
 keeps `code` and `status`; `err.name` is now `'AdManagerRequestError'` instead of `'Error'`, and it is still an
-`instanceof Error`. Its `cause` is a sanitized copy of the original error, or `undefined` when the original was not
-an `Error`: the raw errors carry their request, with the `Proxy-Authorization` header of a proxy set in
-`HTTPS_PROXY`, or the signed assertion sent to the token endpoint.
+`instanceof Error`. Its `cause` is a sanitized copy of the original error, because the raw errors carry their
+request, with the `Proxy-Authorization` header of a proxy set in `HTTPS_PROXY`, or the signed assertion sent to the
+token endpoint. When the rejection was not an `Error`, `cause` is the rejection value itself if it was a string or
+another primitive, and `undefined` if it was any other object.
 
 #### Rejections for SOAP faults: `name` and `message`
 
@@ -292,7 +293,16 @@ failed one, used to truncate the target file to 0 bytes and resolve as if it had
   (`security`, `lastRequestHeaders`); of a `ReportResponse`, the signed download URL; of a `GoogleSACredential` or
   `GoogleSAFileCredential` (or an `AdManagerClient` that holds one), the private key and the cached token. They
   print a summary instead. A service's internal `_client` is no longer enumerable, so `JSON.stringify()` skips it.
-  Debug logging of the SOAP client (`DEBUG=node-soap`) still prints the request headers, token included.
+  Debug logging of the SOAP client (`DEBUG=node-soap`) still prints the request headers, token included, and
+  `util.inspect(value, { customInspect: false })` skips the summaries (for the secrets kept in non-enumerable
+  fields, together with `showHidden: true`).
+- `JSON.stringify()` of a `GoogleSACredential`, a `GoogleSAFileCredential` (once it had read its key file) or an
+  `AdManagerClient` no longer includes the private key and the cached token, and that of a `ReportResponse` no
+  longer throws on its circular references nor, with a stringify that tolerates them (as loggers use), includes the
+  signed download URL. They have a `toJSON()` that gives the same summary as `console.log()`: `{ email }`,
+  `{ keyFile }` and `{ status, url, saveCalled }`, with the URL without its query. The credentials' `auth` and the
+  client's `credential` are no longer enumerable; subclasses still read and assign `auth`. `console.log()` of a
+  credential subclass now prints the subclass name.
 - Report download errors never contain the signed download URL's query.
 - A string that closes a CDATA section early can no longer inject XML elements into a request.
 - SOAP calls and report downloads have timeouts, so a connection left hanging by the server no longer keeps a call,

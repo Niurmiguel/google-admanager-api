@@ -105,8 +105,9 @@ the same `ETIMEDOUT` error if both together take longer than `timeout`, and with
 aborts. The token request cannot be cancelled; it then goes on in the background and its result is discarded.
 
 On Node.js 20, more than 10 calls in flight at once that share one `signal` print a `MaxListenersExceededWarning`:
-each pending call listens to the signal until it settles, and removes its listener then, so it is not a leak. Raise
-the limit for that signal:
+each pending call listens to the signal until it settles, and removes its listener then, so it is not a leak. A
+pending `getService()` counts as one more call when it gets that same `signal` (its own or the client's). Raise the
+limit for that signal:
 
 ```typescript
 import { setMaxListeners } from 'node:events';
@@ -128,9 +129,12 @@ A failed report download (`ReportUtilities.getResponse()` or `ReportResponse.sav
 
 ##### Logging
 
-`console.log()` of a service, an `AdManagerClient`, a credential or a `ReportResponse` prints a summary without the OAuth token, the private key or the signed report URL.
+`console.log()` (`util.inspect()`) and `JSON.stringify()` of a service, an `AdManagerClient`, a credential or a `ReportResponse` give a summary without the OAuth token, the private key or the signed report URL. That covers loggers that serialize with either of them, including the ones that tolerate circular references (pino, for example).
 
-Do not enable node-soap's debug output (`DEBUG=node-soap`, or `DEBUG=*`) where its logs are kept: it prints every request with its HTTP headers, including `Authorization: Bearer <token>`.
+Two ways around it are not covered:
+
+- `util.inspect(value, { customInspect: false })` skips the summaries and prints the fields themselves: the signed URL of a `ReportResponse` and, adding `showHidden: true`, the private key and the token of a credential, a client or a service. It is an explicit opt-out; do not use it on these objects in logs.
+- node-soap's debug output (`DEBUG=node-soap`, or `DEBUG=*`) prints every request with its HTTP headers, including `Authorization: Bearer <token>`. Do not enable it where its logs are kept.
 
 ##### Untrusted input
 
