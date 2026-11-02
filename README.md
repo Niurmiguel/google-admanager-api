@@ -2,14 +2,12 @@
   <a href="https://developers.google.com/ad-manager/api/start" target="blank"><img src="https://developers.google.com/ads/images/logo_admanager_192px.svg" width="120" alt="Ad Manager Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/Niurmiguel/google-admanager-api/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/Niurmiguel/google-admanager-api
-
   <p align="center"><a href="https://developers.google.com/ad-manager/api/start" target="_blank">Google Ad Manager API</a> Client Library for NodeJs.</p>
     <p align="center">
 <a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/v/@niur/google-admanager-api.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/l/@niur/google-admanager-api.svg" alt="Package License" /></a>
 <a href="https://www.npmjs.com/~niur" target="_blank"><img src="https://img.shields.io/npm/dm/@niur/google-admanager-api.svg" alt="NPM Downloads" /></a>
+<a href="https://github.com/Niurmiguel/google-admanager-api/actions/workflows/ci.yml" target="_blank"><img src="https://github.com/Niurmiguel/google-admanager-api/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
 </p>
 
 ## Description
@@ -33,34 +31,33 @@ All Google Ad Manager API calls must be authorized through OAuth2 an open standa
 ##### Generate OAuth2 credentials
 
 ```typescript
+import { GoogleSACredential, GoogleSAFileCredential } from '@niur/google-admanager-api';
 
+// The service account key, as an object or as a JSON string
 const credential = new GoogleSACredential({
-    "type": "service_account",
-    "project_id": "...",
-    "private_key_id": "...",
-    "private_key": "...",
-    "client_email": "...",
-    "client_id": "...",
-    "auth_uri": "...",
-    "token_uri": "...",
-    ...
+  type: 'service_account',
+  project_id: '...',
+  private_key_id: '...',
+  private_key: '...',
+  client_email: '...',
+  client_id: '...',
 });
 
-//or
-
-const credential = new GoogleSAFileCredential('./credentials.json');
-
+// or the path to the key file
+const fileCredential = new GoogleSAFileCredential('./credentials.json');
 ```
 
 ##### Use a client library
 
 ```typescript
+import { AdManagerClient, StatementBuilder } from '@niur/google-admanager-api';
 
-const adManagerClient = new AdManagerClient('networkCode',credential,'applicationName');
+const networkCode = 12345678; // your network code: a number
+const adManagerClient = new AdManagerClient(networkCode, credential, 'applicationName');
 
-const orderService = await adManagerClient.getService("OrderService");
+const orderService = await adManagerClient.getService('OrderService');
 const statement = new StatementBuilder().limit(10);
-const orderPage = await orderService.getOrdersByStatement(statement.toStatement())
+const orderPage = await orderService.getOrdersByStatement(statement.toStatement());
 
 /**
  * {
@@ -68,7 +65,7 @@ const orderPage = await orderService.getOrdersByStatement(statement.toStatement(
  *  totalResultSetSize: 0,
  *  startIndex: 0
  * }
- * /
+ */
 ```
 
 ##### Options
@@ -103,14 +100,37 @@ const adManagerClient = new AdManagerClient(networkCode, credential, 'applicatio
 const reportService = await adManagerClient.getService('ReportService', { timeout: 10 * 60_000, signal });
 ```
 
+They also bound `getService()` itself, which gets the OAuth token and downloads the service's WSDL: it rejects with
+the same `ETIMEDOUT` error if both together take longer than `timeout`, and with `signal.reason` when the signal
+aborts. The token request cannot be cancelled; it then goes on in the background and its result is discarded.
+
+On Node.js 20, more than 10 calls in flight at once that share one `signal` print a `MaxListenersExceededWarning`:
+each pending call listens to the signal until it settles, and removes its listener then, so it is not a leak. Raise
+the limit for that signal:
+
+```typescript
+import { setMaxListeners } from 'node:events';
+
+const controller = new AbortController();
+setMaxListeners(100, controller.signal); // up to 100 concurrent calls with this signal
+```
+
 ##### Errors
 
 A failed call rejects with one of two values:
 
 - **SOAP fault** (the API answered with an error): a plain object `{ code, name, message, details }` (type `SoapFault`), where `code` is the HTTP status and `name` the first Ad Manager error type (e.g. `AuthenticationError`).
-- **Anything else** (network error, timeout, HTTP error page, unparseable response): an `AdManagerRequestError`, exported by the package. It keeps `message`, `code` (`ECONNRESET`, `ECONNABORTED`...), `status`, `body` and `response` (`status`, `statusText`, `headers`, `data`), and its `cause` is a copy of the original error. It never carries the request (`config`, `request`, `response.config`), so logging it does not leak the OAuth token.
+- **Anything else** (network error, timeout, HTTP error page, unparseable response): an `AdManagerRequestError`, exported by the package. It keeps `message`, `code` (`ECONNRESET`, `ECONNABORTED`...), `status`, `body` and `response` (`status`, `statusText`, `headers` as a plain object, `data`), and its `cause` is a copy of the original error. It never carries the request (`config`, `request`, `response.config`), so logging it does not leak the OAuth token.
+
+`getService()` rejects with an `AdManagerRequestError` too when it cannot get the token or the WSDL, with the same guarantees, or with `signal.reason` when its signal aborts.
 
 A failed report download (`ReportUtilities.getResponse()` or `ReportResponse.save()`) rejects with an `AdsReportsException`, exported by the package. Its message names the download URL without the query, which is signed, and its `cause` (also `innerException`) is a sanitized copy of the original error: an `AdManagerRequestError` with `status` and `code` when the request failed.
+
+##### Logging
+
+`console.log()` of a service, an `AdManagerClient`, a credential or a `ReportResponse` prints a summary without the OAuth token, the private key or the signed report URL.
+
+Do not enable node-soap's debug output (`DEBUG=node-soap`, or `DEBUG=*`) where its logs are kept: it prints every request with its HTTP headers, including `Authorization: Bearer <token>`.
 
 ##### Untrusted input
 
@@ -123,4 +143,5 @@ Objects are a different matter. node-soap writes the value of a `$xml` key raw, 
 * Author - [Niurmiguel](https://github.com/Niurmiguel)
 
 ## License
-Nestjs Azure Service Bus is [MIT licensed](LICENSE).
+
+`@niur/google-admanager-api` is [MIT licensed](LICENSE).
