@@ -128,27 +128,3 @@ export type CreativeNativeStylePreview = {
    */
   previewUrl: string;
 };
-
-/**
- * Data needed to push a creative to a mobile device.
- */
-export type CreativePushOptions = {
-  /**
-   * The ID of the LineItem to preview.
-   *
-   * This field is required.
-   */
-  lineItemId: number;
-  /**
-   * The ID of the Creative to preview.
-   *
-   * This field is required.
-   */
-  creativeId: number;
-  /**
-   * The ID of the native style to preview the creative with.
-   *
-   * This field is optional but the referenced object must exist.
-   */
-  nativeStyleId: number;
-};

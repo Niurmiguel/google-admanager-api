@@ -1,5 +1,3 @@
-export { ActivityGroupService } from './activityGroup';
-export { ActivityService } from './activity';
 export { AdjustmentService } from './adjustment';
 export { AdRuleService } from './adRule';
 export { AudienceSegmentService } from './audienceSegment';
@@ -9,7 +7,6 @@ export { CompanyService } from './company';
 export { ContactService } from './contact';
 export { ContentBundleService } from './contentBundle';
 export { ContentService } from './content';
-export { CreativeReviewService } from './creativeReview';
 export { CreativeService } from './creative';
 export { CreativeSetService } from './creativeSet';
 export { CreativeTemplateService } from './creativeTemplate';

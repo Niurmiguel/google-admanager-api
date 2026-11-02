@@ -2,7 +2,6 @@ import { LineItemCreativeAssociationAction } from './lineItemCreativeAssociation
 import { Statement, UpdateResult } from '../../../common/types';
 import {
   CreativeNativeStylePreview,
-  CreativePushOptions,
   LineItemCreativeAssociation,
   LineItemCreativeAssociationPage,
 } from './lineItemCreativeAssociation.type';
@@ -88,14 +87,6 @@ export interface LineItemCreativeAssociationServiceOperations {
     lineItemCreativeAssociationAction: LineItemCreativeAssociationAction,
     filterStatement: Statement,
   ): Promise<UpdateResult>;
-  /**
-   * Pushes a creative to devices that that satisfy the given
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.Statement#query Statement.query}. *
-   *
-   * @param filterStatement a Publisher Query Language statement on the ID, Name, UserId and LinkedDeviceVisibility fields of the LinkedDevice table.
-   * @param options criteria to use to push a given creative.
-   */
-  pushCreativeToDevices(filterStatement: Statement, options: CreativePushOptions): Promise<UpdateResult>;
   /**
    * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
    *
