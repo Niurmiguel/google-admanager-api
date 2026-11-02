@@ -29,6 +29,8 @@ export default defineConfig(
       // Replacements for the former `ban-types` exceptions (`Function` and `{}` allowed).
       '@typescript-eslint/no-unsafe-function-type': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
+      // A library must not write to its users' console.
+      'no-console': 'error',
     },
   },
 );
