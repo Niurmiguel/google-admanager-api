@@ -56,8 +56,10 @@ export class ReportResponse {
    * `downloadTimeoutMs` applies from the moment save() is called: it fails if
    * the server sends nothing for that long. If save() is called later than
    * that after getResponse(), the connection has been released and save()
-   * downloads the report again. Its `signal` cancels the download, and save()
-   * then rejects with `signal.reason`.
+   * downloads the report again, from the same signed URL: if that URL has
+   * expired by then, save() fails, and only a new getResponse() gets a new
+   * one. Its `signal` cancels the download, and save() then rejects with
+   * `signal.reason`.
    *
    * @param path The path to which report is saved.
    * @throws AdsReportsException if the download or the file fails, or if

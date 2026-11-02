@@ -26,7 +26,8 @@ export type ReportResponseOptions = {
    * while it reads the report. It does not cap the total download time, and
    * it does not run between getResponse() and save(): a response that save()
    * has not started to read releases its connection after this time, and a
-   * later save() downloads the report again.
+   * later save() downloads the report again from the same signed URL, which
+   * fails if the URL has expired by then.
    * Default: 60 000, at most 2^31 - 1. `0` disables it (an unread response then keeps its
    * connection until save() reads it).
    */

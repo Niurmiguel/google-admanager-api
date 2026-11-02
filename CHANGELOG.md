@@ -36,7 +36,8 @@ the services, and code that uses them no longer compiles:
   - `DaiEncodingProfile.persistUnmatchedProfiles`;
   - `GrpSettings.targetImpressionGoal`;
   - `LineItemCreativeAssociationStats.costInOrderCurrency`;
-  - `ProposalLineItem.isProgrammatic` and `ProposalLineItem.timeZoneId`;
+  - `ProposalLineItem.isProgrammatic`, and `ProposalLineItem.timeZoneIdproposals` (the misspelled name 0.0.6 gave the
+    API's `timeZoneId`, which was removed);
   - `Site.active`;
   - `User.isEmailNotificationAllowed`.
 - Enum values:
@@ -68,14 +69,19 @@ the services, and code that uses them no longer compiles:
   | `ProposalLineItem` | `internalNotesproposals`         | `internalNotes`         |
   | `ProposalLineItem` | `isArchivedproposals`            | `isArchived`            |
   | `ProposalLineItem` | `contractedUnitsBoughtproposals` | `contractedUnitsBought` |
+  | `ProposalLineItem` | `timeZoneIdproposals`            | removed (see above)     |
   | `LineItemTemplate` | `reativeRotationType`            | `creativeRotationType`  |
 
-#### Type declarations need ES2015 or `skipLibCheck`
+#### Type declarations: use `skipLibCheck`
 
-The type declarations of the Google authentication library (version 10) use `#private` fields. A project that
-compiles with `target` below ES2015 (for example `es5`) and without `skipLibCheck` gets error TS18028
-("Private identifiers are only available when targeting ECMAScript 2015 and higher"). Set `target` to `es2015` or
-later, or `skipLibCheck: true`.
+Compile with `skipLibCheck: true`, as most projects do. Without it the declarations of the dependencies are
+type-checked too, and they fail:
+
+- The SOAP client's declarations import the `sax` package, which ships no types: error TS7016 ("Could not find a
+  declaration file for module 'sax'"). This already happened with 0.0.6.
+- New in 0.1.0: the declarations of the Google authentication library (version 10) use `#private` fields, so with
+  `target` below ES2015 (for example `es5`) they fail with TS18028 ("Private identifiers are only available when
+  targeting ECMAScript 2015 and higher").
 
 #### `GoogleSACredential` throws when it is constructed
 
@@ -116,7 +122,8 @@ the `Authorization` header with the OAuth token, so logging them leaked it. They
 | `{ Fault }` plain object, for responses that are not valid XML | an `AdManagerRequestError` with the same `err.Fault` |
 
 `err.cause` is a copy of the original error with its name, message, stack and system error fields (`code`,
-`errno`, `syscall`...), never the request.
+`errno`, `syscall`...), never the request. `err.response.headers` is a plain object with lower-case header names, as
+in 0.0.6; it is not an axios 1.x `AxiosHeaders` and has no `.get()`.
 
 #### Rejections for SOAP faults: `name` and `message`
 
@@ -153,14 +160,18 @@ without it:
   response headers do not arrive within it, and `ReportResponse.save()` fails if the server sends nothing for
   that long while it reads the report. It does not cap the total download time, and it does not run between
   `getResponse()` and `save()`: a response that `save()` has not started to read releases its connection after
-  `downloadTimeoutMs`, and a later `save()` downloads the report again. `0` disables it.
+  `downloadTimeoutMs`, and a later `save()` downloads the report again, with the same signed URL. That URL expires:
+  if it has expired by then, `save()` fails with an `AdsReportsException` (the HTTP error is in its `innerException`),
+  and only a new `getResponse()` gets a new URL. Call `save()` soon after `getResponse()`, or pass
+  `downloadTimeoutMs: 0` to keep the connection open until `save()` reads it. `0` disables the timeout.
 - Invalid options (negative, `NaN`, delays above 2^31 - 1 ms...) throw a `RangeError` before any call.
 
 A failed download rejects with an `AdsReportsException` (exported by the package) instead of the HTTP client's
 error, both from `getResponse()` and `HttpUtilities.buildRequest()`, and from `save()`. Its message names the
-download URL without its query, which is signed, and `err.cause` (also `err.innerException`) is an
-`AdManagerRequestError`: read the status from `err.cause.status` instead of `err.response.status`. In `save()`,
-`innerException` is a sanitized copy of the original error.
+download URL without its query, which is signed, and `err.innerException` (also `err.cause`) is an
+`AdManagerRequestError`: read the status from `err.innerException.status` instead of `err.response.status`. In
+`save()`, `innerException` is a sanitized copy of the original error. (`err.cause` is only typed when your
+`tsconfig.json` includes the `es2022` lib; `innerException` always is.)
 
 #### `ReportResponse.save()` can be called once
 
@@ -201,16 +212,19 @@ failed one, used to truncate the target file to 0 bytes and resolve as if it had
    Code that matched on a fault's `name` or `message` may need updating: both are now complete (see above).
 
 8. Reports: if a report can take more than 30 minutes, pass `timeoutMs`; catch `AdsReportsException` for download
-   errors and read the status from `err.cause.status`; call `save()` once per `getResponse()`:
+   errors and read the status from its `innerException`; call `save()` once per `getResponse()`, soon after it:
 
    ```typescript
-   import { AdsReportsException, ReportUtilities } from '@niur/google-admanager-api';
+   import { AdManagerRequestError, AdsReportsException, ReportUtilities } from '@niur/google-admanager-api';
 
    const response = await new ReportUtilities(reportService, reportJobId).getResponse({ timeoutMs: 2 * 60 * 60_000 });
    try {
      await response.save('report.csv.gz');
    } catch (err) {
-     if (err instanceof AdsReportsException) console.error(err.message, err.cause);
+     if (err instanceof AdsReportsException) {
+       const inner = err.innerException;
+       console.error(err.message, inner instanceof AdManagerRequestError ? inner.status : inner?.message);
+     }
      throw err;
    }
    ```
@@ -239,7 +253,7 @@ failed one, used to truncate the target file to 0 bytes and resolve as if it had
 
 ### Fixed
 
-- Thirteen service methods sent arguments the WSDL does not declare, so the API rejected or ignored them:
+- Twelve service methods sent arguments the WSDL does not declare, so the API rejected or ignored them:
   `AdRuleService.createAdSpots` and `updateAdSpots`, `CmsMetadataService.performCmsMetadataKeyAction` and
   `performCmsMetadataValueAction`, `CreativeSetService.getCreativeSetsByStatement`,
   `CustomFieldService.updateCustomFields`, `getCustomFieldOption` and `updateCustomFieldOptions` (which called
