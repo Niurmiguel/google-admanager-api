@@ -288,6 +288,11 @@ describe('ReportUtilities.getResponse', () => {
 });
 
 describe('ReportUtilities download timeout (real HTTP server)', () => {
+  // A 6x margin between the gaps and the timeout: a loaded machine delays
+  // timers by tens of milliseconds, and a 3x margin (50 ms vs 150 ms) failed.
+  const SLOW_ROWS = 15;
+  const SLOW_INTERVAL_MS = 100;
+  const SLOW_TIMEOUT_MS = 600;
   let server: Server;
   let baseUrl: string;
   let dir: string;
@@ -298,16 +303,17 @@ describe('ReportUtilities download timeout (real HTTP server)', () => {
       res.writeHead(200, { 'content-type': 'text/csv' });
       res.write('a,b\n');
       if (req.url === '/stalls') return; // headers and a first chunk, then silence
-      // The rest in chunks 50 ms apart: 300 ms in total, longer than the timeout.
+      // The rest in SLOW_ROWS chunks SLOW_INTERVAL_MS apart: 1.5 s in total,
+      // well past SLOW_TIMEOUT_MS, while no gap comes close to it.
       let row = 0;
       const timer = setInterval(() => {
         row++;
         res.write(`${row},${row}\n`);
-        if (row === 6) {
+        if (row === SLOW_ROWS) {
           clearInterval(timer);
           res.end();
         }
-      }, 50);
+      }, SLOW_INTERVAL_MS);
     });
     baseUrl = await listenOnLoopback(server);
     dir = await mkdtemp(join(tmpdir(), 'admanager-report-'));
@@ -331,14 +337,18 @@ describe('ReportUtilities download timeout (real HTTP server)', () => {
   });
 
   it('does not cap the total download time while data keeps arriving', async () => {
+    const started = Date.now();
     const response: ReportResponse = await utilitiesFor(serviceFor('/slow-body')).getResponse({
-      downloadTimeoutMs: 150,
+      downloadTimeoutMs: SLOW_TIMEOUT_MS,
     });
     const file = join(dir, 'slow.csv');
 
     await response.save(file);
 
-    expect(await readFile(file, 'utf8')).toBe('a,b\n1,1\n2,2\n3,3\n4,4\n5,5\n6,6\n');
+    const rows = Array.from({ length: SLOW_ROWS }, (_, i) => `${i + 1},${i + 1}\n`).join('');
+    expect(await readFile(file, 'utf8')).toBe(`a,b\n${rows}`);
+    // Otherwise the test would not prove anything about the total time.
+    expect(Date.now() - started).toBeGreaterThan(SLOW_TIMEOUT_MS);
   });
 
   it('fails the save, instead of hanging, when the download stalls', async () => {
