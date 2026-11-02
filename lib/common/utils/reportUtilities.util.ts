@@ -3,7 +3,13 @@ import { AxiosResponse } from 'axios';
 import { ReportDownloadOptions } from '../../client/services/report/report.type';
 import { ReportJobStatus } from '../../client/services/report/report.enum';
 import { HttpUtilities } from './httpUtilities.util';
-import { AdsReportUtilities, REPORT_RESPONSE_DEFAULTS, ReportResponse, ReportResponseOptions } from './reports';
+import {
+  AdsReportUtilities,
+  REPORT_RESPONSE_DEFAULTS,
+  ReportCallGuard,
+  ReportResponse,
+  ReportResponseOptions,
+} from './reports';
 import { ReportService } from '../../client';
 import { AdsReportsException } from '../handlers';
 
@@ -61,11 +67,24 @@ export class ReportUtilities extends AdsReportUtilities {
    * Gets the report response.
    * @returns The report response.
    */
-  protected async getReport(options: ReportResponseOptions = {}): Promise<ReportResponse> {
-    const response = await this.buildRequest(
-      await this.reportService.getReportDownloadUrlWithOptions(this.reportJobId, this.reportDownloadOptions),
-      options,
+  protected async getReport(
+    options: ReportResponseOptions = {},
+    guard: ReportCallGuard = (call) => call,
+  ): Promise<ReportResponse> {
+    const { signal } = options;
+    const downloadUrl = await guard(
+      this.reportService.getReportDownloadUrlWithOptions(this.reportJobId, this.reportDownloadOptions),
     );
+    signal?.throwIfAborted();
+
+    let response: AxiosResponse<any, any>;
+    try {
+      response = await this.buildRequest(downloadUrl, options);
+    } catch (err) {
+      // Reject with the caller's reason, as the polling does, not with axios' CanceledError.
+      if (signal?.aborted) throw signal.reason;
+      throw err;
+    }
 
     return new ReportResponse(response);
   }

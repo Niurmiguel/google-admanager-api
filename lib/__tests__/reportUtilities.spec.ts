@@ -179,6 +179,99 @@ describe('ReportUtilities.getResponse', () => {
     expect(service.statusChecks).toBe(0);
   });
 
+  describe('API calls that never answer', () => {
+    const never = () => new Promise<never>(() => undefined);
+
+    /** Tracks whether `promise` settled, without awaiting it. */
+    function track(promise: Promise<unknown>) {
+      const state = { settled: false, reason: undefined as unknown };
+      promise.catch((reason: unknown) => {
+        state.settled = true;
+        state.reason = reason;
+      });
+      return state;
+    }
+
+    it('a hanging status check fails at the deadline (timeoutMs 200, abort at 300)', async () => {
+      const service = fakeReportService([IN_PROGRESS]);
+      service.getReportJobStatus.mockImplementation(never);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({ timeoutMs: 200, signal: controller.signal });
+      const state = track(response);
+
+      await jest.advanceTimersByTimeAsync(300);
+      controller.abort(new Error('too late'));
+      await jest.advanceTimersByTimeAsync(1_200);
+
+      expect(state.settled).toBe(true);
+      expect(state.reason).toBeInstanceOf(AdsReportsException);
+      expect(state.reason).toMatchObject({ message: 'Report job 42 did not complete within 200 ms.' });
+    });
+
+    it('a hanging status check stops when the signal aborts, with its reason', async () => {
+      const service = fakeReportService([IN_PROGRESS]);
+      service.getReportJobStatus.mockImplementation(never);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+      const state = track(response);
+      const reason = new Error('shutting down');
+
+      await jest.advanceTimersByTimeAsync(300);
+      controller.abort(reason);
+      await flush();
+
+      expect(state).toEqual({ settled: true, reason });
+    });
+
+    it('a hanging download URL call stops when the signal aborts, with its reason', async () => {
+      const service = fakeReportService([COMPLETED]);
+      service.getReportDownloadUrlWithOptions.mockImplementation(never);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+      const state = track(response);
+      const reason = new Error('shutting down');
+
+      await jest.advanceTimersByTimeAsync(300);
+      controller.abort(reason);
+      await flush();
+
+      expect(state).toEqual({ settled: true, reason });
+      expect(buildRequest).not.toHaveBeenCalled();
+    });
+
+    it('a hanging download URL call fails at the deadline', async () => {
+      const service = fakeReportService([COMPLETED]);
+      service.getReportDownloadUrlWithOptions.mockImplementation(never);
+      const state = track(utilitiesFor(service).getResponse({ timeoutMs: 200 }));
+
+      await jest.advanceTimersByTimeAsync(200);
+
+      expect(state.settled).toBe(true);
+      expect(state.reason).toBeInstanceOf(AdsReportsException);
+    });
+  });
+
+  it('aborting during the download rejects with the reason, not with the HTTP client error', async () => {
+    const service = fakeReportService([COMPLETED]);
+    buildRequest.mockImplementation(
+      (_url, _method, config) =>
+        new Promise((_resolve, reject) =>
+          config.signal?.addEventListener('abort', () =>
+            reject(Object.assign(new Error('canceled'), { name: 'CanceledError', code: 'ERR_CANCELED' })),
+          ),
+        ),
+    );
+    const controller = new AbortController();
+    const response = utilitiesFor(service).getResponse({ signal: controller.signal });
+    const reason = new Error('shutting down');
+    const settled = expect(response).rejects.toBe(reason);
+
+    await flush();
+    expect(buildRequest).toHaveBeenCalledTimes(1);
+    controller.abort(reason);
+    await settled;
+  });
+
   it('downloads with a bounded timeout by default, and a configurable one', async () => {
     const service = fakeReportService([COMPLETED]);
 

@@ -14,7 +14,9 @@ export type ReportResponseOptions = {
   maxDelayMs?: number;
   /**
    * How long to keep checking before giving up with an `AdsReportsException`,
-   * in milliseconds. Default: 1 800 000 (30 minutes). `Infinity` waits forever.
+   * in milliseconds. It also bounds the API calls made meanwhile (status
+   * checks and getting the download URL): one still pending when it passes
+   * is abandoned. Default: 1 800 000 (30 minutes). `Infinity` waits forever.
    */
   timeoutMs?: number;
   /**
@@ -25,7 +27,10 @@ export type ReportResponseOptions = {
    * Default: 60 000. `0` disables it.
    */
   downloadTimeoutMs?: number;
-  /** Cancels the wait and the download request; the promise rejects with `signal.reason`. */
+  /**
+   * Cancels the wait, the pending API call and the download request; the
+   * promise rejects with `signal.reason`.
+   */
   signal?: AbortSignal;
 };
 
@@ -36,6 +41,66 @@ export const REPORT_RESPONSE_DEFAULTS = Object.freeze({
   timeoutMs: 30 * 60_000,
   downloadTimeoutMs: 60_000,
 });
+
+/**
+ * Bounds an API call made while waiting for a report: settles with the call,
+ * or rejects as soon as the signal aborts or the deadline passes.
+ */
+export type ReportCallGuard = <T>(call: Promise<T>) => Promise<T>;
+
+/** setTimeout's largest delay; a bigger one fires after 1 ms. */
+const MAX_TIMER_MS = 2 ** 31 - 1;
+
+/**
+ * Settles with `call`, or rejects with `signal.reason` when the signal aborts,
+ * or with `onDeadline()` when `deadline` (a Date.now() value) passes. The
+ * call itself is not cancelled: it ends on its own SOAP timeout, and its
+ * outcome is then ignored (it is still observed, so it never becomes an
+ * unhandled rejection).
+ */
+function bounded<T>(
+  call: Promise<T>,
+  signal: AbortSignal | undefined,
+  deadline: number,
+  onDeadline: () => Error,
+): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    let timer: NodeJS.Timeout | undefined;
+    const done = () => {
+      clearTimeout(timer);
+      signal?.removeEventListener('abort', onAbort);
+    };
+    const onAbort = () => {
+      done();
+      reject(signal.reason);
+    };
+
+    call.then(
+      (value) => {
+        done();
+        resolve(value);
+      },
+      (err) => {
+        done();
+        reject(err);
+      },
+    );
+
+    if (signal?.aborted) return onAbort();
+    signal?.addEventListener('abort', onAbort, { once: true });
+
+    const remaining = deadline - Date.now();
+    if (remaining <= MAX_TIMER_MS) {
+      timer = setTimeout(
+        () => {
+          done();
+          reject(onDeadline());
+        },
+        Math.max(0, remaining),
+      );
+    }
+  });
+}
 
 function assertRange(name: string, value: number, valid: boolean): void {
   if (typeof value !== 'number' || Number.isNaN(value) || !valid) {
@@ -54,7 +119,11 @@ export abstract class AdsReportUtilities {
   }
 
   protected schedule(): void {}
-  protected abstract getReport(options?: ReportResponseOptions): any;
+  /**
+   * Gets the report once the job is complete. `guard` bounds the API calls it
+   * makes by the caller's signal and the remaining `timeoutMs`.
+   */
+  protected abstract getReport(options?: ReportResponseOptions, guard?: ReportCallGuard): any;
 
   /** Names the job in error messages. */
   protected describeJob(): string {
@@ -86,14 +155,18 @@ export abstract class AdsReportUtilities {
 
     const deadline = Date.now() + timeoutMs;
     let delay = Math.min(initialDelayMs, maxDelayMs);
+    const timedOut = () => new AdsReportsException(`${this.describeJob()} did not complete within ${timeoutMs} ms.`);
+    // Each API call has its own SOAP timeout, but it must not outlive the
+    // caller's signal or deadline either.
+    const guard: ReportCallGuard = (call) => bounded(call, signal, deadline, timedOut);
 
     this.schedule();
-    while (await this.shouldWaitMore()) {
+    while (await guard(this.shouldWaitMore())) {
       signal?.throwIfAborted();
 
       const remaining = deadline - Date.now();
       if (remaining <= 0) {
-        throw new AdsReportsException(`${this.describeJob()} did not complete within ${timeoutMs} ms.`);
+        throw timedOut();
       }
 
       try {
@@ -107,6 +180,6 @@ export abstract class AdsReportUtilities {
     }
     signal?.throwIfAborted();
 
-    return this.getReport({ ...options, downloadTimeoutMs });
+    return this.getReport({ ...options, downloadTimeoutMs }, guard);
   }
 }

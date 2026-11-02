@@ -86,7 +86,19 @@ const orderPage = await orderService.getOrdersByStatement(statement.toStatement(
     <td><code>String</code></td>
     <td>An arbitrary string name identifying your application. This will be shown in Google's log files. For example: "My Inventory Application" or "App_1" (<b>optional</b>).</td>
   </tr>
+  <tr>
+    <td><code><b>options</b></code></td>
+    <td><code>SoapCallOptions</code></td>
+    <td><code>{ timeout, signal }</code> for every call of the services the client creates (<b>optional</b>). <code>timeout</code>: maximum time per call in milliseconds, 300000 (5 minutes) by default, <code>0</code> disables it; when it passes the call rejects with an <code>AdManagerRequestError</code> with <code>code: 'ETIMEDOUT'</code>. <code>signal</code>: an <code>AbortSignal</code> that cancels the calls, which reject with <code>signal.reason</code>.</td>
+  </tr>
 </table>
+
+`getService(name, options)` accepts the same options; the ones it sets replace the client's for that service:
+
+```typescript
+const adManagerClient = new AdManagerClient(networkCode, credential, 'applicationName', { timeout: 60_000 });
+const reportService = await adManagerClient.getService('ReportService', { timeout: 10 * 60_000, signal });
+```
 
 ##### Errors
 
