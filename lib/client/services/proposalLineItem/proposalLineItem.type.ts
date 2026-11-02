@@ -56,19 +56,19 @@ export type ProposalLineItem = {
   /**
    * The unique ID of the ProposalLineItem. This attribute is read-only.
    */
-  idproposals: number;
+  id: number;
   /**
    * The unique ID of the Proposal, to which the ProposalLineItem belongs. This attribute is required for creation and then is readonly.
    *
    * This attribute is required.
    */
-  proposalIdproposals: number;
+  proposalId: number;
   /**
    * The name of the ProposalLineItem which should be unique under the same Proposal. This attribute has a maximum length of 255 characters. This attribute can be configured as editable after the proposal has been submitted. Please check with your network administrator for editable fields configuration.
    *
    * This attribute is required.
    */
-  nameproposals: string;
+  name: string;
   /**
    * The date and time at which the line item associated with the ProposalLineItem is enabled to begin serving. This attribute is optional during creation, but required and must be in the future when it turns into a line item. The DateTime.timeZoneID is required if start date time is not null. This attribute becomes readonly once the ProposalLineItem has started delivering.
    */
@@ -80,11 +80,11 @@ export type ProposalLineItem = {
   /**
    * Provides any additional notes that may annotate the ProposalLineItem. This attribute is optional and has a maximum length of 65,535 characters. This attribute can be configured as editable after the proposal has been submitted. Please check with your network administrator for editable fields configuration.
    */
-  internalNotesproposals: string;
+  internalNotes: string;
   /**
    * The archival status of the ProposalLineItem. This attribute is read-only.
    */
-  isArchivedproposals: boolean;
+  isArchived: boolean;
   /**
    * The goal(i.e. contracted quantity, quantity or limit) that this ProposalLineItem is associated with, which is used in its pacing and budgeting.
    * Goal.units must be greater than 0 when the proposal line item turns into a line item, Goal.goalType and Goal.unitType are readonly.
@@ -100,7 +100,7 @@ export type ProposalLineItem = {
    *
    * This attribute is required for percentage-based-goal proposal line items. It does not impact ad-serving and is for reporting purposes only.
    */
-  contractedUnitsBoughtproposals: number;
+  contractedUnitsBought: number;
   /**
    * The strategy for delivering ads over the course of the ProposalLineItem's duration. This attribute is optional and default value is DeliveryRateType.EVENLY.
    * For a Preferred deal ProposalLineItem, the value can only be DeliveryRateType.FRONTLOADED.
