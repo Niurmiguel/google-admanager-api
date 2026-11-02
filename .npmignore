@@ -15,5 +15,5 @@ renovate.json
 # misc
 .commitlintrc.json
 .release-it.json
-.eslintignore
-.eslintrc.js
+eslint.config.mjs
+jestconfig.json
