@@ -11,6 +11,9 @@ import { reportException, sanitizeDownloadError } from '../httpUtilities.util';
 export class ReportResponse {
   private response: AxiosResponse<any, any>;
 
+  /** Set when save() starts: the body is a stream and can only be read once. */
+  private consumed = false;
+
   constructor(response: AxiosResponse<any, any>) {
     if (response == null) {
       throw new ArgumentNullException('Response cannot be null.');
@@ -20,12 +23,18 @@ export class ReportResponse {
   }
 
   /**
-   * Saves the report to a specified path
+   * Saves the report to a specified path. It can be called only once per
+   * response, even if it fails: call `getResponse()` again to download the
+   * report again.
    *
    * @param path The path to which report is saved.
+   * @throws AdsReportsException if the download or the file fails, or if
+   * save() was already called on this response.
    */
   public async save(path: string): Promise<void> {
+    // Both before the first await, so a concurrent second call is rejected too.
     this.ensureStreamIsOpen();
+    this.consumed = true;
 
     try {
       // pipeline, unlike .pipe(), propagates a download error (e.g. the
@@ -42,11 +51,15 @@ export class ReportResponse {
   }
 
   /**
-   * Checks to ensure that the underlying stream has not been closed.
+   * Checks that nobody has read the response body yet. A second read would
+   * get an exhausted (or destroyed) stream and write an empty file.
    */
   private ensureStreamIsOpen(): void {
-    if (this.response == null) {
-      throw new AdsReportsException('Cannot access a closed report response stream.');
+    if (this.consumed) {
+      throw new AdsReportsException(
+        'The report response was already read: save() can be called only once per response, ' +
+          'even after a failure. Call getResponse() again to download the report again.',
+      );
     }
   }
 }
