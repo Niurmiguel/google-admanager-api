@@ -15,10 +15,13 @@
  */
 import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { inspect } from 'node:util';
 import { Client, createClientAsync } from 'soap';
 
 import { API_VERSION, SERVICE_MAP } from '../common/constants';
 import { AdManagerClient } from '../client';
+import { AdManagerRequestError } from '../common/utils';
+import { FAKE_TOKEN } from './support/fakeAdManager';
 
 const enabled = process.env.ADMANAGER_NETWORK_TESTS === '1';
 const updateFixture = process.env.ADMANAGER_UPDATE_WSDL_FIXTURE === '1';
@@ -104,19 +107,22 @@ describeNetwork(`Ad Manager ${API_VERSION} public WSDLs`, () => {
     }
   });
 
-  it('rejects a fake token with the HTTP 401 error raised by node-soap', async () => {
-    const adManager = new AdManagerClient(123456, { getToken: async () => 'fake-token' }, 'wsdl-contract-test');
+  it('rejects a fake token with a sanitized AdManagerRequestError for the HTTP 401', async () => {
+    const adManager = new AdManagerClient(123456, { getToken: async () => FAKE_TOKEN }, 'wsdl-contract-test');
     const networkService = await adManager.getService('NetworkService');
 
     const error = await networkService.getCurrentNetwork().then(
       () => {
         throw new Error('expected the call to be rejected');
       },
-      (err: unknown) => err as Error & { response?: { status?: number } },
+      (err: unknown) => err,
     );
 
-    expect(error).toBeInstanceOf(Error);
-    expect(error.message).toBe('Error http status codes');
-    expect(error.response?.status).toBe(401);
+    expect(error).toBeInstanceOf(AdManagerRequestError);
+    expect(error).toMatchObject({ message: 'Error http status codes', status: 401, response: { status: 401 } });
+    // The token went out in the Authorization header; neither the error nor the service shows it.
+    expect(inspect(error, { depth: Infinity, showHidden: true })).not.toContain(FAKE_TOKEN);
+    expect(JSON.stringify(error)).not.toContain(FAKE_TOKEN);
+    expect(inspect(networkService, { depth: Infinity })).not.toContain(FAKE_TOKEN);
   });
 });
