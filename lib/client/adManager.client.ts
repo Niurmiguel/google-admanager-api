@@ -23,8 +23,9 @@ export class AdManagerClient {
         token: token as string,
         applicationName: this.applicationName,
       }).createClient();
-    } catch (err: any) {
-      throw new Error(err);
+    } catch (err: unknown) {
+      // Same message as before (`new Error(err)`), with the original error kept as cause.
+      throw new Error(String(err), { cause: err });
     }
   }
 }
