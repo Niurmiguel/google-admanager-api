@@ -109,14 +109,19 @@ export class ReportResponse {
   }
 
   /**
-   * What console.log() and util.inspect() show: status and URL without its
-   * signed query. The response itself (config, request, headers sent) holds
-   * the full URL and is never shown.
+   * What JSON.stringify() shows, and console.log() too: status and URL
+   * without its signed query. The response itself (config, request, headers
+   * sent) holds the full URL and is never shown; it also has cycles, so a
+   * logger's cycle-tolerant stringify would print it.
    */
-  [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
+  toJSON(): { status: number; url: string | undefined; saveCalled: boolean } {
     const url = this.download?.url ?? this.response.config?.url;
-    const summary = { status: this.response.status, url: url ? redactUrl(url) : undefined, saveCalled: this.consumed };
-    return `ReportResponse ${inspectFn(summary, options)}`;
+    return { status: this.response.status, url: url ? redactUrl(url) : undefined, saveCalled: this.consumed };
+  }
+
+  /** What console.log() and util.inspect() show: the same as toJSON(). */
+  [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
+    return `ReportResponse ${inspectFn(this.toJSON(), options)}`;
   }
 
   /**

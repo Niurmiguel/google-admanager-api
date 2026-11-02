@@ -122,11 +122,27 @@ describe('a report response', () => {
     await response.save('/dev/null');
   });
 
+  it('nor in JSON, even with a stringify that tolerates cycles', async () => {
+    const response: ReportResponse = await new ReportUtilities(reportService(), 1).getResponse();
+    const summary = JSON.stringify({ status: 200, url: `${base}/report.csv`, saveCalled: false });
+
+    // The response holds the request: plain JSON.stringify threw on its cycles.
+    expect(JSON.stringify(response)).toBe(summary);
+    expect(stringifyTolerant(response)).toBe(summary);
+    expect(stringifyTolerant({ response })).not.toContain(SIGNATURE);
+    await response.save('/dev/null');
+  });
+
   it('nor does the download it comes from', async () => {
     const download = await ReportDownload.open(`${base}/report.csv${QUERY}`, { timeoutMs: 0 });
     try {
       expect(dump(download)).not.toContain(SIGNATURE);
       expect(dump(download, true)).not.toContain(SIGNATURE);
+
+      const summary = JSON.stringify({ url: `${base}/report.csv`, status: 200, closed: false });
+      expect(JSON.stringify(download)).toBe(summary);
+      expect(stringifyTolerant(download)).toBe(summary);
+      expect(stringifyTolerant({ download })).not.toContain(SIGNATURE);
     } finally {
       download.close();
     }

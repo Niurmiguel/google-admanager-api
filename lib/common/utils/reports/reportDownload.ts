@@ -111,12 +111,17 @@ export class ReportDownload {
   }
 
   /**
-   * What console.log() and util.inspect() show: the URL without its signed
-   * query, and none of the request or response (they hold the full URL).
+   * What JSON.stringify() shows, and console.log() too: the URL without its
+   * signed query, and none of the request or response (they hold the full
+   * URL, and a logger's cycle-tolerant stringify would print them).
    */
+  toJSON(): { url: string; status: number | undefined; closed: boolean } {
+    return { url: redactUrl(this.url), status: this.response?.status, closed: this.closed };
+  }
+
+  /** What console.log() and util.inspect() show: the same as toJSON(). */
   [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
-    const summary = { url: redactUrl(this.url), status: this.response?.status, closed: this.closed };
-    return `ReportDownload ${inspectFn(summary, options)}`;
+    return `ReportDownload ${inspectFn(this.toJSON(), options)}`;
   }
 
   /** The body has been read to the end: only stop listening to the signal. */
