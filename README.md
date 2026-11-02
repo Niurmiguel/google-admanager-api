@@ -88,6 +88,13 @@ const orderPage = await orderService.getOrdersByStatement(statement.toStatement(
   </tr>
 </table>
 
+##### Errors
+
+A failed call rejects with one of two values:
+
+- **SOAP fault** (the API answered with an error): a plain object `{ code, name, message, details }`, where `code` is the HTTP status and `name` the first Ad Manager error type (e.g. `AuthenticationError`).
+- **Anything else** (network error, timeout, HTTP error page, unparseable response): an `AdManagerRequestError`, exported by the package. It keeps `message`, `code` (`ECONNRESET`, `ECONNABORTED`...), `status`, `body` and `response` (`status`, `statusText`, `headers`, `data`), and its `cause` is a copy of the original error. It never carries the request (`config`, `request`, `response.config`), so logging it does not leak the OAuth token.
+
 ## Stay in touch
 
 * Author - [Niurmiguel](https://github.com/Niurmiguel)

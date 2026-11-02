@@ -1,6 +1,10 @@
+import { AdManagerRequestError, toRequestError } from './safeError.util';
+
 export { DateTimeUtilities } from './dateTimeUtilities.util';
 export { StatementBuilder } from './statementBuilder.util';
 export { HttpUtilities } from './httpUtilities.util';
+export { AdManagerRequestError } from './safeError.util';
+export type { SafeResponse } from './safeError.util';
 
 /**
  * Error raised by node-soap. For SOAP faults its message is
@@ -24,14 +28,17 @@ const SERVER_FAULT = 'soap:Server: ';
 const CLIENT_FAULT = 'soap:Client: ';
 
 /**
- * Maps a node-soap error to the value the returned promise rejects with.
+ * Maps a node-soap error to the value the returned promise rejects with:
+ * a {@link SoapFault} for SOAP faults, an {@link AdManagerRequestError}
+ * for everything else. The raw error is never passed on, because axios and
+ * node-soap attach the request to it, Authorization header included.
  * It must never throw: it runs inside node-soap's callback, where an
  * exception would escape as an unhandled rejection and leave the caller's
  * promise pending forever.
  */
-function toRejection(err: unknown): SoapFault | unknown {
+function toRejection(err: unknown): SoapFault | AdManagerRequestError {
   const message = (err as SoapError | undefined)?.message;
-  if (typeof message !== 'string') return err;
+  if (typeof message !== 'string') return toRequestError(err);
 
   const code = (err as SoapError).response?.status;
 
@@ -65,7 +72,7 @@ function toRejection(err: unknown): SoapFault | unknown {
     };
   }
 
-  return err;
+  return toRequestError(err);
 }
 
 export function promiseFromCallback(fn: (callback: (err: Error, result: any) => void) => void): Promise<any> {

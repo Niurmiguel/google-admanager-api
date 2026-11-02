@@ -8,7 +8,7 @@ import { createServer, Server } from 'node:http';
 import { AddressInfo } from 'node:net';
 import { Client, createClientAsync } from 'soap';
 
-import { promiseFromCallback } from '../common/utils';
+import { AdManagerRequestError, promiseFromCallback } from '../common/utils';
 
 const NS = 'https://www.google.com/apis/ads/publisher/v202608';
 
@@ -198,13 +198,21 @@ describe('promiseFromCallback with SOAP faults', () => {
     });
   });
 
-  it('rejects with the original error when it is not a SOAP fault', async () => {
-    const error = new Error('socket hang up');
-
-    expect(await outcomeOf(promiseFromCallback((cb) => cb(error, undefined)))).toEqual({
-      state: 'rejected',
-      reason: error,
+  it('rejects with an AdManagerRequestError, not the raw error, when it is not a SOAP fault', async () => {
+    const error = Object.assign(new Error('socket hang up'), {
+      code: 'ECONNRESET',
+      config: { headers: { Authorization: 'Bearer fake-oauth-token-for-tests-0000' } },
     });
+
+    const outcome = await outcomeOf(promiseFromCallback((cb) => cb(error, undefined)));
+
+    expect(outcome.state).toBe('rejected');
+    const reason = (outcome as { reason: AdManagerRequestError }).reason;
+    expect(reason).toBeInstanceOf(AdManagerRequestError);
+    expect(reason).toMatchObject({ message: 'socket hang up', code: 'ECONNRESET' });
+    expect(reason).not.toHaveProperty('config');
+    expect(reason.cause).toMatchObject({ message: 'socket hang up', code: 'ECONNRESET' });
+    expect(reason.cause).not.toHaveProperty('config');
   });
 
   it('rejects once with the mapped fault, not a second time with the raw error', async () => {
