@@ -88,6 +88,14 @@ jobs:
             exit 1
           fi
           sha256sum "$1"
-          npm publish "$1" --provenance --access public --ignore-scripts
+          # A release marked as pre-release goes to the "next" dist-tag, so
+          # `npm install` keeps resolving to the last stable version.
+          tag=latest
+          if [ "$PRERELEASE" = "true" ]; then
+            tag=next
+          fi
+          echo "Publishing with dist-tag: $tag"
+          npm publish "$1" --provenance --access public --ignore-scripts --tag "$tag"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PRERELEASE: ${{ github.event.release.prerelease }}
