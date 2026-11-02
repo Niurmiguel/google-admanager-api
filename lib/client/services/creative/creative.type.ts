@@ -21,6 +21,12 @@ import {
 } from './creative.enum';
 
 /**
+ * Raw bytes. Declared locally because the global `BinaryData` this type used to
+ * resolve to came from TypeScript's DOM lib and was removed in TypeScript 5.
+ */
+type BinaryData = ArrayBuffer | ArrayBufferView;
+
+/**
  * An Ad Exchange dynamic allocation creative.
  */
 export type AdExchangeCreative = {
