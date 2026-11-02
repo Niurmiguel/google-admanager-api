@@ -154,8 +154,7 @@ type RuleBasedFirstPartyAudienceSegmentSummary = AudienceSegment & {
 };
 
 export type FirstPartyAudienceSegment =
-  | NonRuleBasedFirstPartyAudienceSegment
-  | RuleBasedFirstPartyAudienceSegmentSummary;
+  NonRuleBasedFirstPartyAudienceSegment | RuleBasedFirstPartyAudienceSegmentSummary;
 
 /**
  * Represents a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
