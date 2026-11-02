@@ -6,11 +6,11 @@ import { AdsReportsException } from '../../handlers';
  * Options for {@link AdsReportUtilities.getResponse}. All of them are optional.
  */
 export type ReportResponseOptions = {
-  /** Wait before the second status check, in milliseconds. Default: 5 000. */
+  /** Wait before the second status check, in milliseconds (at most 2^31 - 1). Default: 5 000. */
   initialDelayMs?: number;
   /** Each wait is the previous one multiplied by this factor (>= 1). Default: 1.5. */
   backoffFactor?: number;
-  /** Upper bound for a single wait, in milliseconds. Default: 60 000. */
+  /** Upper bound for a single wait, in milliseconds (at most 2^31 - 1). Default: 60 000. */
   maxDelayMs?: number;
   /**
    * How long to keep checking before giving up with an `AdsReportsException`,
@@ -27,7 +27,7 @@ export type ReportResponseOptions = {
    * it does not run between getResponse() and save(): a response that save()
    * has not started to read releases its connection after this time, and a
    * later save() downloads the report again.
-   * Default: 60 000. `0` disables it (an unread response then keeps its
+   * Default: 60 000, at most 2^31 - 1. `0` disables it (an unread response then keeps its
    * connection until save() reads it).
    */
   downloadTimeoutMs?: number;
@@ -151,11 +151,13 @@ export abstract class AdsReportUtilities {
     const downloadTimeoutMs = options.downloadTimeoutMs ?? defaults.downloadTimeoutMs;
     const { signal } = options;
 
-    assertRange('initialDelayMs', initialDelayMs, initialDelayMs > 0 && Number.isFinite(initialDelayMs));
+    // Waits are timers: a delay above MAX_TIMER_MS would fire after 1 ms, and
+    // with no deadline the status checks would run in a tight loop.
+    assertRange('initialDelayMs', initialDelayMs, initialDelayMs > 0 && initialDelayMs <= MAX_TIMER_MS);
     assertRange('backoffFactor', backoffFactor, backoffFactor >= 1 && Number.isFinite(backoffFactor));
-    assertRange('maxDelayMs', maxDelayMs, maxDelayMs > 0 && Number.isFinite(maxDelayMs));
+    assertRange('maxDelayMs', maxDelayMs, maxDelayMs > 0 && maxDelayMs <= MAX_TIMER_MS);
     assertRange('timeoutMs', timeoutMs, timeoutMs >= 0);
-    assertRange('downloadTimeoutMs', downloadTimeoutMs, downloadTimeoutMs >= 0 && Number.isFinite(downloadTimeoutMs));
+    assertRange('downloadTimeoutMs', downloadTimeoutMs, downloadTimeoutMs >= 0 && downloadTimeoutMs <= MAX_TIMER_MS);
     signal?.throwIfAborted();
 
     const deadline = Date.now() + timeoutMs;

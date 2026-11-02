@@ -12,7 +12,7 @@ import { ReportService } from '../client';
 import { ReportJobStatus } from '../client/services/report/report.enum';
 import { AdsReportsException } from '../common/handlers';
 import { HttpUtilities } from '../common/utils';
-import { ReportResponse } from '../common/utils/reports';
+import { ReportResponse, ReportResponseOptions } from '../common/utils/reports';
 import { ReportUtilities } from '../common/utils/reportUtilities.util';
 import { listenOnLoopback } from './support/loopback';
 
@@ -169,13 +169,68 @@ describe('ReportUtilities.getResponse', () => {
     expect(service.statusChecks).toBe(0);
   });
 
-  it('rejects invalid polling options', async () => {
-    const service = fakeReportService([COMPLETED]);
+  describe('option validation', () => {
+    /** setTimeout's largest delay; a larger one fires after 1 ms. */
+    const MAX_TIMER_MS = 2 ** 31 - 1;
 
-    await expect(utilitiesFor(service).getResponse({ initialDelayMs: 0 })).rejects.toThrow(RangeError);
-    await expect(utilitiesFor(service).getResponse({ backoffFactor: 0.5 })).rejects.toThrow(RangeError);
-    await expect(utilitiesFor(service).getResponse({ timeoutMs: -1 })).rejects.toThrow(RangeError);
-    expect(service.statusChecks).toBe(0);
+    it.each<[keyof ReportResponseOptions, unknown]>([
+      ['initialDelayMs', 0],
+      ['initialDelayMs', -1],
+      ['initialDelayMs', NaN],
+      ['initialDelayMs', Infinity],
+      ['initialDelayMs', MAX_TIMER_MS + 1],
+      ['initialDelayMs', '5000'],
+      ['backoffFactor', 0.5],
+      ['backoffFactor', NaN],
+      ['backoffFactor', Infinity],
+      ['maxDelayMs', 0],
+      ['maxDelayMs', -1],
+      ['maxDelayMs', NaN],
+      ['maxDelayMs', Infinity],
+      ['maxDelayMs', MAX_TIMER_MS + 1],
+      ['timeoutMs', -1],
+      ['timeoutMs', NaN],
+      ['downloadTimeoutMs', -1],
+      ['downloadTimeoutMs', NaN],
+      ['downloadTimeoutMs', Infinity],
+      ['downloadTimeoutMs', MAX_TIMER_MS + 1],
+    ])('rejects %s = %p with a RangeError, before any call', async (name, value) => {
+      const service = fakeReportService([COMPLETED]);
+
+      await expect(utilitiesFor(service).getResponse({ [name]: value })).rejects.toThrow(
+        new RangeError(`Invalid ${name}: ${value}`),
+      );
+      expect(service.statusChecks).toBe(0);
+      expect(buildRequest).not.toHaveBeenCalled();
+    });
+
+    it.each<[keyof ReportResponseOptions, number]>([
+      ['initialDelayMs', MAX_TIMER_MS],
+      ['maxDelayMs', MAX_TIMER_MS],
+      ['timeoutMs', 0],
+      ['timeoutMs', Infinity],
+      ['downloadTimeoutMs', 0],
+      ['downloadTimeoutMs', MAX_TIMER_MS],
+    ])('accepts %s = %p', async (name, value) => {
+      await expect(utilitiesFor(fakeReportService([COMPLETED])).getResponse({ [name]: value })).resolves.toBeDefined();
+    });
+
+    it('does not poll in a tight loop with the longest delays and no deadline', async () => {
+      const service = fakeReportService([IN_PROGRESS]);
+      const controller = new AbortController();
+      const response = utilitiesFor(service).getResponse({
+        initialDelayMs: MAX_TIMER_MS,
+        maxDelayMs: MAX_TIMER_MS,
+        timeoutMs: Infinity,
+        signal: controller.signal,
+      });
+      const settled = expect(response).rejects.toMatchObject({ name: 'AbortError' });
+
+      await jest.advanceTimersByTimeAsync(60_000);
+      expect(service.statusChecks).toBe(1);
+      controller.abort();
+      await settled;
+    });
   });
 
   describe('API calls that never answer', () => {
@@ -360,6 +415,9 @@ describe('ReportUtilities download timeout (real HTTP server)', () => {
     await rm(dir, { recursive: true, force: true });
   });
 
+  const openConnections = () =>
+    new Promise<number>((resolve, reject) => server.getConnections((e, n) => (e ? reject(e) : resolve(n))));
+
   const serviceFor = (path: string) => ({
     getReportJobStatus: async () => ReportJobStatus.COMPLETED,
     getReportDownloadUrlWithOptions: async () => `${baseUrl}${path}`,
@@ -369,6 +427,19 @@ describe('ReportUtilities download timeout (real HTTP server)', () => {
     await expect(utilitiesFor(serviceFor('/never-answers')).getResponse({ downloadTimeoutMs: 100 })).rejects.toThrow(
       'timeout of 100ms exceeded',
     );
+  });
+
+  it('aborting while waiting for the response headers rejects with the reason and closes the connection', async () => {
+    const controller = new AbortController();
+    const response = utilitiesFor(serviceFor('/never-answers')).getResponse({ signal: controller.signal });
+    const reason = new Error('shutting down');
+    while ((await openConnections()) === 0) await new Promise((resolve) => setTimeout(resolve, 10));
+
+    controller.abort(reason);
+
+    await expect(response).rejects.toBe(reason);
+    for (let i = 0; i < 100 && (await openConnections()) > 0; i++) await new Promise((r) => setTimeout(r, 10));
+    expect(await openConnections()).toBe(0);
   });
 
   it('does not cap the total download time while data keeps arriving', async () => {
