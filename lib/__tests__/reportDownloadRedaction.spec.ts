@@ -6,6 +6,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { createServer, Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { Readable } from 'node:stream';
 import { inspect } from 'node:util';
 
 import { ReportService } from '../client';
@@ -128,6 +129,49 @@ describe('failed report downloads do not expose the signed URL', () => {
     const err = await rejection(response.save(join(dir, 'stalled-again.csv')));
 
     expect(err).toBeInstanceOf(AdsReportsException);
+    expectNoSignature(err);
+  });
+
+  // Neither axios nor Node quote the URL in their messages today, but an
+  // adapter or an application's axios interceptor may: the query is removed
+  // from any message or stack copied into the error.
+  it('when the error message quotes the URL', async () => {
+    const err = await rejection(
+      HttpUtilities.buildRequest(`${base}/quoted/report.csv${QUERY}`, 'GET', {
+        adapter: async (config) => {
+          throw new Error(`GET ${config.url} failed`);
+        },
+      }),
+    );
+
+    expect((err as Error).message).toBe(
+      `Failed to download the report from ${base}/quoted/report.csv: GET ${base}/quoted/report.csv failed`,
+    );
+    expectNoSignature(err);
+  });
+
+  it('when the error of the body while saving quotes the URL', async () => {
+    const response = new ReportResponse(
+      await HttpUtilities.buildRequest(`${base}/quoted/report.csv${QUERY}`, 'GET', {
+        adapter: async (config) => ({
+          data: new Readable({
+            read() {
+              this.destroy(new Error(`reading ${config.url} failed`));
+            },
+          }),
+          status: 200,
+          statusText: 'OK',
+          headers: {},
+          config,
+        }),
+      }),
+    );
+
+    const err = await rejection(response.save(join(dir, 'quoted.csv')));
+
+    expect((err as AdsReportsException).innerException).toMatchObject({
+      message: `reading ${base}/quoted/report.csv failed`,
+    });
     expectNoSignature(err);
   });
 
