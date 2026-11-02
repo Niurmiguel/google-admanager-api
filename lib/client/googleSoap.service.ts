@@ -3,6 +3,7 @@ import { BearerSecurity, Client, createClientAsync } from 'soap';
 import { GoogleSoapServiceOptions, ImportClass } from '../common/types';
 import { API_VERSION, SERVICE_MAP } from '../common/constants';
 import { promiseFromCallback } from '../common/utils';
+import { neutralizeRawXml } from '../common/utils/soapArgs.util';
 
 export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
   private networkCode: number;
@@ -34,7 +35,9 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
 
         if (target.hasOwnProperty(method) && !['setToken'].includes(method)) {
           return async function run(dto: any = {}) {
-            const res = await promiseFromCallback((cb) => client[method](dto, cb));
+            // node-soap writes strings that look like CDATA unescaped: see soapArgs.util.
+            const args = neutralizeRawXml(dto);
+            const res = await promiseFromCallback((cb) => client[method](args, cb));
 
             return res?.rval || null;
           };
@@ -50,7 +53,7 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
   }
 
   private getSoapHeaders(): any {
-    return {
+    return neutralizeRawXml({
       RequestHeader: {
         attributes: {
           'soapenv:actor': 'http://schemas.xmlsoap.org/soap/actor/next',
@@ -63,6 +66,6 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
         'ns1:networkCode': this.networkCode,
         'ns1:applicationName': this.applicationName,
       },
-    };
+    });
   }
 }
