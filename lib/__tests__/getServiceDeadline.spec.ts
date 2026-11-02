@@ -94,15 +94,18 @@ describe('getService() timeout and cancellation', () => {
   afterAll(() => silent.close());
 
   it('rejects with ETIMEDOUT when the WSDL does not arrive in time, and closes the connection', async () => {
+    // 5 s: the request must reach the server before the timeout; with four
+    // Jest runs in parallel, 500 ms was not always enough.
     const outcome = await outcomeOf(
-      new AdManagerClient(123, credential).getService('CompanyService', { timeout: 500 }),
+      new AdManagerClient(123, credential).getService('CompanyService', { timeout: 5_000 }),
+      20_000,
     );
 
     expect(outcome.state).toBe('rejected');
     expect(reasonOf(outcome)).toBeInstanceOf(AdManagerRequestError);
     expect(reasonOf(outcome)).toMatchObject({
       code: 'ETIMEDOUT',
-      message: "getService('CompanyService') timed out after 500 ms",
+      message: "getService('CompanyService') timed out after 5000 ms",
     });
     expect(silent.requests).toBe(1);
     // The signal reached axios: the request was aborted, not only abandoned.
