@@ -18,11 +18,7 @@ export class GoogleSAFileCredential implements SACredential {
     }
 
     this._keyFile = keyFile;
-
-    this.build();
-  }
-
-  private async build() {
+    // Synchronous: GoogleAuth reads the key file lazily, on the first token request.
     this.auth = new GoogleAuth({
       keyFile: this._keyFile,
       scopes: SCOPE,
