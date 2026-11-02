@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { Transform } from 'node:stream';
+import { inspect, InspectOptionsStylized } from 'node:util';
 
 import { AdsReportsException } from '../../handlers';
 import { HttpUtilities, redactUrl, reportException } from '../httpUtilities.util';
@@ -107,6 +108,15 @@ export class ReportDownload {
     const { signal } = this.settings;
     if (signal?.aborted) return signal.reason;
     return this.controller.signal.aborted ? this.controller.signal.reason : undefined;
+  }
+
+  /**
+   * What console.log() and util.inspect() show: the URL without its signed
+   * query, and none of the request or response (they hold the full URL).
+   */
+  [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
+    const summary = { url: redactUrl(this.url), status: this.response?.status, closed: this.closed };
+    return `ReportDownload ${inspectFn(summary, options)}`;
   }
 
   /** The body has been read to the end: only stop listening to the signal. */

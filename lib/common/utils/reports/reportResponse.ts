@@ -1,9 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { createWriteStream } from 'node:fs';
 import { pipeline } from 'node:stream/promises';
+import { inspect, InspectOptionsStylized } from 'node:util';
 
 import { AdsReportsException, ArgumentNullException } from '../../handlers';
-import { reportException, sanitizeDownloadError } from '../httpUtilities.util';
+import { redactUrl, reportException, sanitizeDownloadError } from '../httpUtilities.util';
 import { inactivityWatchdog, ReportDownload, saveTimeoutError } from './reportDownload';
 
 /**
@@ -103,6 +104,17 @@ export class ReportResponse {
         sanitizeDownloadError(err, download?.url ?? String(this.response.config?.url ?? '')),
       );
     }
+  }
+
+  /**
+   * What console.log() and util.inspect() show: status and URL without its
+   * signed query. The response itself (config, request, headers sent) holds
+   * the full URL and is never shown.
+   */
+  [inspect.custom](_depth: number, options: InspectOptionsStylized, inspectFn: typeof inspect = inspect): string {
+    const url = this.download?.url ?? this.response.config?.url;
+    const summary = { status: this.response.status, url: url ? redactUrl(url) : undefined, saveCalled: this.consumed };
+    return `ReportResponse ${inspectFn(summary, options)}`;
   }
 
   /**
