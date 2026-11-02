@@ -90,7 +90,7 @@ In 0.0.6 the error was an unhandled rejection that terminated the process, or a 
 request. The error message keeps the position of a JSON syntax error but not the input, which holds the private
 key.
 
-#### SOAP calls time out after 5 minutes
+#### SOAP calls and `getService()` time out after 5 minutes
 
 Every call now has a 5-minute timeout. When it passes, the call rejects with an `AdManagerRequestError` whose
 `code` is `'ETIMEDOUT'`, and its connection is closed. Change it, or pass `0` to disable it as in 0.0.6, for every
@@ -102,6 +102,14 @@ const reportService = await client.getService('ReportService', { timeout: 15 * 6
 ```
 
 The same options accept a `signal` (`AbortSignal`) that cancels the calls; they then reject with `signal.reason`.
+
+The timeout and the signal that apply to a service also bound `getService()` itself: getting the OAuth token and
+downloading the service's WSDL must finish within `timeout` (it rejects with the same `ETIMEDOUT` error, and the
+WSDL download is aborted), and an aborted `signal` makes it reject with `signal.reason`, right away if it was already
+aborted. In 0.0.6 a WSDL server or a token endpoint that did not answer left `getService()` pending forever. The token
+request itself cannot be cancelled: when the timeout or the signal ends `getService()` while it is pending, it goes
+on in the background and its result is discarded. A short `timeout` meant for the calls now also has to leave time
+for the WSDL download.
 
 #### Rejections: `AdManagerRequestError` instead of the HTTP and SOAP client errors
 
@@ -124,6 +132,13 @@ the `Authorization` header with the OAuth token, so logging them leaked it. They
 `err.cause` is a copy of the original error with its name, message, stack and system error fields (`code`,
 `errno`, `syscall`...), never the request. `err.response.headers` is a plain object with lower-case header names, as
 in 0.0.6; it is not an axios 1.x `AxiosHeaders` and has no `.get()`.
+
+`getService()` also rejects with an `AdManagerRequestError` when it cannot get the token or the WSDL, instead of a
+plain `Error`. Its `message` is the one 0.0.6 gave (`String(err)`, for example `'Error: socket hang up'`), and it
+keeps `code` and `status`; `err.name` is now `'AdManagerRequestError'` instead of `'Error'`, and it is still an
+`instanceof Error`. Its `cause` is a sanitized copy of the original error, or `undefined` when the original was not
+an `Error`: the raw errors carry their request, with the `Proxy-Authorization` header of a proxy set in
+`HTTPS_PROXY`, or the signed assertion sent to the token endpoint.
 
 #### Rejections for SOAP faults: `name` and `message`
 
@@ -261,7 +276,8 @@ failed one, used to truncate the target file to 0 bytes and resolve as if it had
   `UserTeamAssociationService.performUserTeamAssociationAction` and `NetworkService.updateNetwork`.
 - `UserService.getAllRoles` never settled.
 - `ReportResponse.save()` stayed pending forever when the download failed.
-- `getService()` keeps the original error as `cause` when it cannot create the client.
+- `getService()` no longer stays pending forever when the WSDL server or the token endpoint does not answer: it
+  applies the service's `timeout` and `signal`.
 - `CompanyService.performCompanyAction` no longer writes to the console.
 - `CreativeAsset` no longer refers to a global `BinaryData` type that TypeScript 5 does not declare.
 - The npm package contains only the build output, README, LICENSE and package.json: 0.0.6 also shipped compiled
@@ -270,7 +286,13 @@ failed one, used to truncate the target file to 0 bytes and resolve as if it had
 ### Security
 
 - Rejections never carry the OAuth token: errors are rebuilt from an allowlist of fields (`AdManagerRequestError`)
-  instead of passing on the HTTP client's error and its request.
+  instead of passing on the HTTP client's error and its request. That includes `getService()`, whose raw errors
+  carried the `Proxy-Authorization` header of a proxy with credentials, or the request to the token endpoint.
+- `console.log()` (`util.inspect()`) of a service no longer prints the OAuth token, which its SOAP client keeps
+  (`security`, `lastRequestHeaders`); of a `ReportResponse`, the signed download URL; of a `GoogleSACredential` or
+  `GoogleSAFileCredential` (or an `AdManagerClient` that holds one), the private key and the cached token. They
+  print a summary instead. A service's internal `_client` is no longer enumerable, so `JSON.stringify()` skips it.
+  Debug logging of the SOAP client (`DEBUG=node-soap`) still prints the request headers, token included.
 - Report download errors never contain the signed download URL's query.
 - A string that closes a CDATA section early can no longer inject XML elements into a request.
 - SOAP calls and report downloads have timeouts, so a connection left hanging by the server no longer keeps a call,
