@@ -1,3 +1,4 @@
+import { inspect } from 'node:util';
 import { BearerSecurity, Client, createClientAsync } from 'soap';
 
 import {
@@ -52,6 +53,16 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
     const serviceName = this.service;
     const { timeout, signal } = this.callOptions;
 
+    // The client holds the token (`security`, `lastRequestHeaders`) and the
+    // whole WSDL. util.inspect skips the Proxy and reads the target, so this
+    // is what console.log prints for it, at any depth and with showHidden.
+    Object.defineProperty(client, inspect.custom, {
+      value: () => `[SoapClient ${serviceName}]`,
+      configurable: true,
+      enumerable: false,
+      writable: true,
+    });
+
     this._client = new Proxy(client, {
       get: function get(target, propertyKey) {
         const method = propertyKey.toString();
@@ -93,8 +104,13 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
     });
 
     const services = SERVICE_MAP as any;
+    const instance = new services[this.service](this._client);
+    // Keeps the client out of JSON.stringify() and of console.log() without showHidden.
+    if (Object.prototype.hasOwnProperty.call(instance, '_client')) {
+      Object.defineProperty(instance, '_client', { enumerable: false });
+    }
 
-    return new services[this.service](this._client);
+    return instance;
   }
 
   private getSoapHeaders(): any {
