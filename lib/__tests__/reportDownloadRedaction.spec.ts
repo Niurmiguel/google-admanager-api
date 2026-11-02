@@ -21,6 +21,9 @@ import { listenOnLoopback } from './support/loopback';
 const SIGNATURE = 'fake-signature-for-tests-0000';
 const QUERY = `?GoogleAccessId=tests%40example.invalid&Expires=1&Signature=${SIGNATURE}`;
 
+// Real sockets, and a download that stalls past a 5 s timeout.
+jest.setTimeout(30_000);
+
 function expectNoSignature(err: unknown) {
   expect(inspect(err, { depth: Infinity, showHidden: true })).not.toContain(SIGNATURE);
   expect(JSON.stringify(err) ?? '').not.toContain(SIGNATURE);
@@ -176,8 +179,10 @@ describe('failed report downloads do not expose the signed URL', () => {
   });
 
   it('when the download fails while saving', async () => {
+    // axios' timeout is a socket inactivity timeout: it must let the headers
+    // arrive (100 ms did not, on a loaded machine), then it ends the stalled body.
     const response = new ReportResponse(
-      await HttpUtilities.buildRequest(`${base}/stalls/report.csv${QUERY}`, 'GET', { timeout: 100 }),
+      await HttpUtilities.buildRequest(`${base}/stalls/report.csv${QUERY}`, 'GET', { timeout: 5_000 }),
     );
 
     const err = await rejection(response.save(join(dir, 'stalled.csv')));

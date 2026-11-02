@@ -86,8 +86,15 @@ const FAULTS = {
 
 type FaultName = keyof typeof FAULTS;
 
-/** Settles with the outcome, or with 'pending' if the promise is still unsettled after `ms`. */
-async function outcomeOf(promise: Promise<unknown>, ms = 2_000) {
+// outcomeOf waits up to 5 s of real time for a call that should settle.
+jest.setTimeout(20_000);
+
+/**
+ * Settles with the outcome, or with 'pending' if the promise is still
+ * unsettled after `ms`. 5 s: a loopback call took more than 2 s on a heavily
+ * loaded machine.
+ */
+async function outcomeOf(promise: Promise<unknown>, ms = 5_000) {
   let timer: NodeJS.Timeout | undefined;
   const pending = new Promise<{ state: 'pending' }>((resolve) => {
     timer = setTimeout(() => resolve({ state: 'pending' }), ms);

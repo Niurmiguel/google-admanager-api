@@ -18,6 +18,9 @@ jest.mock('soap', () => {
   };
 });
 
+// Real sockets and real-time timeouts of several seconds.
+jest.setTimeout(30_000);
+
 const credential = { getToken: async () => FAKE_TOKEN };
 const query = () => new StatementBuilder().limit(1).toStatement();
 
@@ -75,22 +78,22 @@ describe('SOAP call timeout and cancellation', () => {
     new AdManagerClient(123, credential, 'tests', clientOptions).getService('CompanyService', serviceOptions);
 
   it('rejects when the timeout passes, and closes the connection', async () => {
-    // 1 s, not less: the request must reach the server before the timeout,
-    // and on a busy machine sending it can take a few hundred milliseconds.
-    const companies = await service({ timeout: 1_000 });
+    // 5 s, not less: the request must reach the server before the timeout,
+    // and on a heavily loaded machine sending it took more than 1 s.
+    const companies = await service({ timeout: 5_000 });
 
-    const outcome = await outcomeOf(companies.getCompaniesByStatement(query()), 4_000);
+    const outcome = await outcomeOf(companies.getCompaniesByStatement(query()), 20_000);
 
     expect(outcome.state).toBe('rejected');
     const err = (outcome as { reason: unknown }).reason;
     expect(err).toBeInstanceOf(AdManagerRequestError);
     expect(err).toMatchObject({
       code: 'ETIMEDOUT',
-      message: 'CompanyService.getCompaniesByStatement timed out after 1000 ms',
+      message: 'CompanyService.getCompaniesByStatement timed out after 5000 ms',
     });
     expect(inspect(err, { depth: Infinity, showHidden: true })).not.toContain(FAKE_TOKEN);
     expect(requests).toBe(1);
-    expect(await connectionsAfter(fake)).toBe(0);
+    expect(await connectionsAfter(fake, 5_000)).toBe(0);
   });
 
   it('defaults to 5 minutes', async () => {
@@ -148,7 +151,8 @@ describe('SOAP call timeout and cancellation', () => {
 
   it('a call that answers in time is not affected', async () => {
     fake.handler = (_req, res) => res.end(okEnvelope('fine'));
-    const companies = await service({ timeout: 1_000 });
+    // Far above what a loaded machine takes to answer on loopback.
+    const companies = await service({ timeout: 10_000 });
 
     await expect(companies.getCompaniesByStatement(query())).resolves.toBe('fine');
   });
