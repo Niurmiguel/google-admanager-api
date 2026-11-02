@@ -2,6 +2,7 @@
  * SOAP calls end: a server that never answers makes the call reject when the
  * timeout passes, and closes the connection. A signal cancels them.
  */
+import { getEventListeners } from 'node:events';
 import { inspect } from 'node:util';
 
 import { AdManagerClient, CompanyService } from '../client';
@@ -150,6 +151,43 @@ describe('SOAP call timeout and cancellation', () => {
     const companies = await service({ timeout: 1_000 });
 
     await expect(companies.getCompaniesByStatement(query())).resolves.toBe('fine');
+  });
+
+  describe('cleanup after each call', () => {
+    const ok = () => (fake.handler = (_req, res) => res.end(okEnvelope()));
+    const failing = () =>
+      (fake.handler = (_req, res) => {
+        res.writeHead(502, { 'content-type': 'text/html' });
+        res.end('<html>bad gateway</html>');
+      });
+    /** Timers that keep the process alive. */
+    const timers = () => process.getActiveResourcesInfo().filter((type) => type === 'Timeout').length;
+
+    it('removes its listener from a shared signal', async () => {
+      const controller = new AbortController();
+      const companies = await service({ signal: controller.signal });
+
+      ok();
+      for (let i = 0; i < 10; i++) await companies.getCompaniesByStatement(query());
+      failing();
+      for (let i = 0; i < 3; i++) await expect(companies.getCompaniesByStatement(query())).rejects.toBeDefined();
+      ok();
+      await Promise.all(Array.from({ length: 5 }, () => companies.getCompaniesByStatement(query())));
+
+      expect(getEventListeners(controller.signal, 'abort')).toHaveLength(0);
+    });
+
+    it('clears its timeout', async () => {
+      const companies = await service({ timeout: 60_000 });
+      const before = timers();
+
+      ok();
+      for (let i = 0; i < 3; i++) await companies.getCompaniesByStatement(query());
+      failing();
+      for (let i = 0; i < 3; i++) await expect(companies.getCompaniesByStatement(query())).rejects.toBeDefined();
+
+      expect(timers()).toBe(before);
+    });
   });
 
   it.each([-1, 1.5, NaN, Infinity, 2 ** 31])('rejects timeout %p', async (timeout) => {
