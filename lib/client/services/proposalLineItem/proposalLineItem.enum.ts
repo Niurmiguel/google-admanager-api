@@ -7,21 +7,9 @@ export enum RateType {
    */
   CPM = 'CPM',
   /**
-   * The rate applies to cost per click (CPC) revenue.
-   */
-  CPC = 'CPC',
-  /**
    * The rate applies to cost per day (CPD) revenue.
    */
   CPD = 'CPD',
-  /**
-   * The rate applies to cost per unit (CPU) revenue.
-   */
-  CPU = 'CPU',
-  /**
-   * The rate applies to flat fee revenue.
-   */
-  FLAT_FEE = 'FLAT_FEE',
   /**
    * The rate applies to Active View viewable cost per mille (vCPM) revenue.
    */

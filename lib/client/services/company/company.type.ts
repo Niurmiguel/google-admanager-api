@@ -3,11 +3,6 @@ import { CompanyCreditStatus, CompanyType } from './company.enum';
 import { DateTime, PageResult } from '../../../common/types';
 
 /**
- * Settings for a {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company}.
- */
-export type CompanySettings = {};
-
-/**
  * Information required for {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company} of Type VIEWABILITY_PROVIDER.
  * It contains all of the data needed to capture viewability metrics.
  */
@@ -75,10 +70,6 @@ export type Company = {
    * and CreditStatus.ON_HOLD when advanced credit status settings are enabled.
    */
   creditStatus: CompanyCreditStatus;
-  /**
-   * Specifies the default billing settings of this Company. This attribute is optional.
-   */
-  settings: CompanySettings;
   /**
    * The set of labels applied to this company.
    */

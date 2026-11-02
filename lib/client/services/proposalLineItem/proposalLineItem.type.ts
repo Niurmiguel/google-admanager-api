@@ -76,10 +76,6 @@ export type ProposalLineItem = {
    */
   endDateTime: DateTime;
   /**
-   * The time zone ID in tz database format (e.g. "America/Los_Angeles") for this ProposalLineItem. The number of serving days is calculated in this time zone. So if rateType is RateType.CPD, it will affect the cost calculation. The startDateTime and endDateTime will be returned in this time zone. This attribute is optional and defaults to the network's time zone. This attribute is read-only.
-   */
-  timeZoneIdproposals: string;
-  /**
    * Provides any additional notes that may annotate the ProposalLineItem. This attribute is optional and has a maximum length of 65,535 characters. This attribute can be configured as editable after the proposal has been submitted. Please check with your network administrator for editable fields configuration.
    */
   internalNotesproposals: string;
@@ -261,10 +257,6 @@ export type ProposalLineItem = {
    * The set of AllowedFormats that this proposal line item can have. If the set is empty, this proposal line item allows all formats.
    */
   allowedFormats: AllowedFormats[];
-  /**
-   * Whether or not the Proposal for this ProposalLineItem is a programmatic deal. This attribute is populated from Proposal.isProgrammatic. This attribute is read-only.
-   */
-  isProgrammatic: boolean;
 
   /**
    * The marketplace info if this proposal line item is programmatic, null otherwise.

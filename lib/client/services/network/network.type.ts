@@ -1,5 +1,3 @@
-import { ChildPublisher } from '../../common/types';
-
 export type Network = {
   /**
    * The unique ID of the Network. This value is readonly and is assigned by Google.
@@ -37,10 +35,4 @@ export type Network = {
    * Whether this is a test network. This field is read-only.
    */
   isTest: boolean;
-  /**
-   * The child networks that have been invited by, have approved, or have rejected this parent network for Multiple Customer Management.
-   *
-   * This field is read-only
-   */
-  childPublishers: ChildPublisher[];
 };

@@ -425,34 +425,6 @@ export enum Dimension {
   CUSTOM_CRITERIA = 'CUSTOM_CRITERIA',
 
   /**
-   * Breaks down reporting data by activity ID. Can be used to filter by activity ID.
-   *
-   * Compatible with any of the following report types: Historical, Reach.
-   */
-  ACTIVITY_ID = 'ACTIVITY_ID',
-
-  /**
-   * Breaks down reporting data by activity. The activity name and the activity ID are automatically included as columns in the report. Can be used to filter by activity name.
-   *
-   * Corresponds to "Activity" in the Ad Manager UI. Compatible with any of the following report types: Historical, Reach.
-   */
-  ACTIVITY_NAME = 'ACTIVITY_NAME',
-
-  /**
-   * Breaks down reporting data by activity group ID. Can be used to filter by activity group ID.
-   *
-   * Compatible with any of the following report types: Historical, Reach.
-   */
-  ACTIVITY_GROUP_ID = 'ACTIVITY_GROUP_ID',
-
-  /**
-   * Breaks down reporting data by activity group. The activity group name and the activity group ID are automatically included as columns in the report. Can be used to filter by activity group name.
-   *
-   * Corresponds to "Activity group" in the Ad Manager UI. Compatible with any of the following report types: Historical, Reach.
-   */
-  ACTIVITY_GROUP_NAME = 'ACTIVITY_GROUP_NAME',
-
-  /**
    * Breaks down reporting data by Content.id. Can be used to filter by Content.id.
    *
    * Compatible with any of the following report types: Historical, Future sell-through, Reach.
@@ -479,20 +451,6 @@ export enum Dimension {
    * Corresponds to "Content bundle" in the Ad Manager UI. Compatible with any of the following report types: Historical, Future sell-through, Reach.
    */
   CONTENT_BUNDLE_NAME = 'CONTENT_BUNDLE_NAME',
-
-  /**
-   * Breaks down reporting data by CustomTargetingKey.id.
-   *
-   * Compatible with any of the following report types: Historical, Reach.
-   */
-  VIDEO_METADATA_KEY_ID = 'VIDEO_METADATA_KEY_ID',
-
-  /**
-   * Breaks down reporting data by custom targeting key. CustomTargetingKey.name and CustomTargetingKey.id are automatically included as columns in the report.
-   *
-   * Corresponds to "Metadata key" in the Ad Manager UI. Compatible with any of the following report types: Historical, Reach.
-   */
-  VIDEO_METADATA_KEY_NAME = 'VIDEO_METADATA_KEY_NAME',
 
   /**
    * Breaks down reporting data by CMS metadata. To use this dimension in API, a list of cms metadata key IDs must be specified in ReportQuery.cmsMetadataKeyIds.
@@ -579,13 +537,6 @@ export enum Dimension {
    * Corresponds to "Video ad request duration" in the Ad Manager UI. Compatible with any of the following report types: Historical, Reach.
    */
   VIDEO_AD_REQUEST_DURATION = 'VIDEO_AD_REQUEST_DURATION',
-
-  /**
-   * Breaks down reporting data by video placement.
-   *
-   * Corresponds to "Video Placement" in the Ad Manager UI. Compatible with any of the following report types: Historical, Reach.
-   */
-  VIDEO_PLACEMENT_NAME = 'VIDEO_PLACEMENT_NAME',
 
   /**
    * Breaks down reporting data by partner Company.id.
@@ -1612,13 +1563,6 @@ export enum Column {
    * Corresponds to "Ad server CPD revenue" in the Ad Manager UI. Compatible with the "Historical" report type.
    */
   AD_SERVER_CPD_REVENUE = 'AD_SERVER_CPD_REVENUE',
-
-  /**
-   * The CPA revenue earned, calculated in publisher currency, for the ads delivered by the ad server.
-   *
-   * Corresponds to "CPA revenue" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  AD_SERVER_CPA_REVENUE = 'AD_SERVER_CPA_REVENUE',
 
   /**
    * The CPM, CPC and CPD revenue earned, calculated in publisher currency, for the ads delivered by the ad server.
@@ -3467,13 +3411,6 @@ export enum Column {
   ADSENSE_ACTIVE_VIEW_MEASURABLE_IMPRESSIONS_RATE = 'ADSENSE_ACTIVE_VIEW_MEASURABLE_IMPRESSIONS_RATE',
 
   /**
-   * Active View AdSense revenue.
-   *
-   * Corresponds to "AdSense Active View Revenue" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  ADSENSE_ACTIVE_VIEW_REVENUE = 'ADSENSE_ACTIVE_VIEW_REVENUE',
-
-  /**
    * Active View AdSense average time in seconds that specific impressions are reported as being viewable.
    *
    * Corresponds to "AdSense Active View Average Viewable Time (seconds)" in the Ad Manager UI. Compatible with the "Historical" report type.
@@ -3516,13 +3453,6 @@ export enum Column {
   AD_EXCHANGE_ACTIVE_VIEW_MEASURABLE_IMPRESSIONS_RATE = 'AD_EXCHANGE_ACTIVE_VIEW_MEASURABLE_IMPRESSIONS_RATE',
 
   /**
-   * Active View AdExchange revenue.
-   *
-   * Corresponds to "Ad Exchange Active View Revenue" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  AD_EXCHANGE_ACTIVE_VIEW_REVENUE = 'AD_EXCHANGE_ACTIVE_VIEW_REVENUE',
-
-  /**
    * Active View AdExchange average time in seconds that specific impressions are reported as being viewable.
    *
    * Corresponds to "Ad Exchange Active View Average Viewable Time (seconds)" in the Ad Manager UI. Compatible with the "Historical" report type.
@@ -3535,59 +3465,6 @@ export enum Column {
    * Corresponds to "Total Active View Revenue" in the Ad Manager UI. Compatible with the "Historical" report type.
    */
   TOTAL_ACTIVE_VIEW_REVENUE = 'TOTAL_ACTIVE_VIEW_REVENUE',
-
-  /**
-   * Number of view-through conversions.
-   */
-  VIEW_THROUGH_CONVERSIONS = 'VIEW_THROUGH_CONVERSIONS',
-  /**
-   * Number of view-through conversions per thousand impressions.
-   *
-   * Corresponds to "Conversions per thousand impressions" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  CONVERSIONS_PER_THOUSAND_IMPRESSIONS = 'CONVERSIONS_PER_THOUSAND_IMPRESSIONS',
-
-  /**
-   * Number of click-through conversions.
-   *
-   * Corresponds to "Click-through conversions" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  CLICK_THROUGH_CONVERSIONS = 'CLICK_THROUGH_CONVERSIONS',
-
-  /**
-   * Number of click-through conversions per click.
-   *
-   * Corresponds to "Conversions per click" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  CONVERSIONS_PER_CLICK = 'CONVERSIONS_PER_CLICK',
-
-  /**
-   * Revenue for view-through conversions.
-   *
-   * Corresponds to "Advertiser view-through sales" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  VIEW_THROUGH_REVENUE = 'VIEW_THROUGH_REVENUE',
-
-  /**
-   * Revenue for click-through conversions.
-   *
-   * Corresponds to "Advertiser click-through sales" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  CLICK_THROUGH_REVENUE = 'CLICK_THROUGH_REVENUE',
-
-  /**
-   * Total number of conversions.
-   *
-   * Corresponds to "Total conversions" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  TOTAL_CONVERSIONS = 'TOTAL_CONVERSIONS',
-
-  /**
-   * Total revenue for conversions.
-   *
-   * Corresponds to "Total advertiser sales" in the Ad Manager UI. Compatible with the "Historical" report type.
-   */
-  TOTAL_CONVERSION_REVENUE = 'TOTAL_CONVERSION_REVENUE',
 
   /**
    * The number of impressions sent to Ad Exchange / AdSense, regardless of whether they won or lost (total number of dynamic allocation impressions).

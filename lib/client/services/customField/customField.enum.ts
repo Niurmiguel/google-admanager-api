@@ -15,14 +15,6 @@ export enum CustomFieldEntityType {
    */
   CREATIVE = 'CREATIVE',
   /**
-   * Represents the ProductTemplate type.
-   */
-  PRODUCT_TEMPLATE = 'PRODUCT_TEMPLATE',
-  /**
-   * Represents the Product type.
-   */
-  PRODUCT = 'PRODUCT',
-  /**
    * Represents the Proposal type.
    */
   PROPOSAL = 'PROPOSAL',

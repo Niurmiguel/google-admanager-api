@@ -17,27 +17,36 @@ export enum DelegationType {
 }
 
 /**
- * Status of the association between networks. When a parent network requests access, it is marked as pending. Once the child network approves, it is marked as approved.
+ * Status of the association between networks. When a parent network requests access, it is marked as pending.
+ * Once the child network accepts the agreement, it is marked as accepted.
  */
-export enum DelegationStatus {
+export enum InvitationStatus {
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
   /**
-   * The association request from the parent network is approved by the child network.
+   * The association request from the parent network has been accepted by the child network.
    */
-  APPROVED = 'APPROVED',
+  ACCEPTED = 'ACCEPTED',
   /**
-   * The association request from the parent network is pending child network approval or rejection.
+   * The invitation has expired. An invitation is valid for 90 days. Expired invitations can be resent.
+   */
+  EXPIRED = 'EXPIRED',
+  /**
+   * The child publisher has not acted on the invite from the parent.
    */
   PENDING = 'PENDING',
   /**
-   * The association request from the parent network is rejected or revoked by the child network.
+   * The child publisher has declined the invite.
    */
   REJECTED = 'REJECTED',
   /**
-   * The association request from the parent network is withdrawn by the parent network.
+   * The parent network withdrew the invite.
    */
   WITHDRAWN = 'WITHDRAWN',
+  /**
+   * The invitation was disapproved by Google.
+   */
+  DEACTIVATED_BY_AD_MANAGER = 'DEACTIVATED_BY_AD_MANAGER',
 }

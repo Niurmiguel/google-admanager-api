@@ -40,11 +40,6 @@ export type User = UserRecord & {
    */
   isActive: boolean;
   /**
-   * Specifies whether or not the User wants to permit the Publisher Display Ads system to send email notifications to their email address.
-   * This attribute is optional and defaults to true.
-   */
-  isEmailNotificationAllowed: boolean;
-  /**
    * An identifier for the **User** that is meaningful to the publisher.
    * This attribute is optional and has a maximum length of 255 characters.
    */

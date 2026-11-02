@@ -11,7 +11,6 @@ export type Site = {
   url: string;
   childNetworkCode: string;
   approvalStatus: ApprovalStatus;
-  active: boolean;
   disapprovalReasons: DisapprovalReason[];
 };
 

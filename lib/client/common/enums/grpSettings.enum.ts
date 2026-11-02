@@ -30,10 +30,6 @@ export enum GrpProvider {
   UNKNOWN = 'UNKNOWN',
 
   NIELSEN = 'NIELSEN',
-  /**
-   * Renamed to GOOGLE beginning in V201608.
-   */
-  GOOGLE = 'GOOGLE',
 }
 
 /**

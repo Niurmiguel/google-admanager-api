@@ -1,7 +1,7 @@
 import { LineItemCreativeAssociationStatus } from './lineItemCreativeAssociation.enum';
 import { DateTime, PageResult } from '../../../common/types';
 import { StartDateTimeType } from '../../../common/enums';
-import { Money, Size, Stats } from '../../common/types';
+import { Size, Stats } from '../../common/types';
 
 /**
  * This represents an entry in a map with a key of type Long and value of type Stats.
@@ -25,11 +25,6 @@ export type LineItemCreativeAssociationStats = {
    * A map containing Stats objects for each creative belonging to a creative set, null for non creative set associations.
    */
   creativeSetStats: Long_StatsMapEntry[];
-
-  /**
-   * The revenue generated thus far by the creative from its association with the particular line item in the publisher's currency.
-   */
-  costInOrderCurrency: Money;
 };
 
 /**
