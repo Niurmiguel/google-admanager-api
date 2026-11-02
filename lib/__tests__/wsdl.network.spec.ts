@@ -108,10 +108,7 @@ describeNetwork(`Ad Manager ${API_VERSION} public WSDLs`, () => {
     const adManager = new AdManagerClient(123456, { getToken: async () => 'fake-token' }, 'wsdl-contract-test');
     const networkService = await adManager.getService('NetworkService');
 
-    // NetworkService methods are typed as synchronous but return a promise at
-    // runtime; the async wrapper keeps this test independent of that typing.
-    const getCurrentNetwork = async () => networkService.getCurrentNetwork();
-    const error = await getCurrentNetwork().then(
+    const error = await networkService.getCurrentNetwork().then(
       () => {
         throw new Error('expected the call to be rejected');
       },

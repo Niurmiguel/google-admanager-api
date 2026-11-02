@@ -13,17 +13,17 @@ export interface NetworkServiceOperations {
    *
    * @returns the networks to which the current login has access
    */
-  getAllNetworks(): Network[];
+  getAllNetworks(): Promise<Network[]>;
   /**
    * Returns the current network for which requests are being made.
    *
    * @returns the network for which the user is currently making the request
    */
-  getCurrentNetwork(): Network;
+  getCurrentNetwork(): Promise<Network>;
   /**
    * Returns the default ThirdPartyDataDeclaration for this network. If this setting has never been updated on your network, then this API response will be empty.
    */
-  getDefaultThirdPartyDataDeclaration(): ThirdPartyDataDeclaration;
+  getDefaultThirdPartyDataDeclaration(): Promise<ThirdPartyDataDeclaration>;
   /**
    * Creates a new blank network for testing purposes using the current login.
    *
@@ -40,12 +40,12 @@ export interface NetworkServiceOperations {
    * - Test networks are limited to 10,000 objects per entity type.
    * @returns `Network`
    */
-  makeTestNetwork(): Network;
+  makeTestNetwork(): Promise<Network>;
   /**
    * Updates the specified network. Currently, only the network display name can be updated.
    *
    * @param network the network that needs to be updated
    * @returns the updated network
    */
-  updateNetwork(network: Network): Network;
+  updateNetwork(network: Network): Promise<Network>;
 }
