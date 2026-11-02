@@ -51,6 +51,7 @@ describe('failed report downloads do not expose the signed URL', () => {
         res.writeHead(200, { 'content-type': 'text/csv' });
         res.write('a,b\n'); // then silence
       }
+      // '/never-answers': no headers at all.
     });
     base = await listenOnLoopback(server);
     dir = await mkdtemp(join(tmpdir(), 'admanager-report-'));
@@ -94,13 +95,37 @@ describe('failed report downloads do not expose the signed URL', () => {
     expectNoSignature(err);
   });
 
-  it('through ReportUtilities.getResponse', async () => {
-    const service = {
-      getReportJobStatus: async () => ReportJobStatus.COMPLETED,
-      getReportDownloadUrlWithOptions: async () => `${base}/forbidden/report.csv${QUERY}`,
-    } as unknown as ReportService;
+  const utilitiesFor = (path: string) =>
+    new ReportUtilities(
+      {
+        getReportJobStatus: async () => ReportJobStatus.COMPLETED,
+        getReportDownloadUrlWithOptions: async () => `${base}${path}${QUERY}`,
+      } as unknown as ReportService,
+      42,
+    );
 
-    const err = await rejection(new ReportUtilities(service, 42).getResponse());
+  it('through ReportUtilities.getResponse', async () => {
+    const err = await rejection(utilitiesFor('/forbidden/report.csv').getResponse());
+
+    expect(err).toBeInstanceOf(AdsReportsException);
+    expectNoSignature(err);
+  });
+
+  it('when the response headers do not arrive in time', async () => {
+    const err = await rejection(utilitiesFor('/never-answers/report.csv').getResponse({ downloadTimeoutMs: 100 }));
+
+    expect(err).toBeInstanceOf(AdsReportsException);
+    expect((err as Error).message).toBe(
+      `Failed to download the report from ${base}/never-answers/report.csv: timeout of 100ms exceeded`,
+    );
+    expectNoSignature(err);
+  });
+
+  it('when the download stalls while saving, through getResponse', async () => {
+    // Long enough for the headers to arrive on a busy machine; the save then stalls past it.
+    const response = await utilitiesFor('/stalls/report.csv').getResponse({ downloadTimeoutMs: 600 });
+
+    const err = await rejection(response.save(join(dir, 'stalled-again.csv')));
 
     expect(err).toBeInstanceOf(AdsReportsException);
     expectNoSignature(err);

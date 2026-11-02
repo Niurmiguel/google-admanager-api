@@ -271,19 +271,54 @@ describe('ReportUtilities.getResponse', () => {
     await settled;
   });
 
-  it('downloads with a bounded timeout by default, and a configurable one', async () => {
-    const service = fakeReportService([COMPLETED]);
+  describe('download timeout until the response headers arrive', () => {
+    /** A download request that never answers, and fails as axios does when its signal aborts. */
+    const hangingDownload: typeof HttpUtilities.buildRequest = (_url, _method, config) =>
+      new Promise((_resolve, reject) =>
+        config.signal?.addEventListener('abort', () =>
+          reject(Object.assign(new Error('canceled'), { name: 'CanceledError', code: 'ERR_CANCELED' })),
+        ),
+      );
 
-    await utilitiesFor(service).getResponse();
-    expect(buildRequest).toHaveBeenLastCalledWith(DOWNLOAD_URL, 'GET', expect.objectContaining({ timeout: 60_000 }));
+    it('is 60 s by default', async () => {
+      buildRequest.mockImplementation(hangingDownload);
+      const response = utilitiesFor(fakeReportService([COMPLETED])).getResponse();
+      const settled = expect(response).rejects.toThrow(
+        `Failed to download the report from ${DOWNLOAD_URL}: timeout of 60000ms exceeded`,
+      );
 
-    const controller = new AbortController();
-    await utilitiesFor(service).getResponse({ downloadTimeoutMs: 5_000, signal: controller.signal });
-    expect(buildRequest).toHaveBeenLastCalledWith(
-      DOWNLOAD_URL,
-      'GET',
-      expect.objectContaining({ timeout: 5_000, signal: controller.signal }),
-    );
+      await jest.advanceTimersByTimeAsync(59_999);
+      expect(buildRequest).toHaveBeenCalledTimes(1);
+      await jest.advanceTimersByTimeAsync(1);
+      await settled;
+      await expect(response).rejects.toBeInstanceOf(AdsReportsException);
+      await expect(response).rejects.toMatchObject({ cause: { code: 'ECONNABORTED' } });
+    });
+
+    it('takes downloadTimeoutMs', async () => {
+      buildRequest.mockImplementation(hangingDownload);
+      const response = utilitiesFor(fakeReportService([COMPLETED])).getResponse({ downloadTimeoutMs: 5_000 });
+      const settled = expect(response).rejects.toThrow('timeout of 5000ms exceeded');
+
+      await jest.advanceTimersByTimeAsync(5_000);
+      await settled;
+    });
+
+    it('is disabled by 0', async () => {
+      buildRequest.mockImplementation(hangingDownload);
+      const response = utilitiesFor(fakeReportService([COMPLETED])).getResponse({ downloadTimeoutMs: 0 });
+      let settled = false;
+      response.catch(() => undefined).finally(() => (settled = true));
+
+      await jest.advanceTimersByTimeAsync(24 * 60 * 60_000);
+      expect(settled).toBe(false);
+    });
+
+    it("is not axios' timeout, which would keep running on the socket after the headers", async () => {
+      await utilitiesFor(fakeReportService([COMPLETED])).getResponse();
+
+      expect(buildRequest).toHaveBeenCalledWith(DOWNLOAD_URL, 'GET', { signal: expect.any(AbortSignal) });
+    });
   });
 });
 
@@ -353,7 +388,7 @@ describe('ReportUtilities download timeout (real HTTP server)', () => {
 
   it('fails the save, instead of hanging, when the download stalls', async () => {
     const response: ReportResponse = await utilitiesFor(serviceFor('/stalls')).getResponse({
-      downloadTimeoutMs: 150,
+      downloadTimeoutMs: SLOW_TIMEOUT_MS,
     });
 
     await expect(response.save(join(dir, 'stalled.csv'))).rejects.toThrow(AdsReportsException);

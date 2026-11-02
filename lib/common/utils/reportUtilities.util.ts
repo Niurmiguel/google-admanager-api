@@ -1,8 +1,5 @@
-import { AxiosResponse } from 'axios';
-
 import { ReportDownloadOptions } from '../../client/services/report/report.type';
 import { ReportJobStatus } from '../../client/services/report/report.enum';
-import { HttpUtilities } from './httpUtilities.util';
 import {
   AdsReportUtilities,
   REPORT_RESPONSE_DEFAULTS,
@@ -10,6 +7,7 @@ import {
   ReportResponse,
   ReportResponseOptions,
 } from './reports';
+import { ReportDownload } from './reports/reportDownload';
 import { ReportService } from '../../client';
 import { AdsReportsException } from '../handlers';
 
@@ -77,27 +75,12 @@ export class ReportUtilities extends AdsReportUtilities {
     );
     signal?.throwIfAborted();
 
-    let response: AxiosResponse<any, any>;
-    try {
-      response = await this.buildRequest(downloadUrl, options);
-    } catch (err) {
-      // Reject with the caller's reason, as the polling does, not with axios' CanceledError.
-      if (signal?.aborted) throw signal.reason;
-      throw err;
-    }
-
-    return new ReportResponse(response);
-  }
-
-  /**
-   * Builds an HTTP request for downloading reports.
-   * @param downloadUrl The download url.
-   */
-  private buildRequest(downloadUrl: string, options: ReportResponseOptions): Promise<AxiosResponse<any, any>> {
-    return HttpUtilities.buildRequest(downloadUrl, 'GET', {
-      // With a stream response axios' `timeout` acts as a socket inactivity timeout.
-      timeout: options.downloadTimeoutMs ?? REPORT_RESPONSE_DEFAULTS.downloadTimeoutMs,
-      signal: options.signal,
+    // Rejects with signal.reason, as the polling does, not with axios' CanceledError.
+    const download = await ReportDownload.open(downloadUrl, {
+      timeoutMs: options.downloadTimeoutMs ?? REPORT_RESPONSE_DEFAULTS.downloadTimeoutMs,
+      signal,
     });
+
+    return new ReportResponse(download.response, download);
   }
 }

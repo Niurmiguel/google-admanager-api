@@ -20,16 +20,21 @@ export type ReportResponseOptions = {
    */
   timeoutMs?: number;
   /**
-   * Inactivity timeout of the download, in milliseconds: it fails if the
-   * server sends nothing for this long, while connecting or while the report
-   * is read. It does not cap the total download time. Call
-   * `ReportResponse.save()` right away: an unread response counts as idle.
-   * Default: 60 000. `0` disables it.
+   * Inactivity timeout of the download, in milliseconds. getResponse() fails
+   * if the response headers do not arrive within it, and
+   * `ReportResponse.save()` fails if the server sends nothing for this long
+   * while it reads the report. It does not cap the total download time, and
+   * it does not run between getResponse() and save(): a response that save()
+   * has not started to read releases its connection after this time, and a
+   * later save() downloads the report again.
+   * Default: 60 000. `0` disables it (an unread response then keeps its
+   * connection until save() reads it).
    */
   downloadTimeoutMs?: number;
   /**
-   * Cancels the wait, the pending API call and the download request; the
-   * promise rejects with `signal.reason`.
+   * Cancels the wait, the pending API call and the download, including the
+   * one `ReportResponse.save()` reads; getResponse() and save() then reject
+   * with `signal.reason`.
    */
   signal?: AbortSignal;
 };
