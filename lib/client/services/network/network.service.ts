@@ -28,6 +28,6 @@ export class NetworkService implements NetworkServiceOperations {
   }
 
   updateNetwork(network: Network): Network {
-    return this._client.updateNetwork(network);
+    return this._client.updateNetwork({ network });
   }
 }

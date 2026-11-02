@@ -27,7 +27,7 @@ export class NativeStyleService implements NativeStyleServiceOperations {
     filterStatement: Statement,
   ): Promise<UpdateResult> {
     return this._client.performNativeStyleAction({
-      NativeStyleAction: {
+      nativeStyleAction: {
         attributes: {
           'xsi:type': nativeStyleAction.constructor.name,
         },

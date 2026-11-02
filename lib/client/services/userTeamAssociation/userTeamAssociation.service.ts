@@ -32,7 +32,7 @@ export class UserTeamAssociationService implements UserTeamAssociationServiceOpe
           'xsi:type': userTeamAssociationAction.constructor.name,
         },
       },
-      filterStatement,
+      statement: filterStatement,
     });
   }
 

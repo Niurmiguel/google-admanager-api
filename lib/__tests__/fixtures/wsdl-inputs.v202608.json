@@ -1,0 +1,632 @@
+{
+  "AdRuleService": {
+    "createAdRules": [
+      "adRules"
+    ],
+    "createAdSpots": [
+      "adSpots"
+    ],
+    "createBreakTemplates": [
+      "breakTemplate"
+    ],
+    "getAdRulesByStatement": [
+      "statement"
+    ],
+    "getAdSpotsByStatement": [
+      "filterStatement"
+    ],
+    "getBreakTemplatesByStatement": [
+      "filterStatement"
+    ],
+    "performAdRuleAction": [
+      "adRuleAction",
+      "filterStatement"
+    ],
+    "updateAdRules": [
+      "adRules"
+    ],
+    "updateAdSpots": [
+      "adSpots"
+    ],
+    "updateBreakTemplates": [
+      "breakTemplate"
+    ]
+  },
+  "AdjustmentService": {
+    "calculateDailyAdOpportunityCounts": [
+      "forecastAdjustment"
+    ],
+    "createForecastAdjustments": [
+      "forecastAdjustments"
+    ],
+    "createTrafficForecastSegments": [
+      "trafficForecastSegments"
+    ],
+    "getForecastAdjustmentsByStatement": [
+      "filterStatement"
+    ],
+    "getTrafficForecastSegmentsByStatement": [
+      "filterStatement"
+    ],
+    "performForecastAdjustmentAction": [
+      "forecastAdjustmentAction",
+      "filterStatement"
+    ],
+    "updateForecastAdjustments": [
+      "forecastAdjustments"
+    ],
+    "updateTrafficForecastSegments": [
+      "trafficForecastSegments"
+    ]
+  },
+  "AudienceSegmentService": {
+    "createAudienceSegments": [
+      "segments"
+    ],
+    "getAudienceSegmentsByStatement": [
+      "filterStatement"
+    ],
+    "performAudienceSegmentAction": [
+      "action",
+      "filterStatement"
+    ],
+    "updateAudienceSegments": [
+      "segments"
+    ]
+  },
+  "CdnConfigurationService": {
+    "createCdnConfigurations": [
+      "cdnConfigurations"
+    ],
+    "getCdnConfigurationsByStatement": [
+      "statement"
+    ],
+    "performCdnConfigurationAction": [
+      "cdnConfigurationAction",
+      "filterStatement"
+    ],
+    "updateCdnConfigurations": [
+      "cdnConfigurations"
+    ]
+  },
+  "CmsMetadataService": {
+    "getCmsMetadataKeysByStatement": [
+      "statement"
+    ],
+    "getCmsMetadataValuesByStatement": [
+      "statement"
+    ],
+    "performCmsMetadataKeyAction": [
+      "keyAction",
+      "filterStatement"
+    ],
+    "performCmsMetadataValueAction": [
+      "valueAction",
+      "filterStatement"
+    ]
+  },
+  "CompanyService": {
+    "createCompanies": [
+      "companies"
+    ],
+    "getCompaniesByStatement": [
+      "filterStatement"
+    ],
+    "performCompanyAction": [
+      "companyAction",
+      "statement"
+    ],
+    "updateCompanies": [
+      "companies"
+    ]
+  },
+  "ContactService": {
+    "createContacts": [
+      "contacts"
+    ],
+    "getContactsByStatement": [
+      "statement"
+    ],
+    "updateContacts": [
+      "contacts"
+    ]
+  },
+  "ContentBundleService": {
+    "createContentBundles": [
+      "contentBundles"
+    ],
+    "getContentBundlesByStatement": [
+      "filterStatement"
+    ],
+    "performContentBundleAction": [
+      "contentBundleAction",
+      "filterStatement"
+    ],
+    "updateContentBundles": [
+      "contentBundles"
+    ]
+  },
+  "ContentService": {
+    "getContentByStatement": [
+      "statement"
+    ]
+  },
+  "CreativeService": {
+    "createCreatives": [
+      "creatives"
+    ],
+    "getCreativesByStatement": [
+      "filterStatement"
+    ],
+    "performCreativeAction": [
+      "creativeAction",
+      "filterStatement"
+    ],
+    "updateCreatives": [
+      "creatives"
+    ]
+  },
+  "CreativeSetService": {
+    "createCreativeSet": [
+      "creativeSet"
+    ],
+    "getCreativeSetsByStatement": [
+      "statement"
+    ],
+    "updateCreativeSet": [
+      "creativeSet"
+    ]
+  },
+  "CreativeTemplateService": {
+    "getCreativeTemplatesByStatement": [
+      "filterStatement"
+    ]
+  },
+  "CreativeWrapperService": {
+    "createCreativeWrappers": [
+      "creativeWrappers"
+    ],
+    "getCreativeWrappersByStatement": [
+      "filterStatement"
+    ],
+    "performCreativeWrapperAction": [
+      "creativeWrapperAction",
+      "filterStatement"
+    ],
+    "updateCreativeWrappers": [
+      "creativeWrappers"
+    ]
+  },
+  "CustomFieldService": {
+    "createCustomFieldOptions": [
+      "customFieldOptions"
+    ],
+    "createCustomFields": [
+      "customFields"
+    ],
+    "getCustomFieldOption": [
+      "customFieldOptionId"
+    ],
+    "getCustomFieldsByStatement": [
+      "filterStatement"
+    ],
+    "performCustomFieldAction": [
+      "customFieldAction",
+      "filterStatement"
+    ],
+    "updateCustomFieldOptions": [
+      "customFieldOptions"
+    ],
+    "updateCustomFields": [
+      "customFields"
+    ]
+  },
+  "CustomTargetingService": {
+    "createCustomTargetingKeys": [
+      "keys"
+    ],
+    "createCustomTargetingValues": [
+      "values"
+    ],
+    "getCustomTargetingKeysByStatement": [
+      "filterStatement"
+    ],
+    "getCustomTargetingValuesByStatement": [
+      "filterStatement"
+    ],
+    "performCustomTargetingKeyAction": [
+      "customTargetingKeyAction",
+      "filterStatement"
+    ],
+    "performCustomTargetingValueAction": [
+      "customTargetingValueAction",
+      "filterStatement"
+    ],
+    "updateCustomTargetingKeys": [
+      "keys"
+    ],
+    "updateCustomTargetingValues": [
+      "values"
+    ]
+  },
+  "DaiAuthenticationKeyService": {
+    "createDaiAuthenticationKeys": [
+      "daiAuthenticationKeys"
+    ],
+    "getDaiAuthenticationKeysByStatement": [
+      "filterStatement"
+    ],
+    "performDaiAuthenticationKeyAction": [
+      "daiAuthenticationKeyAction",
+      "filterStatement"
+    ],
+    "updateDaiAuthenticationKeys": [
+      "daiAuthenticationKeys"
+    ]
+  },
+  "DaiEncodingProfileService": {
+    "createDaiEncodingProfiles": [
+      "daiEncodingProfiles"
+    ],
+    "getDaiEncodingProfilesByStatement": [
+      "filterStatement"
+    ],
+    "performDaiEncodingProfileAction": [
+      "daiEncodingProfileAction",
+      "filterStatement"
+    ],
+    "updateDaiEncodingProfiles": [
+      "daiEncodingProfiles"
+    ]
+  },
+  "ForecastService": {
+    "getAvailabilityForecast": [
+      "lineItem",
+      "forecastOptions"
+    ],
+    "getAvailabilityForecastById": [
+      "lineItemId",
+      "forecastOptions"
+    ],
+    "getDeliveryForecast": [
+      "lineItems",
+      "forecastOptions"
+    ],
+    "getDeliveryForecastByIds": [
+      "lineItemIds",
+      "forecastOptions"
+    ],
+    "getTrafficData": [
+      "trafficDataRequest"
+    ]
+  },
+  "InventoryService": {
+    "createAdUnits": [
+      "adUnits"
+    ],
+    "getAdUnitSizesByStatement": [
+      "filterStatement"
+    ],
+    "getAdUnitsByStatement": [
+      "filterStatement"
+    ],
+    "performAdUnitAction": [
+      "adUnitAction",
+      "filterStatement"
+    ],
+    "updateAdUnits": [
+      "adUnits"
+    ]
+  },
+  "LabelService": {
+    "createLabels": [
+      "labels"
+    ],
+    "getLabelsByStatement": [
+      "filterStatement"
+    ],
+    "performLabelAction": [
+      "labelAction",
+      "filterStatement"
+    ],
+    "updateLabels": [
+      "labels"
+    ]
+  },
+  "LineItemCreativeAssociationService": {
+    "createLineItemCreativeAssociations": [
+      "lineItemCreativeAssociations"
+    ],
+    "getLineItemCreativeAssociationsByStatement": [
+      "filterStatement"
+    ],
+    "getPreviewUrl": [
+      "lineItemId",
+      "creativeId",
+      "siteUrl"
+    ],
+    "getPreviewUrlsForNativeStyles": [
+      "lineItemId",
+      "creativeId",
+      "siteUrl"
+    ],
+    "performLineItemCreativeAssociationAction": [
+      "lineItemCreativeAssociationAction",
+      "filterStatement"
+    ],
+    "updateLineItemCreativeAssociations": [
+      "lineItemCreativeAssociations"
+    ]
+  },
+  "LineItemService": {
+    "createLineItems": [
+      "lineItems"
+    ],
+    "getLineItemsByStatement": [
+      "filterStatement"
+    ],
+    "performLineItemAction": [
+      "lineItemAction",
+      "filterStatement"
+    ],
+    "updateLineItems": [
+      "lineItems"
+    ]
+  },
+  "LineItemTemplateService": {
+    "getLineItemTemplatesByStatement": [
+      "filterStatement"
+    ]
+  },
+  "LiveStreamEventService": {
+    "createLiveStreamEvents": [
+      "liveStreamEvents"
+    ],
+    "createSlates": [
+      "slates"
+    ],
+    "getLiveStreamEventsByStatement": [
+      "filterStatement"
+    ],
+    "getSlatesByStatement": [
+      "statement"
+    ],
+    "performLiveStreamEventAction": [
+      "liveStreamEventAction",
+      "filterStatement"
+    ],
+    "performSlateAction": [
+      "slateAction",
+      "filterStatement"
+    ],
+    "updateLiveStreamEvents": [
+      "liveStreamEvents"
+    ],
+    "updateSlates": [
+      "slates"
+    ]
+  },
+  "MobileApplicationService": {
+    "createMobileApplications": [
+      "mobileApplications"
+    ],
+    "getMobileApplicationsByStatement": [
+      "filterStatement"
+    ],
+    "performMobileApplicationAction": [
+      "mobileApplicationAction",
+      "filterStatement"
+    ],
+    "updateMobileApplications": [
+      "mobileApplications"
+    ]
+  },
+  "NativeStyleService": {
+    "createNativeStyles": [
+      "nativeStyles"
+    ],
+    "getNativeStylesByStatement": [
+      "filterStatement"
+    ],
+    "performNativeStyleAction": [
+      "nativeStyleAction",
+      "filterStatement"
+    ],
+    "updateNativeStyles": [
+      "nativeStyles"
+    ]
+  },
+  "NetworkService": {
+    "getAllNetworks": [],
+    "getCurrentNetwork": [],
+    "getDefaultThirdPartyDataDeclaration": [],
+    "makeTestNetwork": [],
+    "updateNetwork": [
+      "network"
+    ]
+  },
+  "OrderService": {
+    "createOrders": [
+      "orders"
+    ],
+    "getOrdersByStatement": [
+      "filterStatement"
+    ],
+    "performOrderAction": [
+      "orderAction",
+      "filterStatement"
+    ],
+    "updateOrders": [
+      "orders"
+    ]
+  },
+  "PlacementService": {
+    "createPlacements": [
+      "placements"
+    ],
+    "getPlacementsByStatement": [
+      "filterStatement"
+    ],
+    "performPlacementAction": [
+      "placementAction",
+      "filterStatement"
+    ],
+    "updatePlacements": [
+      "placements"
+    ]
+  },
+  "ProposalLineItemService": {
+    "createMakegoods": [
+      "makegoodInfos"
+    ],
+    "createProposalLineItems": [
+      "proposalLineItems"
+    ],
+    "getProposalLineItemsByStatement": [
+      "filterStatement"
+    ],
+    "performProposalLineItemAction": [
+      "proposalLineItemAction",
+      "filterStatement"
+    ],
+    "updateProposalLineItems": [
+      "proposalLineItems"
+    ]
+  },
+  "ProposalService": {
+    "createProposals": [
+      "proposals"
+    ],
+    "getMarketplaceCommentsByStatement": [
+      "filterStatement"
+    ],
+    "getProposalsByStatement": [
+      "filterStatement"
+    ],
+    "performProposalAction": [
+      "proposalAction",
+      "filterStatement"
+    ],
+    "updateProposals": [
+      "proposals"
+    ]
+  },
+  "PublisherQueryLanguageService": {
+    "select": [
+      "selectStatement"
+    ]
+  },
+  "ReportService": {
+    "getReportDownloadURL": [
+      "reportJobId",
+      "exportFormat"
+    ],
+    "getReportDownloadUrlWithOptions": [
+      "reportJobId",
+      "reportDownloadOptions"
+    ],
+    "getReportJobStatus": [
+      "reportJobId"
+    ],
+    "getSavedQueriesByStatement": [
+      "filterStatement"
+    ],
+    "runReportJob": [
+      "reportJob"
+    ]
+  },
+  "SiteService": {
+    "createSites": [
+      "sites"
+    ],
+    "getSitesByStatement": [
+      "filterStatement"
+    ],
+    "performSiteAction": [
+      "siteAction",
+      "filterStatement"
+    ],
+    "updateSites": [
+      "sites"
+    ]
+  },
+  "StreamActivityMonitorService": {
+    "getSamSessionsByStatement": [
+      "statement"
+    ],
+    "registerSessionsForMonitoring": [
+      "sessionIds"
+    ]
+  },
+  "SuggestedAdUnitService": {
+    "getSuggestedAdUnitsByStatement": [
+      "filterStatement"
+    ],
+    "performSuggestedAdUnitAction": [
+      "suggestedAdUnitAction",
+      "filterStatement"
+    ]
+  },
+  "TargetingPresetService": {
+    "createTargetingPresets": [
+      "targetingPresets"
+    ],
+    "getTargetingPresetsByStatement": [
+      "filterStatement"
+    ],
+    "performTargetingPresetAction": [
+      "targetingPresetAction",
+      "filterStatement"
+    ],
+    "updateTargetingPresets": [
+      "targetingPresets"
+    ]
+  },
+  "TeamService": {
+    "createTeams": [
+      "teams"
+    ],
+    "getTeamsByStatement": [
+      "filterStatement"
+    ],
+    "performTeamAction": [
+      "teamAction",
+      "filterStatement"
+    ],
+    "updateTeams": [
+      "teams"
+    ]
+  },
+  "UserService": {
+    "createUsers": [
+      "users"
+    ],
+    "getAllRoles": [],
+    "getCurrentUser": [],
+    "getUsersByStatement": [
+      "filterStatement"
+    ],
+    "performUserAction": [
+      "userAction",
+      "filterStatement"
+    ],
+    "updateUsers": [
+      "users"
+    ]
+  },
+  "UserTeamAssociationService": {
+    "createUserTeamAssociations": [
+      "userTeamAssociations"
+    ],
+    "getUserTeamAssociationsByStatement": [
+      "filterStatement"
+    ],
+    "performUserTeamAssociationAction": [
+      "userTeamAssociationAction",
+      "statement"
+    ],
+    "updateUserTeamAssociations": [
+      "userTeamAssociations"
+    ]
+  }
+}

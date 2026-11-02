@@ -20,10 +20,10 @@ export interface AdRuleServiceOperations {
   /**
    * Creates new AdSpot objects.
    *
-   * @param adSports the ad spots to create
+   * @param adSpots the ad spots to create
    * @returns the created ad spots with their IDs filled in
    */
-  createAdSpots(adSports: AdSpot[]): Promise<AdSpot[]>;
+  createAdSpots(adSpots: AdSpot[]): Promise<AdSpot[]>;
 
   /**
    * Creates new breakTemplate objects.
@@ -85,10 +85,10 @@ export interface AdRuleServiceOperations {
   /**
    * Updates the specified AdSpot objects.
    *
-   * @param adSports the ad spots to update
+   * @param adSpots the ad spots to update
    * @returns the updated ad spots
    */
-  updateAdSpots(adSports: AdSpot[]): Promise<AdSpot[]>;
+  updateAdSpots(adSpots: AdSpot[]): Promise<AdSpot[]>;
 
   /**
    * Updates the specified breakTemplate objects.

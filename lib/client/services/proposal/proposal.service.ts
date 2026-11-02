@@ -30,7 +30,7 @@ export class ProposalService implements ProposalServiceOperations {
 
   async performProposalAction(proposalAction: ProposalAction, filterStatement: Statement): Promise<UpdateResult> {
     return this._client.performProposalAction({
-      ProposalAction: {
+      proposalAction: {
         attributes: {
           'xsi:type': proposalAction.constructor.name,
         },

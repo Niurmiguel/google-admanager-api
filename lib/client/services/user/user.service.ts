@@ -17,7 +17,7 @@ export class UserService implements UserServiceOperations {
   }
 
   async getAllRoles(): Promise<Role[]> {
-    return this._client.getAllRolesAsync();
+    return this._client.getAllRoles();
   }
 
   async getCurrentUser(): Promise<User> {
