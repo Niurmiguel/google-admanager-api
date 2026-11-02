@@ -82,6 +82,12 @@ describe('a service after a call', () => {
     expect(JSON.stringify(companies)).not.toContain(FAKE_TOKEN);
   });
 
+  it('does not list its SOAP client among its keys', () => {
+    // JSON.stringify alone does not tell: the Proxy turns every key of the
+    // client into a function, so the client serializes as {} either way.
+    expect(Object.keys(companies)).not.toContain('_client');
+  });
+
   it('still works', async () => {
     fake.handler = (_req, res) => res.end(okEnvelope('again'));
 
