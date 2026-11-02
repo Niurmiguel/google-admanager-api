@@ -2,8 +2,13 @@ import { DEFAULT_APPLICATION_NAME, SERVICE_MAP } from '../common/constants';
 import { GoogleSoapService } from './googleSoap.service';
 import { assertSoapCallOptions, ImportClass, SOAP_CALL_DEFAULTS, SoapCallOptions } from '../common/types';
 import { SACredential } from '../auth';
-import { AdManagerRequestError } from '../common/utils/safeError.util';
+import { AdManagerRequestError, toRequestError } from '../common/utils/safeError.util';
 import { Deadline } from '../common/utils/deadline.util';
+
+/** The message getService() always had: `new Error(err)` in 0.0.6. */
+function legacyMessage(err: unknown): string {
+  return String(err);
+}
 
 export class AdManagerClient {
   private networkCode: number;
@@ -32,6 +37,9 @@ export class AdManagerClient {
    * the token and the WSDL download together must finish within `timeout`,
    * or it rejects with an `AdManagerRequestError` whose `code` is
    * `ETIMEDOUT`; when `signal` aborts, it rejects with `signal.reason`.
+   * @throws AdManagerRequestError when the token or the WSDL cannot be
+   * obtained. Its message is the one it always had (`String(err)`), and its
+   * `cause` a sanitized copy of the original error.
    */
   async getService<T extends keyof typeof SERVICE_MAP>(
     serviceName: T,
@@ -65,8 +73,9 @@ export class AdManagerClient {
       );
     } catch (err: unknown) {
       if (deadline.signal.aborted) throw deadline.signal.reason;
-      // Same message as before (`new Error(err)`), with the original error kept as cause.
-      throw new Error(String(err), { cause: err });
+      // Never the raw error: axios' carries the request (with a proxy's
+      // Proxy-Authorization header), the token endpoint's carries its request.
+      throw toRequestError(err, undefined, legacyMessage);
     } finally {
       deadline.dispose();
     }

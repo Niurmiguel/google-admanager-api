@@ -163,13 +163,19 @@ export function safeCause(err: unknown, scrub: Scrub = keep, depth = 0): unknown
  * inside node-soap's callback, where an exception would leave the caller's
  * promise pending forever. `scrub` is applied to the messages and stacks
  * copied, for secrets that may appear in them (such as a signed URL).
+ * `messageOf` replaces the default message (the error's own).
  */
-export function toRequestError(err: unknown, scrub: Scrub = keep): AdManagerRequestError {
+export function toRequestError(
+  err: unknown,
+  scrub: Scrub = keep,
+  messageOf?: (err: unknown) => string,
+): AdManagerRequestError {
   const source = asRecord(err) ?? {};
   let message: string;
   try {
-    message =
-      typeof source.message === 'string'
+    message = messageOf
+      ? messageOf(err)
+      : typeof source.message === 'string'
         ? source.message
         : typeof source.Fault?.faultstring === 'string'
           ? source.Fault.faultstring
