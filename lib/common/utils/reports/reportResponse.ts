@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
-import * as stream from 'stream';
-import { promisify } from 'util';
-import * as fs from 'fs';
+import { createWriteStream } from 'node:fs';
+import { pipeline } from 'node:stream/promises';
 
 import { AdsReportsException, ArgumentNullException } from '../../handlers';
 
@@ -27,12 +26,10 @@ export class ReportResponse {
   public async save(path: string): Promise<void> {
     this.ensureStreamIsOpen();
 
-    const finishedDownload = promisify(stream.finished);
-    const writer = fs.createWriteStream(path);
-
     try {
-      this.response.data.pipe(writer);
-      await finishedDownload(writer);
+      // pipeline, unlike .pipe(), propagates a download error (e.g. the
+      // download timeout) to the file stream and rejects instead of hanging.
+      await pipeline(this.response.data, createWriteStream(path));
     } catch (err) {
       throw new AdsReportsException('Failed to save report. See inner exception for more details.', err as Error);
     }

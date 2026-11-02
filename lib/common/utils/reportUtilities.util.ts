@@ -3,9 +3,11 @@ import { AxiosResponse } from 'axios';
 import { ReportDownloadOptions } from '../../client/services/report/report.type';
 import { ReportJobStatus } from '../../client/services/report/report.enum';
 import { HttpUtilities } from './httpUtilities.util';
-import { AdsReportUtilities, ReportResponse } from './reports';
+import { AdsReportUtilities, REPORT_RESPONSE_DEFAULTS, ReportResponse, ReportResponseOptions } from './reports';
 import { ReportService } from '../../client';
 import { AdsReportsException } from '../handlers';
+
+export type { ReportResponseOptions } from './reports';
 
 /**
  * Utility class for DFP API report downloads.
@@ -51,13 +53,18 @@ export class ReportUtilities extends AdsReportUtilities {
     return status != ReportJobStatus.COMPLETED;
   }
 
+  protected describeJob(): string {
+    return `Report job ${this.reportJobId}`;
+  }
+
   /**
    * Gets the report response.
    * @returns The report response.
    */
-  protected async getReport(): Promise<ReportResponse> {
+  protected async getReport(options: ReportResponseOptions = {}): Promise<ReportResponse> {
     const response = await this.buildRequest(
       await this.reportService.getReportDownloadUrlWithOptions(this.reportJobId, this.reportDownloadOptions),
+      options,
     );
 
     return new ReportResponse(response);
@@ -67,9 +74,11 @@ export class ReportUtilities extends AdsReportUtilities {
    * Builds an HTTP request for downloading reports.
    * @param downloadUrl The download url.
    */
-  private buildRequest(downloadUrl: string): Promise<AxiosResponse<any, any>> {
+  private buildRequest(downloadUrl: string, options: ReportResponseOptions): Promise<AxiosResponse<any, any>> {
     return HttpUtilities.buildRequest(downloadUrl, 'GET', {
-      timeout: 0,
+      // With a stream response axios' `timeout` acts as a socket inactivity timeout.
+      timeout: options.downloadTimeoutMs ?? REPORT_RESPONSE_DEFAULTS.downloadTimeoutMs,
+      signal: options.signal,
     });
   }
 }
