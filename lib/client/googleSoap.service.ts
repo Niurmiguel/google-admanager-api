@@ -31,9 +31,17 @@ export class GoogleSoapService<T extends keyof typeof SERVICE_MAP> {
     };
   }
 
-  public async createClient(): Promise<ImportClass<typeof SERVICE_MAP, T>> {
+  /**
+   * Downloads the WSDL and builds the service.
+   * @param options.signal Aborts the WSDL download (node-soap copies
+   * `wsdl_options` into the axios request).
+   */
+  public async createClient(options: { signal?: AbortSignal } = {}): Promise<ImportClass<typeof SERVICE_MAP, T>> {
     const serviceUrl = `https://ads.google.com/apis/ads/publisher/${API_VERSION}/${this.service}?wsdl`;
-    const client = await createClientAsync(serviceUrl);
+    const client = await createClientAsync(
+      serviceUrl,
+      options.signal ? { wsdl_options: { signal: options.signal } } : {},
+    );
     client.addSoapHeader(this.getSoapHeaders());
     client.setToken = function setToken(token: string) {
       client.setSecurity(new BearerSecurity(token));

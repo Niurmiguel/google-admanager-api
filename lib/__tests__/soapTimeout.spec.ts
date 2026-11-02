@@ -136,6 +136,8 @@ describe('SOAP call timeout and cancellation', () => {
   });
 
   it('getService options replace the client ones', async () => {
+    // getService() is bounded by the same timeout: load the WSDL into node-soap's cache first.
+    await service();
     const companies = await service({ timeout: 60_000 }, { timeout: 50 });
 
     await expect(companies.getCompaniesByStatement(query())).rejects.toMatchObject({

@@ -1,7 +1,9 @@
 import { DEFAULT_APPLICATION_NAME, SERVICE_MAP } from '../common/constants';
 import { GoogleSoapService } from './googleSoap.service';
-import { assertSoapCallOptions, ImportClass, SoapCallOptions } from '../common/types';
+import { assertSoapCallOptions, ImportClass, SOAP_CALL_DEFAULTS, SoapCallOptions } from '../common/types';
 import { SACredential } from '../auth';
+import { AdManagerRequestError } from '../common/utils/safeError.util';
+import { Deadline } from '../common/utils/deadline.util';
 
 export class AdManagerClient {
   private networkCode: number;
@@ -22,8 +24,14 @@ export class AdManagerClient {
   }
 
   /**
+   * Gets the OAuth token, downloads the service's WSDL and returns the
+   * service.
+   *
    * @param options Timeout and cancellation of this service's calls; each one
-   * that is set replaces the client's.
+   * that is set replaces the client's. They also bound getService() itself:
+   * the token and the WSDL download together must finish within `timeout`,
+   * or it rejects with an `AdManagerRequestError` whose `code` is
+   * `ETIMEDOUT`; when `signal` aborts, it rejects with `signal.reason`.
    */
   async getService<T extends keyof typeof SERVICE_MAP>(
     serviceName: T,
@@ -33,19 +41,34 @@ export class AdManagerClient {
     const callOptions = { ...this.callOptions };
     if (options.timeout !== undefined) callOptions.timeout = options.timeout;
     if (options.signal !== undefined) callOptions.signal = options.signal;
+    callOptions.signal?.throwIfAborted();
+
+    const timeout = callOptions.timeout ?? SOAP_CALL_DEFAULTS.timeout;
+    const deadline = new Deadline(
+      timeout,
+      callOptions.signal,
+      () =>
+        new AdManagerRequestError(`getService('${serviceName}') timed out after ${timeout} ms`, { code: 'ETIMEDOUT' }),
+    );
 
     try {
-      const token = await this.credential.getToken();
+      // getToken() takes no signal: the token request is not cancelled, only no longer awaited.
+      const token = await deadline.race(this.credential.getToken());
 
-      return await new GoogleSoapService<T>(serviceName, {
-        networkCode: this.networkCode,
-        token: token as string,
-        applicationName: this.applicationName,
-        ...callOptions,
-      }).createClient();
+      return await deadline.race(
+        new GoogleSoapService<T>(serviceName, {
+          networkCode: this.networkCode,
+          token: token as string,
+          applicationName: this.applicationName,
+          ...callOptions,
+        }).createClient({ signal: deadline.signal }),
+      );
     } catch (err: unknown) {
+      if (deadline.signal.aborted) throw deadline.signal.reason;
       // Same message as before (`new Error(err)`), with the original error kept as cause.
       throw new Error(String(err), { cause: err });
+    } finally {
+      deadline.dispose();
     }
   }
 }
