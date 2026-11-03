@@ -88,7 +88,9 @@ and fields that v202608 rejects, so code that used them already failed at runtim
 
 - `createCreatives()` and `updateCreatives()` send `CreativeAsset.assetByteArray` as base64. A `Buffer` or a
   `Uint8Array` was sent as one element per byte, and an `ArrayBuffer` as an empty element, so an image could not
-  be uploaded as bytes.
+  be uploaded as bytes. It works for any `ArrayBuffer`, `SharedArrayBuffer` or view, including ones from another
+  realm (`vm`, Jest), wherever the asset is held: plain objects, class instances or objects of another realm. The
+  creatives passed in are not modified.
 - `Dimension.NATIVE_STYLE_ID` sends `'NATIVE_STYLE_ID'`; it sent `'ATIVE_STYLE_ID'`, which the API rejects.
 - `performCreativeAction()` sends the fields of the action, like every other `perform*Action()`.
 - `ResumeOrders` and `SubmitOrdersForApproval` send `skipInventoryCheck` when it is set.

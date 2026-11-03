@@ -18,7 +18,7 @@ import { AddressInfo } from 'node:net';
 import { API_VERSION } from '../../common/constants';
 import { listenOnLoopback } from './loopback';
 
-const NS = `https://www.google.com/apis/ads/publisher/${API_VERSION}`;
+export const NS = `https://www.google.com/apis/ads/publisher/${API_VERSION}`;
 
 /** A token that is obviously fake, so secret scanners do not flag it. */
 export const FAKE_TOKEN = 'fake-oauth-token-for-tests-0000';
@@ -65,7 +65,12 @@ export type FakeAdManager = {
   close(): Promise<void>;
 };
 
-export async function startFakeAdManager(): Promise<FakeAdManager> {
+/**
+ * `options.wsdl` replaces the CompanyService WSDL; it gets the port, for the
+ * service address (`http://127.0.0.1:<port>/svc`). `NS` is its namespace.
+ */
+export async function startFakeAdManager(options: { wsdl?: (port: number) => string } = {}): Promise<FakeAdManager> {
+  const serveWsdl = options.wsdl ?? wsdl;
   const server: Server = createServer((req, res) => {
     let body = '';
     req.setEncoding('utf8');
@@ -73,7 +78,7 @@ export async function startFakeAdManager(): Promise<FakeAdManager> {
     req.on('end', () => {
       if (req.method === 'GET') {
         res.writeHead(200, { 'content-type': 'text/xml' });
-        res.end(wsdl((server.address() as AddressInfo).port));
+        res.end(serveWsdl((server.address() as AddressInfo).port));
         return;
       }
       fake.last = { body, headers: req.headers };

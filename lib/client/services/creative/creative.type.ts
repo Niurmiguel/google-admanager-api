@@ -48,10 +48,11 @@ export type CreativeXsiType =
   | 'VideoRedirectCreative';
 
 /**
- * Raw bytes. Declared locally because the global `BinaryData` this type used to
- * resolve to came from TypeScript's DOM lib and was removed in TypeScript 5.
+ * Raw bytes: an ArrayBuffer, a SharedArrayBuffer or a view on one (a Buffer, a
+ * Uint8Array...). Declared locally because the global `BinaryData` this type used
+ * to resolve to came from TypeScript's DOM lib and was removed in TypeScript 5.
  */
-type BinaryData = ArrayBuffer | ArrayBufferView;
+type BinaryData = ArrayBufferLike | ArrayBufferView;
 
 /**
  * An Ad Exchange dynamic allocation creative.
