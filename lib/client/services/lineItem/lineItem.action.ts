@@ -81,6 +81,11 @@ export class ReserveLineItems implements LineItemAction {
 }
 
 /**
+ * The action used for reserving and overbooking LineItem objects.
+ */
+export class ReserveAndOverbookLineItems extends ReserveLineItems {}
+
+/**
  * The action used for activating {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} objects.
  */
 export class ResumeLineItems implements LineItemAction {
@@ -104,6 +109,11 @@ export class ResumeLineItems implements LineItemAction {
     return this.skipInventoryCheck ? { skipInventoryCheck: true } : { skipInventoryCheck: false };
   }
 }
+
+/**
+ * The action used for resuming and overbooking LineItem objects.
+ */
+export class ResumeAndOverbookLineItems extends ResumeLineItems {}
 
 /**
  * The action used for activating {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} objects.

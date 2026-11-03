@@ -141,20 +141,8 @@ const KNOWN_FIELD_DIFFERENCES: Record<string, string> = {
   'VideoPositionTarget.adSpotId': 'An array instead of a single id.',
 };
 
-const NO_CLASS = 'No action class.';
-
 /** `Service.Action` differences, at runtime. */
-const KNOWN_ACTION_DIFFERENCES: Record<string, string> = {
-  'OrderService.ApproveAndOverbookOrders': NO_CLASS,
-  'OrderService.ResumeAndOverbookOrders': NO_CLASS,
-  'OrderService.SubmitOrdersForApprovalAndOverbook': NO_CLASS,
-  'OrderService.ResumeOrders': 'Does not send skipInventoryCheck.',
-  'OrderService.SubmitOrdersForApproval': 'Does not send skipInventoryCheck.',
-  'LineItemService.ReserveAndOverbookLineItems': NO_CLASS,
-  'LineItemService.ResumeAndOverbookLineItems': NO_CLASS,
-  'LiveStreamEventService.ArchiveSlates': NO_CLASS,
-  'LiveStreamEventService.UnarchiveSlates': NO_CLASS,
-};
+const KNOWN_ACTION_DIFFERENCES: Record<string, string> = {};
 
 const ROOT = join(__dirname, '..', '..');
 const schema: WsdlSchema = JSON.parse(

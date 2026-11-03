@@ -1,4 +1,11 @@
-import { LiveStreamEvent, LiveStreamEventPage, Slate, SlateAction, SlatePage } from './liveStreamEvent.type';
+import {
+  LiveStreamEvent,
+  LiveStreamEventPage,
+  Slate,
+  SlateAction as SlateActionName,
+  SlatePage,
+} from './liveStreamEvent.type';
+import { SlateAction } from './liveStreamEvent.action';
 import { LiveStreamEventAction } from './liveStreamEvent.action';
 import { Statement, UpdateResult } from '../../../common/types';
 
@@ -84,11 +91,12 @@ export interface LiveStreamEventServiceOperations {
   /**
    * Performs actions on slates that match the given {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.Statement Statement}.
    *
-   * @param slateAction the action to perform
+   * @param slateAction the action to perform: an `ArchiveSlates` or `UnarchiveSlates` instance
+   * (its name as a string is still accepted)
    * @param filterStatement a Publisher Query Language statement used to filter a set of slates
    * @returns the result of the action performed
    */
-  performSlateAction(slateAction: SlateAction, filterStatement: Statement): Promise<UpdateResult>;
+  performSlateAction(slateAction: SlateAction | SlateActionName, filterStatement: Statement): Promise<UpdateResult>;
   /**
    * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} objects.
    *

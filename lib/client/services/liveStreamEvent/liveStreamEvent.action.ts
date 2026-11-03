@@ -30,3 +30,30 @@ export class PauseLiveStreamEvents implements LiveStreamEventAction {}
  * {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.RefreshType#MANUAL RefreshType.MANUAL}.
  */
 export class RefreshLiveStreamEventMasterPlaylists implements LiveStreamEventAction {}
+
+/**
+ * Represents the actions that can be performed on slates.
+ */
+export abstract class SlateAction {
+  buildAttributes(): object {
+    return {};
+  }
+}
+
+/**
+ * The action used for archiving slates.
+ */
+export class ArchiveSlates implements SlateAction {
+  buildAttributes(): object {
+    return {};
+  }
+}
+
+/**
+ * The action used for unarchiving slates.
+ */
+export class UnarchiveSlates implements SlateAction {
+  buildAttributes(): object {
+    return {};
+  }
+}

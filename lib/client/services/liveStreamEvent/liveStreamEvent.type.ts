@@ -310,7 +310,9 @@ export type Slate = {
 };
 
 /**
- * Represents the actions that can be performed on slates.
+ * Names of the actions that can be performed on slates.
+ *
+ * @deprecated Pass an `ArchiveSlates` or `UnarchiveSlates` instance to `performSlateAction` instead.
  */
 export type SlateAction = 'ArchiveSlates' | 'UnarchiveSlates';
 

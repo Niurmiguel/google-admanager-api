@@ -1,8 +1,14 @@
 import { Client } from 'soap';
 
-import { LiveStreamEvent, LiveStreamEventPage, Slate, SlateAction, SlatePage } from './liveStreamEvent.type';
+import {
+  LiveStreamEvent,
+  LiveStreamEventPage,
+  Slate,
+  SlateAction as SlateActionName,
+  SlatePage,
+} from './liveStreamEvent.type';
 import { LiveStreamEventServiceOperations } from './liveStreamEventService.interface';
-import { LiveStreamEventAction } from './liveStreamEvent.action';
+import { LiveStreamEventAction, SlateAction } from './liveStreamEvent.action';
 import { Statement, UpdateResult } from '../../../common/types';
 
 export class LiveStreamEventService implements LiveStreamEventServiceOperations {
@@ -44,13 +50,12 @@ export class LiveStreamEventService implements LiveStreamEventServiceOperations 
       filterStatement,
     });
   }
-  performSlateAction(slateAction: SlateAction, filterStatement: Statement): Promise<UpdateResult> {
+  performSlateAction(slateAction: SlateAction | SlateActionName, filterStatement: Statement): Promise<UpdateResult> {
     return this._client.performSlateAction({
-      slateAction: {
-        attributes: {
-          'xsi:type': slateAction,
-        },
-      },
+      slateAction:
+        typeof slateAction === 'string'
+          ? { attributes: { 'xsi:type': slateAction } }
+          : { attributes: { 'xsi:type': slateAction.constructor.name }, ...slateAction.buildAttributes() },
       filterStatement,
     });
   }
