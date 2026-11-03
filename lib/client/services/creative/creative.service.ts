@@ -29,6 +29,7 @@ export class CreativeService implements CreativeServiceOperations {
         attributes: {
           'xsi:type': creativeAction.constructor.name,
         },
+        ...creativeAction.buildAttributes(),
       },
       filterStatement,
     });
