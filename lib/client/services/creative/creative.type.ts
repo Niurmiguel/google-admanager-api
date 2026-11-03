@@ -21,6 +21,32 @@ import {
   ThirdPartyDataDeclarationStatus,
 } from './creative.enum';
 
+/** Concrete creative types: the values of `xsi:type` for a Creative. */
+export type CreativeXsiType =
+  | 'AdExchangeCreative'
+  | 'AdSenseCreative'
+  | 'AspectRatioImageCreative'
+  | 'AudioCreative'
+  | 'AudioRedirectCreative'
+  | 'ClickTrackingCreative'
+  | 'CustomCreative'
+  | 'Html5Creative'
+  | 'ImageCreative'
+  | 'ImageOverlayCreative'
+  | 'ImageRedirectCreative'
+  | 'ImageRedirectOverlayCreative'
+  | 'InternalRedirectCreative'
+  | 'LegacyDfpCreative'
+  | 'ProgrammaticCreative'
+  | 'RichMediaStudioCreative'
+  | 'SetTopBoxCreative'
+  | 'TemplateCreative'
+  | 'ThirdPartyCreative'
+  | 'UnsupportedCreative'
+  | 'VastRedirectCreative'
+  | 'VideoCreative'
+  | 'VideoRedirectCreative';
+
 /**
  * Raw bytes. Declared locally because the global `BinaryData` this type used to
  * resolve to came from TypeScript's DOM lib and was removed in TypeScript 5.
@@ -981,6 +1007,17 @@ export type UrlCreativeTemplateVariableValue = {
  */
 export type BaseCreativeTemplateVariableValue = {
   /**
+   * The concrete type of the value, which the WSDL requires: `BaseCreativeTemplateVariableValue` is abstract.
+   */
+  attributes?: {
+    'xsi:type':
+      | 'AssetCreativeTemplateVariableValue'
+      | 'LongCreativeTemplateVariableValue'
+      | 'StringCreativeTemplateVariableValue'
+      | 'UrlCreativeTemplateVariableValue';
+  };
+
+  /**
    * A uniqueName of the CreativeTemplateVariable.
    */
   uniqueName: string;
@@ -1170,6 +1207,12 @@ export type VastRedirectCreative = {
  * Read more about creatives on the {@link https://support.google.com/dfp_premium/answer/3185155 Ad Manager Help Center}.
  */
 export type Creative = {
+  /**
+   * The concrete type of the creative, which the WSDL requires: `Creative` is abstract.
+   * For example `{ 'xsi:type': 'ImageCreative' }`.
+   */
+  attributes?: { 'xsi:type': CreativeXsiType };
+
   /**
    * The ID of the advertiser that owns the creative. This attribute is required.
    */

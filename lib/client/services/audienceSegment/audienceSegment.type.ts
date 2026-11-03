@@ -1,5 +1,6 @@
 import { DateTime, PageResult } from '../../../common/types';
-import { Money } from '../../common/types';
+import { CustomCriteriaSet, InventoryTargeting, Money } from '../../common/types';
+import { XsiType } from '../../common/types/xsiType.type';
 import {
   AudienceSegmentApprovalStatus,
   AudienceSegmentStatus,
@@ -120,41 +121,82 @@ type ThirdPartyAudienceSegment = AudienceSegment & {
  * is a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}
  * owned by the publisher network. It doesn't contain a rule. Cookies are usually added to this segment via cookie upload.
  */
-type NonRuleBasedFirstPartyAudienceSegment = AudienceSegment & {
-  /**
-   * Specifies the number of days after which a user's cookie will be removed from the audience segment due to inactivity.
-   * This attribute is required and can be between 1 and 540.
-   */
-  membershipExpirationDays: number;
-};
+type NonRuleBasedFirstPartyAudienceSegment = AudienceSegment &
+  XsiType<'NonRuleBasedFirstPartyAudienceSegment'> & {
+    /**
+     * Specifies the number of days after which a user's cookie will be removed from the audience segment due to inactivity.
+     * This attribute is required and can be between 1 and 540.
+     */
+    membershipExpirationDays: number;
+  };
 
 /**
  * A {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.RuleBasedFirstPartyAudienceSegmentSummary RuleBasedFirstPartyAudienceSegmentSummary}
  * is a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}
  * owned by the publisher network.
  */
-type RuleBasedFirstPartyAudienceSegmentSummary = AudienceSegment & {
+type RuleBasedFirstPartyAudienceSegmentSummary = AudienceSegment &
+  XsiType<'RuleBasedFirstPartyAudienceSegmentSummary' | 'RuleBasedFirstPartyAudienceSegment'> & {
+    /**
+     * Specifies the number of times a user's cookie must match the segment rule before it's associated with the audience segment.
+     * This is used in combination with FirstPartyAudienceSegment.recencyDays to determine eligibility of the association.
+     * This attribute is required and can be between 1 and 12.
+     */
+    pageViews: number;
+    /**
+     * Specifies the number of days within which a user's cookie must match the segment rule before it's associated with the audience segment.
+     * This is used in combination with FirstPartyAudienceSegment.pageViews to determine eligibility of the association.
+     * This attribute is required only if FirstPartyAudienceSegment.pageViews is greater than 1. When required, it can be between 1 and 90.
+     */
+    recencyDays: number;
+    /**
+     * Specifies the number of days after which a user's cookie will be removed from the audience segment due to inactivity.
+     * This attribute is required and can be between 1 and 540.
+     */
+    membershipExpirationDays: number;
+  };
+
+/**
+ * Rule of a RuleBasedFirstPartyAudienceSegment.
+ */
+export type FirstPartyAudienceSegmentRule = {
   /**
-   * Specifies the number of times a user's cookie must match the segment rule before it's associated with the audience segment.
-   * This is used in combination with FirstPartyAudienceSegment.recencyDays to determine eligibility of the association.
-   * This attribute is required and can be between 1 and 12.
+   * Specifies the inventory (i.e. ad units and placements) that are part of the rule of a FirstPartyAudienceSegment. This attribute is required.
    */
-  pageViews: number;
+  inventoryRule: InventoryTargeting;
   /**
-   * Specifies the number of days within which a user's cookie must match the segment rule before it's associated with the audience segment.
-   * This is used in combination with FirstPartyAudienceSegment.pageViews to determine eligibility of the association.
-   * This attribute is required only if FirstPartyAudienceSegment.pageViews is greater than 1. When required, it can be between 1 and 90.
+   * Specifies the collection of custom criteria that are part of the rule of a FirstPartyAudienceSegment.
+   *
+   * Once the FirstPartyAudienceSegment is updated or modified with custom criteria, the server may return a normalized, but equivalent
+   * representation of the custom criteria rule.
+   *
+   * customCriteriaRule will have up to three levels including itself. The top level CustomCriteriaSet i.e. the customTargeting object can
+   * only contain a CustomCriteriaSet.LogicalOperator.OR of all its children. The second level of CustomCriteriaSet objects can only contain
+   * CustomCriteriaSet.LogicalOperator.AND of all their children. If a CustomCriteria is placed on this level, the server will wrap it in a
+   * CustomCriteriaSet. The third level can only comprise of CustomCriteria objects. The resulting custom targeting tree would be of the form: OR of ANDs.
    */
-  recencyDays: number;
-  /**
-   * Specifies the number of days after which a user's cookie will be removed from the audience segment due to inactivity.
-   * This attribute is required and can be between 1 and 540.
-   */
-  membershipExpirationDays: number;
+  customCriteriaRule?: CustomCriteriaSet;
 };
 
+/**
+ * A RuleBasedFirstPartyAudienceSegment is a FirstPartyAudienceSegment owned by the publisher network. It contains a rule.
+ */
+type RuleBasedFirstPartyAudienceSegment = RuleBasedFirstPartyAudienceSegmentSummary &
+  XsiType<'RuleBasedFirstPartyAudienceSegment'> & {
+    /**
+     * Specifies the rule of the segment which determines user's eligibility criteria to be part of the segment. This attribute is required.
+     */
+    rule: FirstPartyAudienceSegmentRule;
+  };
+
+/**
+ * A first party segment: abstract in the WSDL, so set `attributes: { 'xsi:type': ... }` to the concrete type,
+ * such as `RuleBasedFirstPartyAudienceSegment` or `NonRuleBasedFirstPartyAudienceSegment`.
+ */
 export type FirstPartyAudienceSegment =
-  NonRuleBasedFirstPartyAudienceSegment | RuleBasedFirstPartyAudienceSegmentSummary;
+  | NonRuleBasedFirstPartyAudienceSegment
+  | RuleBasedFirstPartyAudienceSegmentSummary
+  | RuleBasedFirstPartyAudienceSegment;
 
 /**
  * Represents a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.

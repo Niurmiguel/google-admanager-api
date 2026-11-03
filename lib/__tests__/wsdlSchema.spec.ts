@@ -64,10 +64,6 @@ const NOT_MODELED: Record<string, string> = {
     'SamSession.streamCreateRequest is read-only and typed with the fields of the abstract StreamCreateRequest.',
   VodStreamCreateRequest:
     'SamSession.streamCreateRequest is read-only and typed with the fields of the abstract StreamCreateRequest.',
-  CustomCriteriaNode: 'CustomCriteriaSet.children lists the concrete criteria types instead.',
-  CustomCriteriaLeaf: 'CustomCriteriaSet.children lists the concrete criteria types instead.',
-  RuleBasedFirstPartyAudienceSegment: 'FirstPartyAudienceSegment only covers the segments without a rule.',
-  FirstPartyAudienceSegmentRule: 'Only used by RuleBasedFirstPartyAudienceSegment.',
 };
 
 /** WSDL types whose library namesake means something else: not compared. */

@@ -1,5 +1,6 @@
 import { TimeUnit } from '../../../common/enums';
 import { Value } from '../../../common/types';
+import { TypedValue, XsiType } from './xsiType.type';
 import {
   AccountStatus,
   DeclarationType,
@@ -75,7 +76,7 @@ export type Size = {
 /**
  * The value of a {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} for a particular entity.
  */
-export type BaseCustomFieldValue = {
+export type BaseCustomFieldValue = XsiType<'CustomFieldValue' | 'DropDownCustomFieldValue'> & {
   /**
    * Id of the **CustomField** to which this value belongs. This attribute is required.
    */
@@ -100,8 +101,9 @@ type CustomFieldValue = {
    * | {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#NUMBER NUMBER}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.NumberValue NumberValue}    |
    * | {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#TOGGLE TOGGLE}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.BooleanValue BooleanValue}  |
    *
+   * The WSDL type is abstract: send a `TypedValue`, such as `{ attributes: { 'xsi:type': 'TextValue' }, value: 'text' }`.
    */
-  value: Value;
+  value: Value | TypedValue;
 };
 
 /**

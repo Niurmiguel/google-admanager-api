@@ -36,6 +36,10 @@ export type DropDownCustomField = {
  */
 export type CustomField = {
   /**
+   * `{ 'xsi:type': 'DropDownCustomField' }` for a drop-down custom field.
+   */
+  attributes?: { 'xsi:type': 'CustomField' | 'DropDownCustomField' };
+  /**
    * Unique ID of the CustomField. This value is readonly and is assigned by Google.
    */
   id: number;
