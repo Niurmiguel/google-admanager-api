@@ -122,7 +122,6 @@ const KNOWN_FIELD_DIFFERENCES: Record<string, string> = {
   'BaseCustomFieldValue.value': LIB_VALUE,
   'Creative.ampRedirectUrl': CREATIVE_HIERARCHY,
   'Creative.thirdPartyImpressionUrl': CREATIVE_HIERARCHY,
-  'Creative.trackingUrls': 'VastRedirectCreative.trackingUrls is a single entry instead of an array.',
   'AdDecisionCreative.isDropped': 'Missing.',
   'LineItem.youtubeKidsRestricted': 'Missing.',
   'LineItemSummary.youtubeKidsRestricted': 'Missing.',
@@ -135,7 +134,6 @@ const KNOWN_FIELD_DIFFERENCES: Record<string, string> = {
   'SecurityPolicySettings.keysetName': 'Missing.',
   'SecurityPolicySettings.signedRequestExpirationTtlSeconds': 'Missing.',
   'Targeting.inventorySizeTargeting': 'Missing.',
-  'VideoPositionTarget.adSpotId': 'An array instead of a single id.',
 };
 
 /** `Service.Action` differences, at runtime. */

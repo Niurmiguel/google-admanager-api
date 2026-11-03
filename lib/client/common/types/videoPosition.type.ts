@@ -59,8 +59,10 @@ export type VideoPositionTarget = {
 
   /**
    * A custom spot AdSpot to target. To target a video position, a bumper type or a video position within a pod this value must be null.
+   *
+   * A single id: before 0.2.0 it was typed as an array, which the API rejects.
    */
-  adSpotId: number[];
+  adSpotId: number;
 };
 
 /**

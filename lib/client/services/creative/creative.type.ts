@@ -1124,8 +1124,10 @@ export type VastRedirectCreative = {
 
   /**
    * A map from ConversionEvent to a list of URLs that will be pinged when the event happens. This attribute is optional.
+   *
+   * One entry per ConversionEvent: before 0.2.0 it was typed as a single entry.
    */
-  trackingUrls: ConversionEvent_TrackingUrlsMapEntry;
+  trackingUrls: ConversionEvent_TrackingUrlsMapEntry[];
 
   /**
    * The SSL compatibility scan result for this creative.
