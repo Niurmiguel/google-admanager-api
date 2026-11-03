@@ -96,7 +96,9 @@ and fields that v202608 rejects, so code that used them already failed at runtim
 - `ResumeOrders` and `SubmitOrdersForApproval` send `skipInventoryCheck` when it is set.
 - Every enum has the values of v202608 in the WSDL order, with the WSDL documentation.
 - 761 links to the API reference point to v202608 instead of v202202. The other 25 name services this library
-  does not use, PQL filter names or fields v202608 no longer has, and still point to v202202.
+  does not use, PQL filter names or fields v202608 no longer has, and still point to v202202. Nine links whose
+  label named another type or field (the `getSlatesByStatement()` filters were labeled `LiveStreamEvent.*`) are
+  corrected.
 
 ## [0.1.0] - 2026-11-02
 

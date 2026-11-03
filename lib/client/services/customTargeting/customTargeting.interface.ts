@@ -30,7 +30,7 @@ export interface CustomTargetingServiceOperations {
    * The following fields are required:
    *
    * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomTargetingService.CustomTargetingValue#customTargetingKeyId CustomTargetingValue.customTargetingKeyId }
-   * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomTargetingService.CustomTargetingKey#name CustomTargetingValue.name }
+   * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomTargetingService.CustomTargetingValue#name CustomTargetingValue.name }
    *
    * @param values 	the custom targeting values to update
    * @returns the updated custom targeting values

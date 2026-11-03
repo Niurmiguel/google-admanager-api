@@ -25,8 +25,8 @@ export interface UserTeamAssociationServiceOperations {
    *
    * | PQL Property | PQL Property                                                                                                                             |
    * | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
-   * | userId       | {@link https://developers.google.com/ad-manager/api/reference/v202608/UserTeamAssociationService.UserTeamAssociation#userId Team.userId} |
-   * | teamId       | {@link https://developers.google.com/ad-manager/api/reference/v202608/UserTeamAssociationService.UserTeamAssociation#teamId Team.teamId} |
+   * | userId       | {@link https://developers.google.com/ad-manager/api/reference/v202608/UserTeamAssociationService.UserTeamAssociation#userId UserTeamAssociation.userId} |
+   * | teamId       | {@link https://developers.google.com/ad-manager/api/reference/v202608/UserTeamAssociationService.UserTeamAssociation#teamId UserTeamAssociation.teamId} |
    *
    * @param filterStatement a Publisher Query Language statement used to filter a set of user team associations
    * @returns the user team associations that match the given filter

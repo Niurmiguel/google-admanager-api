@@ -12,8 +12,8 @@ export interface CustomFieldServiceOperations {
    *
    * The following fields are required:
    *
-   * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField#name CustomFieldOption.displayName}
-   * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField#name CustomFieldOption.customFieldId}
+   * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldOption#displayName CustomFieldOption.displayName}
+   * - {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldOption#customFieldId CustomFieldOption.customFieldId}
    *
    * @param customFieldOptions the custom fields to create
    * @returns the created custom field options with their IDs filled in

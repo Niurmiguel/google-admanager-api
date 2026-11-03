@@ -34,7 +34,7 @@ export interface CreativeWrapperServiceOperations {
    * | id           | {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeWrapperService.CreativeWrapper#id CreativeWrapper.id}                                     |
    * | labelId      | {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeWrapperService.CreativeWrapper#labelId CreativeWrapper.labelId}                                 |
    * | status       | {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeWrapperService.CreativeWrapper#status CreativeWrapper.status}                                 |
-   * | ordering     | {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeWrapperService.CreativeWrapper#ordering CreativeWrapper.lastModifiedDateTime} |
+   * | ordering     | {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeWrapperService.CreativeWrapper#ordering CreativeWrapper.ordering} |
    *
    * @param filterStatement a Publisher Query Language statement used to filter a set of creative wrappers.
    * @returns the creative wrappers that match the given filter

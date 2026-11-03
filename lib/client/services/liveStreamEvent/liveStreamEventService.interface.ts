@@ -68,9 +68,9 @@ export interface LiveStreamEventServiceOperations {
    *
    * | PQL Property         | PQL Property
    * | -------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------
-   * | id                   | {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.Slate#id LiveStreamEvent.id}
-   * | name                 | {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.Slate#name LiveStreamEvent.name}
-   * | lastModifiedDateTime | {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.Slate#lastModifiedDateTime LiveStreamEvent.lastModifiedDateTime}
+   * | id                   | {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.Slate#id Slate.id}
+   * | name                 | {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.Slate#name Slate.name}
+   * | lastModifiedDateTime | {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.Slate#lastModifiedDateTime Slate.lastModifiedDateTime}
    *
    * @param statement a Publisher Query Language statement used to filter slates
    * @returns the slates that match the given filter
