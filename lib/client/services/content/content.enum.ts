@@ -1,17 +1,21 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Describes the status of a {@link https://developers.google.com/ad-manager/api/reference/v202202/ContentService.Content?hl=pt Content} object.
+ * Describes the status of a `Content` object.
  */
 export enum ContentStatus {
   /**
-   * Indicates the Content has been created and is eligible to have ads served against it.
+   * Indicates the `Content` has been created and is eligible to have ads served against it.
    */
   ACTIVE = 'ACTIVE',
   /**
-   * Indicates the Content has been deactivated and cannot have ads served against it.
+   * Indicates the `Content` has been deactivated and cannot have ads served against it.
    */
   INACTIVE = 'INACTIVE',
   /**
-   * Indicates the Content has been archived; user-visible.
+   * Indicates the `Content` has been archived; user-visible.
    */
   ARCHIVED = 'ARCHIVED',
   /**
@@ -21,21 +25,21 @@ export enum ContentStatus {
 }
 
 /**
- * Describes who defined the effective status of the Content.
+ * Describes who defined the effective status of the `Content`.
  */
 export enum ContentStatusDefinedBy {
   /**
-   * Indicates that the status of the Content is defined by the CMS.
+   * Indicates that the status of the `Content` is defined by the CMS.
    */
   CMS = 'CMS',
   /**
-   * Indicates that the status of the Content is defined by the user.
+   * Indicates that the status of the `Content` is defined by the user.
    */
   USER = 'USER',
 }
 
 /**
- * The status of the DAI ingestion process. Only content with a status of {@link https://developers.google.com/ad-manager/api/reference/v202202/ContentService.DaiIngestStatus#SUCCESS SUCCESS} will be available for dynamic ad insertion.
+ * The status of the DAI ingestion process. Only content with a status of `SUCCESS` will be available for dynamic ad insertion.
  */
 export enum DaiIngestStatus {
   /**
@@ -43,11 +47,27 @@ export enum DaiIngestStatus {
    */
   SUCCESS = 'SUCCESS',
   /**
-   * There was a non-fatal issue during the DAI ingestion proccess.
+   * There was a non-fatal issue during the DAI ingestion process.
    */
   WARNING = 'WARNING',
   /**
-   * There was a non-fatal issue during the DAI ingestion proccess and the content is not available for dynamic ad insertion.
+   * The preconditioned content was successfully ingested for DAI.
+   */
+  INGESTED = 'INGESTED',
+  /**
+   * There was a non-fatal issue during the DAI ingestion process on preconditioned content.
+   */
+  INGESTED_WITH_WARNINGS = 'INGESTED_WITH_WARNINGS',
+  /**
+   * The unconditioned content was successfully conditioned for DAI.
+   */
+  CONDITIONED = 'CONDITIONED',
+  /**
+   * There was a non-fatal issue during the DAI conditioning process on originally unconditioned content.
+   */
+  CONDITIONED_WITH_WARNINGS = 'CONDITIONED_WITH_WARNINGS',
+  /**
+   * There was a non-fatal issue during the DAI ingestion process and the content is not available for dynamic ad insertion.
    */
   FAILURE = 'FAILURE',
   /**
@@ -120,6 +140,10 @@ export enum DaiIngestErrorReason {
    * There is bad/missing/malformed data in a subtitles file. The trigger for this error is the URL that points to the malformed subtitles.
    */
   MALFORMED_SUBTITLES = 'MALFORMED_SUBTITLES',
+  /**
+   * The subtitles sent to DAI are too large. The trigger for this error is the URL that points to the master playlist.
+   */
+  SUBTITLES_TOO_LARGE = 'SUBTITLES_TOO_LARGE',
   /**
    * A playlist item has a URL that does not begin with the ingest common path provided in the DAI settings. The trigger for this error is the playlist item URL.
    */
@@ -233,30 +257,6 @@ export enum DaiIngestErrorReason {
    */
   CUE_POINT_COUNT_DOES_NOT_MATCH_PTS_COUNT = 'CUE_POINT_COUNT_DOES_NOT_MATCH_PTS_COUNT',
   /**
-   * The subtitle language code should not contain "$$$$$".
-   */
-  CLOSED_CAPTION_LANGUAGE_VALUE_INVALID = 'CLOSED_CAPTION_LANGUAGE_VALUE_INVALID',
-  /**
-   * The subtitle name should not contain "$$$$$".
-   */
-  CLOSED_CAPTION_NAME_VALUE_INVALID = 'CLOSED_CAPTION_NAME_VALUE_INVALID',
-  /**
-   * The common subtitle characteristics values listed in the HLS spec are: 1)"public.accessibility.transcribes-spoken-dialog", 2)"public.accessibility.describes-music-and-sound", 3)"public.easy-to-read";
-   */
-  CLOSED_CAPTION_CHARACTERISTICS_VALUE_UNEXPECTED = 'CLOSED_CAPTION_CHARACTERISTICS_VALUE_UNEXPECTED',
-  /**
-   * Closed captions for a content should be unique by 'language + name'.
-   */
-  CLOSED_CAPTIONS_WITH_DUPLICATE_KEYS = 'CLOSED_CAPTIONS_WITH_DUPLICATE_KEYS',
-  /**
-   * The value returned if the actual value is not exposed by the requested API version.
-   */
-  UNKNOWN = 'UNKNOWN',
-  /**
-   * The subtitles sent to DAI are too large. The trigger for this error is the URL that points to the master playlist.
-   */
-  SUBTITLES_TOO_LARGE = 'SUBTITLES_TOO_LARGE',
-  /**
    * Error caused by the number of PTS being a different value than the number of discontinuity tags + 1.
    */
   DISCONTINUITY_COUNT_DOES_NOT_MATCH_PTS_COUNT = 'DISCONTINUITY_COUNT_DOES_NOT_MATCH_PTS_COUNT',
@@ -273,6 +273,30 @@ export enum DaiIngestErrorReason {
    */
   DASH_MANIFEST_CONDITIONING_SEGMENT_BOUNDARY_ERROR = 'DASH_MANIFEST_CONDITIONING_SEGMENT_BOUNDARY_ERROR',
   /**
+   * The subtitle language code should not contain "$$$$$".
+   */
+  CLOSED_CAPTION_LANGUAGE_VALUE_INVALID = 'CLOSED_CAPTION_LANGUAGE_VALUE_INVALID',
+  /**
+   * The subtitle name should not contain "$$$$$".
+   */
+  CLOSED_CAPTION_NAME_VALUE_INVALID = 'CLOSED_CAPTION_NAME_VALUE_INVALID',
+  /**
+   * The common subtitle characteristics values listed in the HLS spec are: 1)"public.accessibility.transcribes-spoken-dialog", 2)"public.accessibility.describes-music-and-sound", 3)"public.easy-to-read";
+   */
+  CLOSED_CAPTION_CHARACTERISTICS_VALUE_UNEXPECTED = 'CLOSED_CAPTION_CHARACTERISTICS_VALUE_UNEXPECTED',
+  /**
+   * Closed captions for a content should be unique by 'language + name'.
+   */
+  CLOSED_CAPTIONS_WITH_DUPLICATE_KEYS = 'CLOSED_CAPTIONS_WITH_DUPLICATE_KEYS',
+  /**
+   * Subtitles are defined in the content source feed as well as inside the stream manifest. Only feed subtitles will be ingested.
+   */
+  SUBTITLES_PRESENT_IN_FEED_AND_MANIFEST = 'SUBTITLES_PRESENT_IN_FEED_AND_MANIFEST',
+  /**
+   * The media profile is invalid due to missing data.
+   */
+  INVALID_MEDIA_PROFILE = 'INVALID_MEDIA_PROFILE',
+  /**
    * Error caused when the PTS values do not align across chapters.
    */
   CHAPTER_PTS_MISMATCH = 'CHAPTER_PTS_MISMATCH',
@@ -280,4 +304,8 @@ export enum DaiIngestErrorReason {
    * Error occurred while chaptering renditions in the content.
    */
   CHAPTER_RENDITION_ERROR = 'CHAPTER_RENDITION_ERROR',
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
 }

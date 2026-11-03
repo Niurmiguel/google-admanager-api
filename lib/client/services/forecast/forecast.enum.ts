@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Targeting dimension of targeting breakdowns.
  */
@@ -19,68 +23,11 @@ export enum TargetingDimension {
   DEVICE_MANUFACTURER = 'DEVICE_MANUFACTURER',
   MOBILE_APPLICATION = 'MOBILE_APPLICATION',
   FORECASTED_CREATIVE_RESTRICTION = 'FORECASTED_CREATIVE_RESTRICTION',
-  /**
-   * The value returned if the actual value is not exposed by the requested API version.
-   */
-  UNKNOWN = 'UNKNOWN',
   VERTICAL = 'VERTICAL',
   CONTENT_LABEL = 'CONTENT_LABEL',
   PUBLISHER_PROVIDED_SIGNALS = 'PUBLISHER_PROVIDED_SIGNALS',
-}
-
-/**
- * Type of unit represented in a GRP demographic breakdown.
- */
-export enum GrpUnitType {
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
-  IMPRESSIONS = 'IMPRESSIONS',
-}
-
-/**
- * The demographic gender associated with a GRP demographic forecast.
- */
-export enum GrpGender {
-  /**
-   * The value returned if the actual value is not exposed by the requested API version.
-   */
-  UNKNOWN = 'UNKNOWN',
-  /**
-   * When gender is not available due to low impression levels, GRP privacy thresholds are activated and prevent us from specifying gender.
-   */
-  GENDER_UNKNOWN = 'GENDER_UNKNOWN',
-  GENDER_FEMALE = 'GENDER_FEMALE',
-  GENDER_MALE = 'GENDER_MALE',
-}
-
-/**
- * The age range associated with a GRP demographic forecast.
- */
-export enum GrpAge {
-  /**
-   * The value returned if the actual value is not exposed by the requested API version.
-   */
-  UNKNOWN = 'UNKNOWN',
-  /**
-   * When the age range is not available due to low impression levels, GRP privacy thresholds are activated and prevent us from specifying age.
-   */
-  AGE_UNKNOWN = 'AGE_UNKNOWN',
-  AGE_0_TO_17 = 'AGE_0_TO_17',
-  AGE_18_TO_24 = 'AGE_18_TO_24',
-  AGE_25_TO_34 = 'AGE_25_TO_34',
-  AGE_35_TO_44 = 'AGE_35_TO_44',
-  AGE_45_TO_54 = 'AGE_45_TO_54',
-  AGE_55_TO_64 = 'AGE_55_TO_64',
-  AGE_65_PLUS = 'AGE_65_PLUS',
-  AGE_18_TO_49 = 'AGE_18_TO_49',
-  AGE_21_TO_34 = 'AGE_21_TO_34',
-  AGE_21_TO_49 = 'AGE_21_TO_49',
-  AGE_21_PLUS = 'AGE_21_PLUS',
-  AGE_25_TO_49 = 'AGE_25_TO_49',
-  AGE_21_TO_44 = 'AGE_21_TO_44',
-  AGE_21_TO_54 = 'AGE_21_TO_54',
-  AGE_21_TO_64 = 'AGE_21_TO_64',
-  AGE_35_TO_49 = 'AGE_35_TO_49',
 }

@@ -1,5 +1,9 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Corresponds to an HTML link's target attribute.
+ * Corresponds to an HTML link's `target` attribute.
  */
 export enum AdUnitTargetWindow {
   /**
@@ -31,7 +35,7 @@ export enum InventoryStatus {
 }
 
 /**
- * Specifies the type of ads that can be served through this {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit}.
+ * Specifies the type of ads that can be served through this `AdUnit`.
  */
 export enum AdSenseSettingsAdType {
   /**
@@ -49,7 +53,7 @@ export enum AdSenseSettingsAdType {
 }
 
 /**
- * Describes the border of the HTML elements used to surround an ad displayed by the {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit}.
+ * Describes the border of the HTML elements used to surround an ad displayed by the `AdUnit`.
  */
 export enum AdSenseSettingsBorderStyle {
   /**
@@ -133,12 +137,9 @@ export enum SmartSizeMode {
 }
 
 /**
- * The type of refresh rate for an InventoryUnit.
+ * The type of refresh rate for a `InventoryUnit`.
  */
 export enum RefreshRateType {
-  /**
-   * The value returned if the actual value is not exposed by the requested API version.
-   */
   UNKNOWN = 'UNKNOWN',
   /**
    * Auto refresh is disabled.
@@ -149,7 +150,7 @@ export enum RefreshRateType {
    */
   OPTIMIZED = 'OPTIMIZED',
   /**
-   * Auto refresh is enabled and set to a custom fixed interval.
+   * Auto refresh is enabled and set to a custom fixed interval
    */
   FIXED_INTERVAL = 'FIXED_INTERVAL',
 }

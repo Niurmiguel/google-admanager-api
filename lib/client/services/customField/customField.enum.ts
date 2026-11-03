@@ -1,25 +1,29 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Entity types recognized by custom fields
  */
 export enum CustomFieldEntityType {
   /**
-   * Represents the LineItem type.
+   * Represents the `LineItem` type.
    */
   LINE_ITEM = 'LINE_ITEM',
   /**
-   * Represents the Order type.
+   * Represents the `Order` type.
    */
   ORDER = 'ORDER',
   /**
-   * Represents the Creative type.
+   * Represents the `Creative` type.
    */
   CREATIVE = 'CREATIVE',
   /**
-   * Represents the Proposal type.
+   * Represents the `Proposal` type.
    */
   PROPOSAL = 'PROPOSAL',
   /**
-   * Represents the ProposalLineItem type.
+   * Represents the `ProposalLineItem` type.
    */
   PROPOSAL_LINE_ITEM = 'PROPOSAL_LINE_ITEM',
   /**
@@ -29,7 +33,7 @@ export enum CustomFieldEntityType {
 }
 
 /**
- * The data types allowed for {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} objects.
+ * The data types allowed for `CustomField` objects.
  */
 export enum CustomFieldDataType {
   /**
@@ -45,7 +49,7 @@ export enum CustomFieldDataType {
    */
   TOGGLE = 'TOGGLE',
   /**
-   * A drop-down field. Values may only be the ids of CustomFieldOption objects.
+   * A drop-down field. Values may only be the ids of `CustomFieldOption` objects.
    */
   DROP_DOWN = 'DROP_DOWN',
   /**
@@ -58,6 +62,10 @@ export enum CustomFieldDataType {
  * The visibility levels of a custom field.
  */
 export enum CustomFieldVisibility {
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
   /**
    * Only visible through the API.
    */

@@ -1,17 +1,21 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Describes the status of a {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} object.
+ * Describes the status of a `LiveStreamEvent` object.
  */
 export enum LiveStreamEventStatus {
   /**
-   * Indicates the LiveStreamEvent has been created and is eligible for streaming.
+   * Indicates the `LiveStreamEvent` has been created and is eligible for streaming.
    */
   ACTIVE = 'ACTIVE',
   /**
-   * Indicates the LiveStreamEvent has been archived.
+   * Indicates the `LiveStreamEvent` has been archived.
    */
   ARCHIVED = 'ARCHIVED',
   /**
-   * Indicates the LiveStreamEvent has been paused. This can be made ACTIVE at later time.
+   * Indicates the `LiveStreamEvent` has been paused. This can be made `ACTIVE` at later time.
    */
   PAUSED = 'PAUSED',
   /**
@@ -25,7 +29,7 @@ export enum LiveStreamEventStatus {
 }
 
 /**
- * Describes what should be used to fill an empty ad break during a live stream.
+ * Describes what should be used to fill an empty or underfilled ad break during a live stream.
  */
 export enum AdBreakFillType {
   /**
@@ -37,18 +41,17 @@ export enum AdBreakFillType {
    */
   UNDERLYING_CONTENT = 'UNDERLYING_CONTENT',
   /**
-   * The value returned if the actual value is not exposed by the requested API version.
-   */
-  UNKNOWN = 'UNKNOWN',
-  /**
    * Ad break should be filled with mostly underlying content. When ad content can't be aligned with underlying content during transition, the gap will be bridged with slate to maintain the timeline.
    */
   MINIMIZE_SLATE = 'MINIMIZE_SLATE',
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
 }
 
 /**
- * Describes the type of the playlist associated with this live stream. This is analagous to the EXT-X-PLAYLIST-TYPE HLS tag.
- * Use PlaylistType.EVENT for streams with the value "#EXT-X-PLAYLIST-TYPE:EVENT" and use PlaylistType.LIVE for streams without the tag.
+ * Describes the type of the playlist associated with this live stream. This is analagous to the EXT-X-PLAYLIST-TYPE HLS tag. Use `PlaylistType.EVENT` for streams with the value "#EXT-X-PLAYLIST-TYPE:EVENT" and use `PlaylistType.LIVE` for streams without the tag.
  */
 export enum PlaylistType {
   /**
@@ -106,7 +109,7 @@ export enum DynamicAdInsertionType {
 }
 
 /**
- * The {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} streaming format.
+ * The `LiveStreamEvent` streaming format.
  */
 export enum StreamingFormat {
   /**
@@ -124,7 +127,7 @@ export enum StreamingFormat {
 }
 
 /**
- * Describes the SCTE ad break markups for a LiveStreamEvent.
+ * Describes the SCTE ad break markups for a `LiveStreamEvent`.
  */
 export enum AdBreakMarkupType {
   /**
@@ -136,7 +139,7 @@ export enum AdBreakMarkupType {
    */
   AD_BREAK_MARKUP_HLS_PRIMETIME_SPLICE = 'AD_BREAK_MARKUP_HLS_PRIMETIME_SPLICE',
   /**
-   * The DATERANGE (Anvato) ad break marker type. This mark up type is only applicable for HLS live streams.
+   * The DATERANGE ad break marker type. This mark up type is only applicable for HLS live streams.
    */
   AD_BREAK_MARKUP_HLS_DATERANGE_SPLICE = 'AD_BREAK_MARKUP_HLS_DATERANGE_SPLICE',
   /**
@@ -155,6 +158,10 @@ export enum AdBreakMarkupType {
    * The SCTE35 Binary Time Signal: Provider Placement Opportunity Start/End ad break marker type. This mark up type is only applicable for HLS and DASH live streams.
    */
   AD_BREAK_MARKUP_SCTE35_BINARY_PROVIDER_PLACEMENT_OP_START_END = 'AD_BREAK_MARKUP_SCTE35_BINARY_PROVIDER_PLACEMENT_OP_START_END',
+  /**
+   * The SCTE35 Binary Time Signal: Break Start/End ad break marker type. This mark up type is only applicable for HLS and DASH live streams.
+   */
+  AD_BREAK_MARKUP_SCTE35_BINARY_BREAK_START_END = 'AD_BREAK_MARKUP_SCTE35_BINARY_BREAK_START_END',
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
@@ -180,15 +187,15 @@ export enum AdServingFormat {
 }
 
 /**
- * Describes the status of a Slate object.
+ * Describes the status of a `Slate` object.
  */
 export enum SlateStatus {
   /**
-   * Indicates the Slate has been created and is eligible for streaming.
+   * Indicates the `Slate` has been created and is eligible for streaming.
    */
   ACTIVE = 'ACTIVE',
   /**
-   * Indicates the Slate has been archived.
+   * Indicates the `Slate` has been archived.
    */
   ARCHIVED = 'ARCHIVED',
   /**

@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * The type of the company. Once a company is created, it is not possible to change its type.
  */
@@ -41,12 +45,7 @@ export enum CompanyType {
 }
 
 /**
- * Specifies the credit-worthiness of the company for which the publisher runs an order.
- * By doing so, the publisher can control the running of campaigns for the company.
- * A publisher can choose between Basic and Advanced Credit Status settings.
- * This feature needs to be enabled in the Ad Manager web site. Also the kind of setting you need - Basic or Advanced must be configured.
- * If Basic is enabled then, the values allowed are ACTIVE and INACTIVE. If Advanced is chosen, then all values are allowed.
- * Choosing an Advanced setting when only the Basic feature has been enabled, or using the Basic setting without turning the feature on will result in an error.
+ * Specifies the credit-worthiness of the company for which the publisher runs an order. By doing so, the publisher can control the running of campaigns for the company. A publisher can choose between Basic and Advanced Credit Status settings. This feature needs to be enabled in the Ad Manager web site. Also the kind of setting you need - Basic or Advanced must be configured. If Basic is enabled then, the values allowed are `ACTIVE` and `INACTIVE`. If Advanced is chosen, then all values are allowed. Choosing an Advanced setting when only the Basic feature has been enabled, or using the Basic setting without turning the feature on will result in an error.
  */
 export enum CompanyCreditStatus {
   /**

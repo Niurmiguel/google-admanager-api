@@ -1,5 +1,9 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Describes the type of event the advertiser is paying for. The values here correspond to the values for the LineItem.costType field.
+ * Describes the type of event the advertiser is paying for. The values here correspond to the values for the `LineItem.costType` field.
  */
 export enum RateType {
   /**
@@ -25,7 +29,7 @@ export enum RateType {
 }
 
 /**
- * Represents the inventory reservation status for ProposalLineItem objects.
+ * Represents the inventory reservation status for `ProposalLineItem` objects.
  */
 export enum ReservationStatus {
   /**
@@ -41,7 +45,7 @@ export enum ReservationStatus {
    */
   RELEASED = 'RELEASED',
   /**
-   * The reservation status of the corresponding LineItem should be used for this ProposalLineItem.
+   * The reservation status of the corresponding `LineItem` should be used for this `ProposalLineItem`.
    */
   CHECK_LINE_ITEM_RESERVATION_STATUS = 'CHECK_LINE_ITEM_RESERVATION_STATUS',
   /**
@@ -51,7 +55,7 @@ export enum ReservationStatus {
 }
 
 /**
- * The role (buyer or seller) that performed an action in the negotiation of a Proposal.
+ * The role (buyer or seller) that performed an action in the negotiation of a `Proposal`.
  */
 export enum NegotiationRole {
   BUYER = 'BUYER',

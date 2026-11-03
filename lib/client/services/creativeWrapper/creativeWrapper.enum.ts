@@ -1,5 +1,9 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * The type of a creative wrapper which is specified on the CreativeWrapper.
+ * The type of a creative wrapper which is specified on the `CreativeWrapper`.
  */
 export enum CreativeWrapperType {
   /**
@@ -25,11 +29,11 @@ export enum ConversionEvent {
    */
   UNKNOWN = 'UNKNOWN',
   /**
-   * Corresponds to the creativeView tracking event.
+   * Corresponds to the `creativeView` tracking event.
    */
   CREATIVE_VIEW = 'CREATIVE_VIEW',
   /**
-   * Corresponds to the start tracking event.
+   * Corresponds to the `start` tracking event.
    */
   START = 'START',
   /**
@@ -37,15 +41,15 @@ export enum ConversionEvent {
    */
   SKIP_SHOWN = 'SKIP_SHOWN',
   /**
-   * Corresponds to the firstQuartile tracking event.
+   * Corresponds to the `firstQuartile` tracking event.
    */
   FIRST_QUARTILE = 'FIRST_QUARTILE',
   /**
-   * Corresponds to the midpoint tracking event.
+   * Corresponds to the `midpoint` tracking event.
    */
   MIDPOINT = 'MIDPOINT',
   /**
-   * Corresponds to the thirdQuartile tracking event.
+   * Corresponds to the `thirdQuartile` tracking event.
    */
   THIRD_QUARTILE = 'THIRD_QUARTILE',
   /**
@@ -53,27 +57,27 @@ export enum ConversionEvent {
    */
   ENGAGED_VIEW = 'ENGAGED_VIEW',
   /**
-   * Corresponds to the complete tracking event.
+   * Corresponds to the `complete` tracking event.
    */
   COMPLETE = 'COMPLETE',
   /**
-   * Corresponds to the mute tracking event.
+   * Corresponds to the `mute` tracking event.
    */
   MUTE = 'MUTE',
   /**
-   * Corresponds to the unmute tracking event.
+   * Corresponds to the `unmute` tracking event.
    */
   UNMUTE = 'UNMUTE',
   /**
-   * Corresponds to the pause tracking event.
+   * Corresponds to the `pause` tracking event.
    */
   PAUSE = 'PAUSE',
   /**
-   * Corresponds to the rewind tracking event.
+   * Corresponds to the `rewind` tracking event.
    */
   REWIND = 'REWIND',
   /**
-   * Corresponds to the resume tracking event.
+   * Corresponds to the `resume` tracking event.
    */
   RESUME = 'RESUME',
   /**
@@ -81,63 +85,61 @@ export enum ConversionEvent {
    */
   SKIPPED = 'SKIPPED',
   /**
-   * Corresponds to the fullscreen tracking event.
+   * Corresponds to the `fullscreen` tracking event.
    */
   FULLSCREEN = 'FULLSCREEN',
   /**
-   * Corresponds to the expand tracking event.
+   * Corresponds to the `expand` tracking event.
    */
   EXPAND = 'EXPAND',
   /**
-   * Corresponds to the collapse tracking event.
+   * Corresponds to the `collapse` tracking event.
    */
   COLLAPSE = 'COLLAPSE',
   /**
-   * Corresponds to the acceptInvitation tracking event.
+   * Corresponds to the `acceptInvitation` tracking event.
    */
   ACCEPT_INVITATION = 'ACCEPT_INVITATION',
   /**
-   * Corresponds to the close tracking event.
+   * Corresponds to the `close` tracking event.
    */
   CLOSE = 'CLOSE',
   /**
-   * Corresponds to the Linear.VideoClicks.ClickTracking node.
+   * Corresponds to the `Linear.VideoClicks.ClickTracking` node.
    */
   CLICK_TRACKING = 'CLICK_TRACKING',
   /**
-   * Corresponds to the InLine.Survey node.
+   * Corresponds to the `InLine.Survey` node.
    */
   SURVEY = 'SURVEY',
   /**
-   * Corresponds to the Linear.VideoClicks.CustomClick node.
+   * Corresponds to the `Linear.VideoClicks.CustomClick` node.
    */
   CUSTOM_CLICK = 'CUSTOM_CLICK',
   /**
-   * Corresponds to the measurableImpression tracking event.
+   * Corresponds to the `measurableImpression` tracking event.
    */
   MEASURABLE_IMPRESSION = 'MEASURABLE_IMPRESSION',
   /**
-   * Corresponds to the viewableImpression tracking event.
+   * Corresponds to the `viewableImpression` tracking event.
    */
   VIEWABLE_IMPRESSION = 'VIEWABLE_IMPRESSION',
   /**
-   * Corresponds to the abandon tracking event.
+   * Corresponds to the `abandon` tracking event.
    */
   VIDEO_ABANDON = 'VIDEO_ABANDON',
   /**
-   * Corresponds to the fullyViewableAudibleHalfDurationImpression tracking event.
+   * Corresponds to the `fullyViewableAudibleHalfDurationImpression` tracking event.
    */
   FULLY_VIEWABLE_AUDIBLE_HALF_DURATION_IMPRESSION = 'FULLY_VIEWABLE_AUDIBLE_HALF_DURATION_IMPRESSION',
 }
 
 /**
- * Defines the order in which the header and footer HTML snippets will be wrapped around the served creative.
- * INNER snippets will be wrapped first, followed by NO_PREFERENCE and finally OUTER.
- * If the creative needs to be wrapped with more than one snippet with the same CreativeWrapperOrdering, then the order is unspecified.
+ * Defines the order in which the header and footer HTML snippets will be wrapped around the served creative. `INNER` snippets will be wrapped first, followed by `NO_PREFERENCE` and finally `OUTER`. If the creative needs to be wrapped with more than one snippet with the same `CreativeWrapperOrdering`, then the order is unspecified.
  */
 export enum CreativeWrapperOrdering {
   /**
-   * Wrapping occurs after INNER but before OUTER
+   * Wrapping occurs after `INNER` but before `OUTER`
    */
   NO_PREFERENCE = 'NO_PREFERENCE',
   /**
@@ -145,13 +147,13 @@ export enum CreativeWrapperOrdering {
    */
   INNER = 'INNER',
   /**
-   * Wrapping occurs after both NO_PREFERENCE and INNER
+   * Wrapping occurs after both `NO_PREFERENCE` and `INNER`
    */
   OUTER = 'OUTER',
 }
 
 /**
- * Indicates whether the CreativeWrapper is active. HTML snippets are served to creatives only when the creative wrapper is active.
+ * Indicates whether the `CreativeWrapper` is active. HTML snippets are served to creatives only when the creative wrapper is active.
  */
 export enum CreativeWrapperStatus {
   ACTIVE = 'ACTIVE',

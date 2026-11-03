@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * The status of a forecast adjustment. Inactive adjustments are not applied during forecasting.
  */
@@ -17,8 +21,7 @@ export enum ForecastAdjustmentStatus {
 }
 
 /**
- * Options for how the volume settings of a
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment} are defined.
+ * Options for how the volume settings of a `ForecastAdjustment` are defined.
  */
 export enum ForecastAdjustmentVolumeType {
   /**

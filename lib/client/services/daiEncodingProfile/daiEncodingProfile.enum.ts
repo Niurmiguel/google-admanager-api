@@ -1,13 +1,17 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Describes the status of a {@link https://developers.google.com/ad-manager/api/reference/v202202/DaiEncodingProfileService.DaiEncodingProfile DaiEncodingProfile} object.
+ * Describes the status of a `DaiEncodingProfile` object.
  */
 export enum DaiEncodingProfileStatus {
   /**
-   * Indicates the DaiEncodingProfile has been created and is eligible for streaming.
+   * Indicates the `DaiEncodingProfile` has been created and is eligible for streaming.
    */
   ACTIVE = 'ACTIVE',
   /**
-   * Indicates the DaiEncodingProfile has been archived.
+   * Indicates the `DaiEncodingProfile` has been archived.
    */
   ARCHIVED = 'ARCHIVED',
   /**

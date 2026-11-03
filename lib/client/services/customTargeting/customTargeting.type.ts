@@ -5,7 +5,6 @@ import {
   CustomTargetingValueMatchType,
   CustomTargetingValueStatus,
   ReportableType,
-  ValueDeclarationType,
 } from './customTargeting.enum';
 
 /**
@@ -32,10 +31,6 @@ export type CustomTargetingKey = {
    * Indicates whether users will select from predefined values or create new targeting values, while specifying targeting criteria for a line item.
    */
   type: CustomTargetingKeyType;
-  /**
-   * Indicates the type of values being passed for this key in ad requests. This field is nullable for a key until it is set, after which it cannot be reset back to null.
-   */
-  valueDeclarationType: ValueDeclarationType;
   /**
    * Status of the CustomTargetingKey. This field is read-only. A key can be activated and deactivated by calling CustomTargetingService.performCustomTargetingKeyAction.
    */

@@ -1,5 +1,9 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * A store a {@link https://developers.google.com/ad-manager/api/reference/v202202/MobileApplicationService.MobileApplication MobileApplication} is available on.
+ * A store a `MobileApplication` is available on.
  */
 export enum MobileApplicationStore {
   /**
@@ -22,13 +26,17 @@ export enum MobileApplicationStore {
 }
 
 /**
- * A platform a {@link https://developers.google.com/ad-manager/api/reference/v202202/MobileApplicationService.MobileApplication MobileApplication} can run on.
+ * A platform a `MobileApplication` can run on.
  */
 export enum MobileApplicationPlatform {
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
+  /**
+   * The value returned if the actual value is not supported by Ad Manager.
+   */
+  UNSUPPORTED = 'UNSUPPORTED',
   ANDROID = 'ANDROID',
   IOS = 'IOS',
   ROKU = 'ROKU',
@@ -37,14 +45,10 @@ export enum MobileApplicationPlatform {
   XBOX = 'XBOX',
   SAMSUNG_TV = 'SAMSUNG_TV',
   LG_TV = 'LG_TV',
-  /**
-   * The value returned if the actual value is not supported by Ad Manager.
-   */
-  UNSUPPORTED = 'UNSUPPORTED',
 }
 
 /**
- * The approval status of the mobile application (MobileApplication.ApprovalStatus in the API).
+ * The approval status of the mobile application.
  */
 export enum MobileApplicationApprovalStatus {
   /**

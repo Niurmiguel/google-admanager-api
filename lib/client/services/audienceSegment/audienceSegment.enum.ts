@@ -1,7 +1,15 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Specifies the statuses for {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
+ * Specifies the statuses for `AudienceSegment` objects.
  */
 export enum AudienceSegmentStatus {
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
   /**
    * Active status means this audience segment is available for targeting.
    */
@@ -10,10 +18,14 @@ export enum AudienceSegmentStatus {
    * Inactive status means this audience segment is not available for targeting.
    */
   INACTIVE = 'INACTIVE',
+  /**
+   * Unused status means this audience segment was deactivated by Google because it is unused.
+   */
+  UNUSED = 'UNUSED',
 }
 
 /**
- * Specifies types for {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
+ * Specifies types for `AudienceSegment` objects.
  */
 export enum AudienceSegmentType {
   /**
@@ -35,7 +47,7 @@ export enum AudienceSegmentType {
 }
 
 /**
- * Approval status values for {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.ThirdPartyAudienceSegment ThirdPartyAudienceSegment} objects.
+ * Approval status values for `ThirdPartyAudienceSegment` objects.
  */
 export enum AudienceSegmentApprovalStatus {
   /**
@@ -57,7 +69,7 @@ export enum AudienceSegmentApprovalStatus {
 }
 
 /**
- * Specifies the license type of a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.ThirdPartyAudienceSegment ThirdPartyAudienceSegment}.
+ * Specifies the license type of a `ThirdPartyAudienceSegment`.
  */
 export enum LicenseType {
   /**

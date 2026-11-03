@@ -1,21 +1,25 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Describes the {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal} status.
+ * Describes the `Proposal` status.
  */
 export enum ProposalStatus {
   /**
-   * Indicates that the Proposal has just been created or retracted but no approval has been requested yet.
+   * Indicates that the `Proposal` has just been created or retracted but no approval has been requested yet.
    */
   DRAFT = 'DRAFT',
   /**
-   * Indicates that a request for approval has been made for the Proposal.
+   * Indicates that a request for approval has been made for the `Proposal`.
    */
   PENDING_APPROVAL = 'PENDING_APPROVAL',
   /**
-   * Indicates that the Proposal has been approved and is ready to serve.
+   * Indicates that the `Proposal` has been approved and is ready to serve.
    */
   APPROVED = 'APPROVED',
   /**
-   * Indicates that the Proposal has been rejected in the approval workflow.
+   * Indicates that the `Proposal` has been rejected in the approval workflow.
    */
   REJECTED = 'REJECTED',
   /**
@@ -25,7 +29,7 @@ export enum ProposalStatus {
 }
 
 /**
- * Describes the type of a Company associated with a Proposal.
+ * Describes the type of a `Company` associated with a `Proposal`.
  */
 export enum ProposalCompanyAssociationType {
   /**
@@ -59,31 +63,31 @@ export enum ProposalCompanyAssociationType {
  */
 export enum NegotiationStatus {
   /**
-   * Indicates that a new Proposal has been created by the seller and has not been sent to Marketplace yet.
+   * Indicates that a new `Proposal` has been created by the seller and has not been sent to Marketplace yet.
    */
   SELLER_INITIATED = 'SELLER_INITIATED',
   /**
-   * Indicates that a new Proposal has been created by the buyer and is awaiting seller action.
+   * Indicates that a new `Proposal` has been created by the buyer and is awaiting seller action.
    */
   BUYER_INITIATED = 'BUYER_INITIATED',
   /**
-   * Indicates that a Proposal has been updated by the buyer and is awaiting seller approval.
+   * Indicates that a `Proposal` has been updated by the buyer and is awaiting seller approval.
    */
   AWAITING_SELLER_REVIEW = 'AWAITING_SELLER_REVIEW',
   /**
-   * Indicates that a Proposal has been updated by the seller and is awaiting buyer approval.
+   * Indicates that a `Proposal` has been updated by the seller and is awaiting buyer approval.
    */
   AWAITING_BUYER_REVIEW = 'AWAITING_BUYER_REVIEW',
   /**
-   * Indicates that the seller has accepted the Proposal and is awaiting the buyer's acceptance.
+   * Indicates that the seller has accepted the `Proposal` and is awaiting the buyer's acceptance.
    */
   ONLY_SELLER_ACCEPTED = 'ONLY_SELLER_ACCEPTED',
   /**
-   * Indicates that the Proposal has been accepted by both the buyer and the seller.
+   * Indicates that the `Proposal` has been accepted by both the buyer and the seller.
    */
   FINALIZED = 'FINALIZED',
   /**
-   * Indicates that negotiations for the Proposal have been cancelled.
+   * Indicates that negotiations for the `Proposal` have been cancelled.
    */
   CANCELLED = 'CANCELLED',
   /**
@@ -127,7 +131,7 @@ export enum AdExchangeEnvironment {
 }
 
 /**
- * Decribes the type of BuyerRfp.
+ * Decribes the type of `BuyerRfp`.
  */
 export enum RfpType {
   /**
@@ -135,11 +139,11 @@ export enum RfpType {
    */
   UNKNOWN = 'UNKNOWN',
   /**
-   * Indicates the BuyerRfp is a Programmatic Guaranteed RFP.
+   * Indicates the `BuyerRfp` is a Programmatic Guaranteed RFP.
    */
   PROGRAMMATIC_GUARANTEED = 'PROGRAMMATIC_GUARANTEED',
   /**
-   * Indicates the BuyerRfp is a Preferred Deal RFP.
+   * Indicates the `BuyerRfp` is a Preferred Deal RFP.
    */
   PREFERRED_DEAL = 'PREFERRED_DEAL',
 }

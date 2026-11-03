@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Different mime type that the asset variable supports.
  */
@@ -13,15 +17,15 @@ export enum AssetCreativeTemplateVariableMimeType {
  */
 export enum CreativeTemplateStatus {
   /**
-   * The CreativeTemplate is active
+   * The `CreativeTemplate` is active
    */
   ACTIVE = 'ACTIVE',
   /**
-   * The CreativeTemplate is inactive. Users cannot create new creatives from this template, but existing ones can be edited and continue to serve
+   * The `CreativeTemplate` is inactive. Users cannot create new creatives from this template, but existing ones can be edited and continue to serve
    */
   INACTIVE = 'INACTIVE',
   /**
-   * The CreativeTemplate is deleted. Creatives created from this CreativeTemplate can no longer serve.
+   * The `CreativeTemplate` is deleted. Creatives created from this `CreativeTemplate` can no longer serve.
    */
   DELETED = 'DELETED',
 }

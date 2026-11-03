@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Represents the types of labels supported.
  */
@@ -15,7 +19,7 @@ export enum LabelType {
    */
   AD_EXCLUSION = 'AD_EXCLUSION',
   /**
-   * Allows for the creation of labels that can be used to force the wrapping of a delivering creative with header/footer creatives. These labels are paired with a CreativeWrapper.
+   * Allows for the creation of labels that can be used to force the wrapping of a delivering creative with header/footer creatives. These labels are paired with a `CreativeWrapper`.
    */
   CREATIVE_WRAPPER = 'CREATIVE_WRAPPER',
   /**
