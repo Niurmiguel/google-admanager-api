@@ -14,7 +14,18 @@ export {
   BaseException,
   InvalidOperationException,
 } from './common/handlers/exceptions.handler';
-export { ReportJobStatus } from './client/services/report/report.enum';
+// The enums of ReportService, named one by one: `export *` would silently
+// drop a name that another module also exports.
+export {
+  Column,
+  DateRangeType,
+  Dimension,
+  DimensionAttribute,
+  ExportFormat,
+  ReportJobStatus,
+  ReportQueryAdUnitView,
+  TimeZoneType,
+} from './client/services/report/report.enum';
 
 // auth
 export * from './auth';

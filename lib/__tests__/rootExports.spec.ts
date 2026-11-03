@@ -37,7 +37,15 @@ const NAMED: Record<string, string> = {
   InvalidOperationException: 'common/handlers/exceptions.handler',
   BaseException: 'common/handlers/exceptions.handler',
   AdManagerRequestError: 'common/utils/safeError.util',
+  // Every enum of ReportService, to build a ReportQuery without deep imports.
+  Column: 'client/services/report/report.enum',
+  DateRangeType: 'client/services/report/report.enum',
+  Dimension: 'client/services/report/report.enum',
+  DimensionAttribute: 'client/services/report/report.enum',
+  ExportFormat: 'client/services/report/report.enum',
   ReportJobStatus: 'client/services/report/report.enum',
+  ReportQueryAdUnitView: 'client/services/report/report.enum',
+  TimeZoneType: 'client/services/report/report.enum',
 };
 
 type Report = {
