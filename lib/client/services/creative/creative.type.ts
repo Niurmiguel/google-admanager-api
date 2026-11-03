@@ -256,8 +256,11 @@ export type CreativeAsset = {
    * When updating the content, pass a new byte array, and set assetId to null. Otherwise, this field can be null.
    *
    * The assetByteArray will be null when the creative is retrieved.
+   *
+   * Either the bytes (a `Buffer`, a typed array or an `ArrayBuffer`), which `createCreatives()` and
+   * `updateCreatives()` send as base64, or a string already in base64.
    */
-  assetByteArray: BinaryData;
+  assetByteArray: BinaryData | string;
 
   /**
    * The file name of the asset. This attribute is required when creating a new asset (e.g. when assetByteArray is not null).
