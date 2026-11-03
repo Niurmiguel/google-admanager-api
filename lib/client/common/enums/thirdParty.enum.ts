@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Possible options for third-party viewabitility integration.
  */
@@ -26,10 +30,6 @@ export enum ThirdPartyViewabilityIntegrationPartner {
    * Indicates third-party viewability integration partner Telemetry.
    */
   TELEMETRY = 'TELEMETRY',
-  /**
-   * Indicates third-party viewability integration partner Meetrics.
-   */
-  MEETRICS = 'MEETRICS',
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
@@ -87,9 +87,13 @@ export enum ThirdPartyReachIntegrationPartner {
    */
   KANTAR_MILLWARD_BROWN = 'KANTAR_MILLWARD_BROWN',
   /**
-   * The value returned if the actual value is not exposed by the requested API version.
+   * Indicates third-party reach integration partner Video Research.
    */
-  UNKNOWN = 'UNKNOWN',
+  VIDEO_RESEARCH = 'VIDEO_RESEARCH',
+  /**
+   * Indicates third-party reach integration partner Gemius.
+   */
+  GEMIUS = 'GEMIUS',
   /**
    * Indicates third-party reach integration partner VideoAmp
    */
@@ -102,4 +106,8 @@ export enum ThirdPartyReachIntegrationPartner {
    * Indicates third-party reach integration partner Audience Project
    */
   AUDIENCE_PROJECT = 'AUDIENCE_PROJECT',
+  /**
+   * The value returned if the actual value is not exposed by the requested API version.
+   */
+  UNKNOWN = 'UNKNOWN',
 }

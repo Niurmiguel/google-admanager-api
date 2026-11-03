@@ -1,24 +1,27 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * The type of delegation of the child network to the parent network in MCM.
  */
 export enum DelegationType {
   /**
-   * 	The value returned if the actual value is not exposed by the requested API version.
+   * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
   /**
-   * 	The parent network gets complete access to the child network's account
+   * The parent network gets complete access to the child network's account
    */
   MANAGE_ACCOUNT = 'MANAGE_ACCOUNT',
   /**
-   * 	A subset of the ad requests from the child are delegated to the parent, determined by the tag on the child network's web pages. The parent network does not have access to the child network, as a subset of the inventory could be owned and operated by the child network.
+   * A subset of the ad requests from the child are delegated to the parent, determined by the tag on the child network's web pages. The parent network does not have access to the child network, as a subset of the inventory could be owned and operated by the child network.
    */
   MANAGE_INVENTORY = 'MANAGE_INVENTORY',
 }
 
 /**
- * Status of the association between networks. When a parent network requests access, it is marked as pending.
- * Once the child network accepts the agreement, it is marked as accepted.
+ * Status of the association between networks. When a parent network requests access, it is marked as pending. Once the child network accepts the agreement, it is marked as accepted.
  */
 export enum InvitationStatus {
   /**

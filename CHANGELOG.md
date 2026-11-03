@@ -8,6 +8,98 @@ breaking changes; they are always listed under **Breaking changes**.
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-02
+
+The library now mirrors the v202608 WSDLs exactly where 0.1.0 did not: the enums are generated from them, and a
+test compares every enum, type, action and operation with them. Most of the breaking changes below remove values
+and fields that v202608 rejects, so code that used them already failed at runtime.
+
+### Breaking changes
+
+- Report enum values that v202608 does not accept are removed:
+  - `Dimension`: `SDK` and 55 `AD_EXCHANGE_*` values. Several have a counterpart without the prefix among the
+    added dimensions (`SITE_NAME`, `CHANNEL_NAME`, `BUYER_NETWORK_NAME`...).
+  - `Column`: 76 `AD_EXCHANGE_*` and 22 `OPTIMIZATION_*` values.
+  - `TimeZoneType.AD_EXCHANGE`. For Ad Exchange metrics v202608 has `PACIFIC`, new in this release.
+
+  <details>
+  <summary>Every removed <code>Dimension</code> and <code>Column</code> value</summary>
+
+  `Dimension`: `SDK`, `AD_EXCHANGE_INVENTORY_SIZE`, `AD_EXCHANGE_INVENTORY_SIZE_CODE`, `AD_EXCHANGE_DEVICE_CATEGORY`, `AD_EXCHANGE_PRICING_RULE_ID`, `AD_EXCHANGE_PRICING_RULE_NAME`, `AD_EXCHANGE_TAG_NAME`, `AD_EXCHANGE_URL`, `AD_EXCHANGE_WEB_PROPERTY_CODE`, `AD_EXCHANGE_CREATIVE_SIZES`, `AD_EXCHANGE_AD_TYPE`, `AD_EXCHANGE_CHANNEL_NAME`, `AD_EXCHANGE_SITE_NAME`, `AD_EXCHANGE_REQUEST_SOURCES`, `AD_EXCHANGE_ADVERTISER_NAME`, `AD_EXCHANGE_BRAND_NAME`, `AD_EXCHANGE_AGENCY`, `AD_EXCHANGE_BID_TYPE_CODE`, `AD_EXCHANGE_BRANDING_TYPE_CODE`, `AD_EXCHANGE_BRANDING_TYPE`, `AD_EXCHANGE_BUYER_NETWORK_NAME`, `AD_EXCHANGE_BUYER_NETWORK_ID`, `AD_EXCHANGE_CUSTOM_CHANNEL_CODE`, `AD_EXCHANGE_CUSTOM_CHANNEL_ID`, `AD_EXCHANGE_DATE`, `AD_EXCHANGE_DEAL_ID`, `AD_EXCHANGE_DEAL_NAME`, `AD_EXCHANGE_TRANSACTION_TYPE`, `AD_EXCHANGE_DSP_BUYER_NETWORK_NAME`, `AD_EXCHANGE_EXPANSION_TYPE`, `AD_EXCHANGE_COUNTRY_CODE`, `AD_EXCHANGE_COUNTRY_NAME`, `AD_EXCHANGE_DFP_AD_UNIT_ID`, `AD_EXCHANGE_DFP_AD_UNIT`, `AD_EXCHANGE_INVENTORY_OWNERSHIP`, `AD_EXCHANGE_ADVERTISER_DOMAIN`, `AD_EXCHANGE_DFP_MOBILE_APP_NAME`, `AD_EXCHANGE_MOBILE_APP_RESOLVED_ID`, `AD_EXCHANGE_MOBILE_CARRIER_NAME`, `AD_EXCHANGE_MOBILE_DEVICE_NAME`, `AD_EXCHANGE_MOBILE_INVENTORY_TYPE`, `AD_EXCHANGE_MONTH`, `AD_EXCHANGE_NETWORK_PARTNER_NAME`, `AD_EXCHANGE_OPERATING_SYSTEM`, `AD_EXCHANGE_TAG_CODE`, `AD_EXCHANGE_TARGETING_TYPE_CODE`, `AD_EXCHANGE_TARGETING_TYPE`, `AD_EXCHANGE_TRANSACTION_TYPE_CODE`, `AD_EXCHANGE_URL_ID`, `AD_EXCHANGE_USER_BANDWIDTH_NAME`, `AD_EXCHANGE_VIDEO_AD_DURATION`, `AD_EXCHANGE_VIDEO_AD_DURATION_RAW`, `AD_EXCHANGE_VIDEO_AD_TYPE`, `AD_EXCHANGE_WEEK`, `AD_EXCHANGE_AD_LOCATION`, `AD_EXCHANGE_ADVERTISER_VERTICAL`.
+
+  `Column`: `AD_EXCHANGE_IMPRESSIONS`, `AD_EXCHANGE_MATCHED_REQUESTS`, `AD_EXCHANGE_AD_ECPM`, `AD_EXCHANGE_CLICKS`, `AD_EXCHANGE_ESTIMATED_REVENUE`, `AD_EXCHANGE_COVERAGE`, `AD_EXCHANGE_CTR`, `AD_EXCHANGE_LIFT`, `AD_EXCHANGE_CPC`, `AD_EXCHANGE_AD_REQUESTS`, `AD_EXCHANGE_AD_REQUEST_ECPM`, `AD_EXCHANGE_AD_REQUEST_CTR`, `AD_EXCHANGE_AD_CTR`, `AD_EXCHANGE_VIDEO_DROPOFF_RATE`, `AD_EXCHANGE_VIDEO_ABANDONMENT_RATE`, `AD_EXCHANGE_MATCHED_ECPM`, `AD_EXCHANGE_ACTIVE_VIEW_MEASURABLE`, `AD_EXCHANGE_ACTIVE_VIEW_VIEWABLE`, `AD_EXCHANGE_AVERAGE_VIEWABLE_TIME`, `AD_EXCHANGE_ACTIVE_VIEW_ENABLED_IMPRESSIONS`, `AD_EXCHANGE_ACTIVE_VIEW_MEASURED_IMPRESSIONS`, `AD_EXCHANGE_ACTIVE_VIEW_VIEWED_IMPRESSIONS`, `AD_EXCHANGE_DEALS_BID_RESPONSES`, `AD_EXCHANGE_DEALS_MATCHED_REQUESTS`, `AD_EXCHANGE_DEALS_AD_REQUESTS`, `AD_EXCHANGE_DEALS_MATCH_RATE`, `AD_EXCHANGE_VIDEO_AUTO_PLAY`, `AD_EXCHANGE_VIDEO_CLICK_TO_PLAY`, `AD_EXCHANGE_VIDEO_START`, `AD_EXCHANGE_VIDEO_QUARTILE_1`, `AD_EXCHANGE_VIDEO_MIDPOINT`, `AD_EXCHANGE_VIDEO_QUARTILE_3`, `AD_EXCHANGE_VIDEO_COMPLETE`, `AD_EXCHANGE_VIDEO_COMPLETION_RATE`, `AD_EXCHANGE_VIDEO_COLLAPSE`, `AD_EXCHANGE_VIDEO_EXPAND`, `AD_EXCHANGE_VIDEO_FULL_SCREEN`, `AD_EXCHANGE_VIDEO_MUTE`, `AD_EXCHANGE_VIDEO_PAUSE`, `AD_EXCHANGE_VIDEO_RESUME`, `AD_EXCHANGE_VIDEO_REWIND`, `AD_EXCHANGE_VIDEO_SKIPPED`, `AD_EXCHANGE_VIDEO_UNMUTE`, `AD_EXCHANGE_VIDEO_VAST2_ERROR_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_100_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_101_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_102_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_200_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_201_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_202_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_203_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_300_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_301_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_302_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_303_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_400_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_401_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_402_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_403_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_405_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_500_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_501_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_502_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_503_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_600_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_601_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_602_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_603_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_604_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_900_COUNT`, `AD_EXCHANGE_VIDEO_VAST_ERROR_901_COUNT`, `AD_EXCHANGE_VIDEO_TOTAL_VAST_ERROR_COUNT`, `AD_EXCHANGE_VIDEO_TOTAL_ERROR_RATE`, `AD_EXCHANGE_VIDEO_TRUEVIEW_SKIP_RATE`, `AD_EXCHANGE_VIDEO_TRUEVIEW_VIEWS`, `AD_EXCHANGE_VIDEO_TRUEVIEW_VTR`, `OPTIMIZATION_CONTROL_IMPRESSIONS`, `OPTIMIZATION_CONTROL_CLICKS`, `OPTIMIZATION_CONTROL_CTR`, `OPTIMIZATION_OPTIMIZED_IMPRESSIONS`, `OPTIMIZATION_OPTIMIZED_CLICKS`, `OPTIMIZATION_NON_OPTIMIZED_IMPRESSIONS`, `OPTIMIZATION_NON_OPTIMIZED_CLICKS`, `OPTIMIZATION_EXTRA_CLICKS`, `OPTIMIZATION_OPTIMIZED_CTR`, `OPTIMIZATION_LIFT`, `OPTIMIZATION_COVERAGE`, `OPTIMIZATION_BEHIND_SCHEDULE_IMPRESSIONS`, `OPTIMIZATION_NO_CLICKS_RECORDED_IMPRESSIONS`, `OPTIMIZATION_SPONSORSHIP_IMPRESSIONS`, `OPTIMIZATION_AS_FAST_AS_POSSIBLE_IMPRESSIONS`, `OPTIMIZATION_NO_ABSOLUTE_LIFETIME_GOAL_IMPRESSIONS`, `OPTIMIZATION_CONTROL_REVENUE`, `OPTIMIZATION_OPTIMIZED_REVENUE`, `OPTIMIZATION_CONTROL_ECPM`, `OPTIMIZATION_OPTIMIZED_ECPM`, `OPTIMIZATION_FREED_UP_IMPRESSIONS`, `OPTIMIZATION_ECPM_LIFT`.
+
+  </details>
+
+- `ThirdPartyViewabilityIntegrationPartner.MEETRICS` is removed.
+- The `ValueDeclarationType`, `GrpUnitType`, `GrpGender` and `GrpAge` enums, the `GrpDemographicBreakdown` type, and
+  the fields that used them, `CustomTargetingKey.valueDeclarationType` and
+  `AvailabilityForecast.demographicBreakdowns`, are removed: v202608 has none of them.
+- `ReportQuery.adxReportCurrency` is renamed `reportCurrency`, the name v202608 uses. It is optional.
+- `VideoPositionTarget.adSpotId` is a `number`, not a `number[]`: the WSDL declares a single id.
+- `VastRedirectCreative.trackingUrls` is a `ConversionEvent_TrackingUrlsMapEntry[]`, not a single entry.
+- `ImageCreative`, `ImageRedirectCreative` and `AspectRatioImageCreative` declare
+  `thirdPartyImpressionTrackingUrls: string[]` instead of `thirdPartyImpressionUrl: string`, which v202608 does not
+  have. `ThirdPartyCreative` declares `ampRedirectUrl: string`, required like the other fields of the type.
+- `SalespersonSplit.split`, `ProposalLineItem.marketplaceInfo` and the empty `ProposalLineItemMarketplaceInfo` type
+  are removed.
+- `CreativeAction` declares `buildAttributes()`, like the other action base classes. A class of your own that
+  implements it must add the method; a plain object passed to `performCreativeAction()` no longer compiles (it
+  was sent with `xsi:type="Object"`, which the API rejects).
+- Enums gained values (see **Added**): a `switch` that checks it handles every value of one of them no longer
+  compiles until it handles the new ones.
+
+### Added
+
+- `Dimension.SITE_NAME` ([#14](https://github.com/Niurmiguel/google-admanager-api/issues/14)) and the other 51
+  dimensions of v202608: `DATE_PT`, `WEEK_PT`, `MONTH_YEAR_PT`, `DAY_OF_WEEK_PT`, `COUNTRY_CODE`, `IS_ADX_DIRECT`, `EXCHANGE_BIDDING_DEAL_ID`, `EXCHANGE_BIDDING_DEAL_TYPE`, `OPERATING_SYSTEM_VERSION_ID`, `OPERATING_SYSTEM_VERSION_NAME`, `WEB_PROPERTY_CODE`, `BUYING_AGENCY_NAME`, `BUYER_NETWORK_ID`, `BUYER_NETWORK_NAME`, `BIDDER_ID`, `BIDDER_NAME`, `ADVERTISER_DOMAIN_NAME`, `ADVERTISER_VERTICAL_NAME`, `NIELSEN_RESTATEMENT_DATE`, `FIRST_LOOK_PRICING_RULE_ID`, `FIRST_LOOK_PRICING_RULE_NAME`, `BID_RANGE`, `BID_REJECTION_REASON`, `BID_REJECTION_REASON_NAME`, `AD_TECHNOLOGY_PROVIDER_DOMAIN`, `PROGRAMMATIC_DEAL_ID`, `PROGRAMMATIC_DEAL_NAME`, `AD_TECHNOLOGY_PROVIDER_ID`, `AD_TECHNOLOGY_PROVIDER_NAME`, `TCF_VENDOR_ID`, `TCF_VENDOR_NAME`, `CHANNEL_NAME`, `URL_ID`, `URL_NAME`, `VIDEO_AD_DURATION`, `VIDEO_AD_TYPE_ID`, `VIDEO_AD_TYPE_NAME`, `DYNAMIC_ALLOCATION_ID`, `DYNAMIC_ALLOCATION_NAME`, `AD_TYPE_ID`, `AD_TYPE_NAME`, `AD_LOCATION_ID`, `AD_LOCATION_NAME`, `TARGETING_TYPE_CODE`, `TARGETING_TYPE_NAME`, `BRANDING_TYPE_CODE`, `BRANDING_TYPE_NAME`, `BANDWIDTH_ID`, `BANDWIDTH_NAME`, `CARRIER_ID`, `CARRIER_NAME`.
+- 83 report columns: `AD_SERVER_BEGIN_TO_RENDER_IMPRESSIONS`, `AD_SERVER_UNFILTERED_BEGIN_TO_RENDER_IMPRESSIONS`, `BID_COUNT`, `BID_AVERAGE_CPM`, `YIELD_GROUP_CALLOUTS`, `YIELD_GROUP_SUCCESSFUL_RESPONSES`, `YIELD_GROUP_BIDS`, `YIELD_GROUP_BIDS_IN_AUCTION`, `YIELD_GROUP_AUCTIONS_WON`, `DEALS_BID_REQUESTS`, `DEALS_BIDS`, `DEALS_BID_RATE`, `DEALS_WINNING_BIDS`, `DEALS_WIN_RATE`, `YIELD_GROUP_IMPRESSIONS`, `YIELD_GROUP_ESTIMATED_REVENUE`, `YIELD_GROUP_ESTIMATED_CPM`, `YIELD_GROUP_MEDIATION_FILL_RATE`, `YIELD_GROUP_MEDIATION_PASSBACKS`, `YIELD_GROUP_MEDIATION_THIRD_PARTY_ECPM`, `YIELD_GROUP_MEDIATION_CHAINS_SERVED`, `PROGRAMMATIC_RESPONSES_SERVED`, `PROGRAMMATIC_MATCH_RATE`, `TOTAL_PROGRAMMATIC_ELIGIBLE_AD_REQUESTS`, `PARTNER_SALES_PARTNER_IMPRESSIONS`, `PARTNER_SALES_PARTNER_CODE_SERVED`, `PARTNER_SALES_GOOGLE_IMPRESSIONS`, `PARTNER_SALES_GOOGLE_RESERVATION_IMPRESSIONS`, `PARTNER_SALES_GOOGLE_AUCTION_IMPRESSIONS`, `PARTNER_SALES_QUERIES`, `PARTNER_SALES_FILLED_QUERIES`, `PARTNER_SALES_SELL_THROUGH_RATE`, `DROPOFF_RATE`, `VIDEO_TRUEVIEW_VIEWS`, `VIDEO_TRUEVIEW_SKIP_RATE`, `VIDEO_TRUEVIEW_VTR`, `VIDEO_IMPRESSIONS_REAL_TIME`, `VIDEO_MATCHED_QUERIES_REAL_TIME`, `VIDEO_UNMATCHED_QUERIES_REAL_TIME`, `VIDEO_TOTAL_QUERIES_REAL_TIME`, `VIDEO_CREATIVE_SERVE_REAL_TIME`, `VIDEO_VAST3_ERROR_100_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_101_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_102_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_200_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_201_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_202_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_203_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_300_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_301_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_302_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_303_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_400_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_401_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_402_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_403_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_405_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_500_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_501_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_502_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_503_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_600_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_601_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_602_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_603_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_604_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_900_COUNT_REAL_TIME`, `VIDEO_VAST3_ERROR_901_COUNT_REAL_TIME`, `VIDEO_VAST4_ERROR_406_COUNT_REAL_TIME`, `VIDEO_VAST4_ERROR_407_COUNT_REAL_TIME`, `VIDEO_VAST4_ERROR_408_COUNT_REAL_TIME`, `VIDEO_VAST4_ERROR_409_COUNT_REAL_TIME`, `VIDEO_VAST4_ERROR_410_COUNT_REAL_TIME`, `VIDEO_VAST_TOTAL_ERROR_COUNT_REAL_TIME`, `AD_EXCHANGE_TOTAL_REQUESTS`, `AD_EXCHANGE_MATCH_RATE`, `AD_EXCHANGE_COST_PER_CLICK`, `AD_EXCHANGE_TOTAL_REQUEST_CTR`, `AD_EXCHANGE_MATCHED_REQUEST_CTR`, `AD_EXCHANGE_TOTAL_REQUEST_ECPM`, `AD_EXCHANGE_MATCHED_REQUEST_ECPM`, `AD_EXCHANGE_LIFT_EARNINGS`, `NIELSEN_IN_TARGET_RATIO`.
+- `DimensionAttribute.CHILD_PARTNER_NAME`, `TimeZoneType.PACIFIC`, `AudienceSegmentStatus.UNKNOWN` and `UNUSED`,
+  `SecurityPolicyType.CLOUD_MEDIA`, `CustomFieldVisibility.UNKNOWN`, `DaiIngestStatus.INGESTED`, `DaiIngestStatus.INGESTED_WITH_WARNINGS`, `DaiIngestStatus.CONDITIONED`, `DaiIngestStatus.CONDITIONED_WITH_WARNINGS`,
+  `DaiIngestErrorReason.SUBTITLES_PRESENT_IN_FEED_AND_MANIFEST`, `DaiIngestErrorReason.INVALID_MEDIA_PROFILE`,
+  `AdBreakMarkupType.AD_BREAK_MARKUP_SCTE35_BINARY_BREAK_START_END`, `SamErrorType.AD_POD_DROPPED_INCOMPATIBLE_TIMEOFFSET`, and
+  `ThirdPartyReachIntegrationPartner.VIDEO_RESEARCH` and `GEMIUS`.
+- The `ReportService` enums are exported from the package root: `Dimension`, `Column`, `DimensionAttribute`,
+  `DateRangeType`, `ExportFormat`, `ReportQueryAdUnitView` and `TimeZoneType`, next to `ReportJobStatus`.
+- Actions: `ApproveAndOverbookOrders`, `ResumeAndOverbookOrders`, `SubmitOrdersForApprovalAndOverbook`,
+  `ReserveAndOverbookLineItems`, `ResumeAndOverbookLineItems`, and `ArchiveSlates` and `UnarchiveSlates` (with
+  their `SlateAction` base class). `ResumeOrders` and `SubmitOrdersForApproval` have `skipInventoryCheck`.
+  `performSlateAction()` takes an action instance, like every other `perform*Action()`; the action name as a
+  string still works but is deprecated.
+- Typed `xsi:type`: `attributes?: { 'xsi:type': ... }` lists the concrete types on `Creative`,
+  `BaseCreativeTemplateVariableValue`, `CustomCriteriaNode` (new, with `CustomCriteriaLeaf`; it types
+  `CustomCriteriaSet.children`), `BaseCustomFieldValue`, `CustomField`, the ad rule slots and the first party
+  audience segments. `BaseCustomFieldValue.value` accepts a `TypedValue` (a `Value` with its `xsi:type`).
+  `XsiType` and `TypedValue` are exported from the root. See "Abstract types" in the README.
+- `RuleBasedFirstPartyAudienceSegment` and `FirstPartyAudienceSegmentRule`.
+- Fields of v202608 that were missing, all optional: `LineItem.youtubeKidsRestricted`,
+  `Targeting.inventorySizeTargeting` (`InventorySizeTargeting`, `TargetedSize`),
+  `LiveStreamEvent.prerollSettings` and `liveStreamConditioning` (`PrerollSettings`, `LiveStreamConditioning`,
+  `DashBridge`), `VastRedirectCreative.vastPreviewUrl`, `ProposalLineItem.secondaryGoals` and
+  `disableSameAdvertiserCompetitiveExclusion`,
+  `SecurityPolicySettings.keysetName` and `signedRequestExpirationTtlSeconds`, `AdDecisionCreative.isDropped`
+  and `SavedQuery.isCompatibleWithApiVersion`.
+- `CreativeAsset.assetByteArray` also accepts a base64 string.
+- For contributors: `npm run generate:enums` regenerates the enums from the WSDLs (`-- --check` only reports),
+  and `wsdlSchema.spec` compares the library with a snapshot of the v202608 WSDLs, offline.
+  `ADMANAGER_NETWORK_TESTS=1 npm test` also checks that snapshot against the live WSDLs.
+
+### Fixed
+
+- `createCreatives()` and `updateCreatives()` send `CreativeAsset.assetByteArray` as base64. A `Buffer` or a
+  `Uint8Array` was sent as one element per byte, and an `ArrayBuffer` as an empty element, so an image could not
+  be uploaded as bytes. It works for any `ArrayBuffer`, `SharedArrayBuffer` or view, including ones from another
+  realm (`vm`, Jest), wherever the asset is held: plain objects, class instances or objects of another realm. The
+  creatives passed in are not modified.
+- `Dimension.NATIVE_STYLE_ID` sends `'NATIVE_STYLE_ID'`; it sent `'ATIVE_STYLE_ID'`, which the API rejects.
+- `performCreativeAction()` sends the fields of the action, like every other `perform*Action()`.
+- `ResumeOrders` and `SubmitOrdersForApproval` send `skipInventoryCheck` when it is set.
+- Every enum has the values of v202608 in the WSDL order, with the WSDL documentation.
+- 761 links to the API reference point to v202608 instead of v202202. The other 25 name services this library
+  does not use, PQL filter names or fields v202608 no longer has, and still point to v202202. Nine links whose
+  label named another type or field (the `getSlatesByStatement()` filters were labeled `LiveStreamEvent.*`) are
+  corrected.
+
 ## [0.1.0] - 2026-11-02
 
 This release moves the library to Ad Manager API **v202608**. The previous target, v202305, was sunset by Google:

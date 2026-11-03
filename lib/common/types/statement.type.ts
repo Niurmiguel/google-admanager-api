@@ -16,10 +16,10 @@ import { DateTime, Date } from './date.type';
  * An example of such a query might be **`"WHERE name LIKE '%searchString%'"`**.
  *
  * The value for the variable idValue must then be set with an object of type
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.Value Value}, e.g.,
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.NumberValue NumberValue},
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.TextValue TextValue} or
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.BooleanValue BooleanValue}.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.Value Value}, e.g.,
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.NumberValue NumberValue},
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.TextValue TextValue} or
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.BooleanValue BooleanValue}.
  */
 export type Statement = {
   /**

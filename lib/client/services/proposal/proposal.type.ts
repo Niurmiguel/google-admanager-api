@@ -30,7 +30,7 @@ export type ProposalCompanyAssociation = {
 };
 
 /**
- * A SalespersonSplit represents a salesperson and their split.
+ * A SalespersonSplit represents a salesperson.
  */
 export type SalespersonSplit = {
   /**
@@ -39,10 +39,6 @@ export type SalespersonSplit = {
    * This attribute is required.
    */
   userId: number;
-  /**
-   * The split can be attributed to the salesperson. The percentage value is stored as millipercents, and must be multiples of 10 with the range from 0 to 100000. The default value is 0.
-   */
-  split: number;
 };
 
 /**
@@ -288,12 +284,12 @@ export type Proposal = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalService.Proposal Proposal} objects.
  */
 export type ProposalPage = PageResult<Proposal>;
 
 /**
- * A comment associated with a programmatic {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal}
+ * A comment associated with a programmatic {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalService.Proposal Proposal}
  * that has been sent to Marketplace.
  */
 export type MarketplaceComment = {
@@ -316,7 +312,7 @@ export type MarketplaceComment = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.MarketplaceComment MarketplaceComment} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalService.MarketplaceComment MarketplaceComment} objects.
  */
 export type MarketplaceCommentPage = {
   /**

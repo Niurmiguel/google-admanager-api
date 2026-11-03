@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Represents the target gender for a GRP demographic targeted line item.
  */
@@ -28,13 +32,11 @@ export enum GrpProvider {
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
-
   NIELSEN = 'NIELSEN',
 }
 
 /**
- * Represents the pacing computation method for impressions on connected devices for a Nielsen measured line item.
- * This only applies when Nielsen measurement is enabled for connected devices.
+ * Represents the pacing computation method for impressions on connected devices for a Nielsen measured line item. This only applies when Nielsen measurement is enabled for connected devices.
  */
 export enum NielsenCtvPacingType {
   /**

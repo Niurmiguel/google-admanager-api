@@ -8,3 +8,4 @@ export * from './delivery.type';
 export * from './general.type';
 export * from './label.type';
 export * from './stats.type';
+export * from './xsiType.type';

@@ -34,7 +34,7 @@ import {
 } from '../enums';
 
 /**
- * An interval of a {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.CustomPacingCurve CustomPacingCurve}.
+ * An interval of a {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.CustomPacingCurve CustomPacingCurve}.
  * A custom pacing goal contains a start time and an amount.
  * The goal will apply until either the next custom pacing goal's getStartTime or the line item's end time if it is the last goal.
  */
@@ -53,10 +53,10 @@ export type CustomPacingGoal = {
 };
 
 /**
- * A LineItemActivityAssociation associates a {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem}
+ * A LineItemActivityAssociation associates a {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemService.LineItem LineItem}
  * with an {@link https://developers.google.com/ad-manager/api/reference/v202202/ActivityService.Activity Activity} so that the conversions of the
  * {@link https://developers.google.com/ad-manager/api/reference/v202202/ActivityService.Activity Activity} can be counted against the
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem}.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemService.LineItem LineItem}.
  */
 export type LineItemActivityAssociation = {
   /**
@@ -76,7 +76,7 @@ export type LineItemActivityAssociation = {
 };
 
 /**
- * A curve consisting of {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.CustomPacingGoal CustomPacingGoal} objects that is used to pace line item delivery.
+ * A curve consisting of {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.CustomPacingGoal CustomPacingGoal} objects that is used to pace line item delivery.
  */
 export type CustomPacingCurve = {
   /**
@@ -192,7 +192,7 @@ export type LineItemSummary = {
   lineItemType: LineItemType;
   /**
    * The priority for the line item. Valid values range from 1 to 16. This field is optional and defaults to the default priority of the
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItemType LineItemType}.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemService.LineItemType LineItemType}.
    */
   priority: number;
   /**
@@ -396,6 +396,12 @@ export type LineItemSummary = {
   programmaticCreativeSource: ProgrammaticCreativeSource;
 
   thirdPartyMeasurementSettings: ThirdPartyMeasurementSettings;
+
+  /**
+   * Designates this line item as intended for YT Kids app. If true, all creatives associated with this line item must be reviewed and approved.
+   * See the {@link https://support.google.com/yt-partner-sales/answer/10015534 Ad Manager Help Center} for more information.
+   */
+  youtubeKidsRestricted?: boolean;
   /**
    * The max duration of a video creative associated with this LineItem in milliseconds.
    *

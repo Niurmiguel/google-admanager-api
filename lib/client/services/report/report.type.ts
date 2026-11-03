@@ -11,7 +11,7 @@ import {
 
 /**
  * Represents the options for an API report download request.
- * See {@link https://developers.google.com/ad-manager/api/reference/v202202/ReportService#getReportDownloadUrlWithOptions ReportService.getReportDownloadUrlWithOptions}.
+ * See {@link https://developers.google.com/ad-manager/api/reference/v202608/ReportService#getReportDownloadUrlWithOptions ReportService.getReportDownloadUrlWithOptions}.
  */
 export type ReportDownloadOptions = {
   /**
@@ -97,11 +97,12 @@ export type ReportQuery = {
    */
   statement: Statement;
   /**
-   * The currency for Ad Exchange revenue metrics. This field is only valid for Ad Exchange metrics,
-   * and an exception will be thrown if this field is used with non-Ad Exchange metrics. Defaults to the network currency if left null.
-   * The supported currency codes can be found in this Help Center article.
+   * The currency for revenue metrics. Defaults to the network currency if left null. The supported currency codes can be found in
+   * {@link https://support.google.com/adxseller/answer/6019533 this Help Center article}.
+   *
+   * Named `adxReportCurrency` before 0.2.0, which v202608 no longer accepts.
    */
-  adxReportCurrency: string;
+  reportCurrency?: string;
   /**
    * Gets the TimeZoneType for this report, which determines the time zone used for the report's date range. Defaults to TimeZoneType.PUBLISHER.
    */
@@ -136,15 +137,16 @@ export type SavedQuery = {
   name: string;
   /**
    * The ReportQuery representing the selection criteria for the saved query. This will be non-null if and only if SavedQuery.isCompatibleWithApiVersion is true.
-   *
-   * isCompatibleWithApiVersion:boolean
-   *
-   * Whether or not the saved query is compatible with the current API version. This will be true if and only if SavedQuery.reportQuery is non-null. A saved query will be incompatible with the API if it uses columns, dimensions, or other reporting features from the UI that are not available in the ReportQuery entity.
    */
   reportQuery: ReportQuery;
+  /**
+   * Whether or not the saved query is compatible with the current API version. This will be true if and only if SavedQuery.reportQuery is non-null.
+   * A saved query will be incompatible with the API if it uses columns, dimensions, or other reporting features from the UI that are not available in the ReportQuery entity.
+   */
+  isCompatibleWithApiVersion?: boolean;
 };
 
 /**
- * A page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ReportService.SavedQuery SavedQuery} objects.
+ * A page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ReportService.SavedQuery SavedQuery} objects.
  */
 export type SavedQueryPage = PageResult<SavedQuery>;

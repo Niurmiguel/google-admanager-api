@@ -1,5 +1,6 @@
 import { TimeUnit } from '../../../common/enums';
 import { Value } from '../../../common/types';
+import { TypedValue, XsiType } from './xsiType.type';
 import {
   AccountStatus,
   DeclarationType,
@@ -50,12 +51,12 @@ export type Money = {
 };
 
 /**
- * Represents the dimensions of an {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit},
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem} or
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative}.
+ * Represents the dimensions of an {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit AdUnit},
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem} or
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeService.Creative Creative}.
  *
  * For interstitial size (out-of-page), native, ignored and fluid size,
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/DaiEncodingProfileService.Size Size} must be 1x1.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/DaiEncodingProfileService.Size Size} must be 1x1.
  */
 export type Size = {
   /**
@@ -73,9 +74,9 @@ export type Size = {
 };
 
 /**
- * The value of a {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} for a particular entity.
+ * The value of a {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField CustomField} for a particular entity.
  */
-export type BaseCustomFieldValue = {
+export type BaseCustomFieldValue = XsiType<'CustomFieldValue' | 'DropDownCustomFieldValue'> & {
   /**
    * Id of the **CustomField** to which this value belongs. This attribute is required.
    */
@@ -84,43 +85,44 @@ export type BaseCustomFieldValue = {
   DropDownCustomFieldValue;
 
 /**
- * The value of a {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField}
- * that does not have a {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField#dataType CustomField.dataType}
- * of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#DROP_DOWN CustomFieldDataType.DROP_DOWN}.
+ * The value of a {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField CustomField}
+ * that does not have a {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField#dataType CustomField.dataType}
+ * of {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType#DROP_DOWN CustomFieldDataType.DROP_DOWN}.
  */
 type CustomFieldValue = {
   /**
    * The value for this field. The appropriate type of **Value** is determined by the
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField#dataType CustomField.dataType}
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField#dataType CustomField.dataType}
    * of the **CustomField** that this conforms to.
    *
-   * | {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType CustomFieldDataType} | {@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.Value Value} type            |
+   * | {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType CustomFieldDataType} | {@link https://developers.google.com/ad-manager/api/reference/v202608/OrderService.Value Value} type            |
    * | --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-   * | {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#STRING STRING}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.TextValue TextValue}        |
-   * | {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#NUMBER NUMBER}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.NumberValue NumberValue}    |
-   * | {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#TOGGLE TOGGLE}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.BooleanValue BooleanValue}  |
+   * | {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType#STRING STRING}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202608/OrderService.TextValue TextValue}        |
+   * | {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType#NUMBER NUMBER}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202608/OrderService.NumberValue NumberValue}    |
+   * | {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType#TOGGLE TOGGLE}       | 	{@link https://developers.google.com/ad-manager/api/reference/v202608/OrderService.BooleanValue BooleanValue}  |
    *
+   * The WSDL type is abstract: send a `TypedValue`, such as `{ attributes: { 'xsi:type': 'TextValue' }, value: 'text' }`.
    */
-  value: Value;
+  value: Value | TypedValue;
 };
 
 /**
- * A {@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.CustomFieldValue CustomFieldValue} for a
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} that has a
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField#dataType CustomField.dataType} of
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#DROP_DOWN CustomFieldDataType.DROP_DOWN}
+ * A {@link https://developers.google.com/ad-manager/api/reference/v202608/OrderService.CustomFieldValue CustomFieldValue} for a
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField CustomField} that has a
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField#dataType CustomField.dataType} of
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType#DROP_DOWN CustomFieldDataType.DROP_DOWN}
  */
 type DropDownCustomFieldValue = {
   /**
-   * The {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldOption#id ID}
-   * of the {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldOption CustomFieldOption} for this value.
+   * The {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldOption#id ID}
+   * of the {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldOption CustomFieldOption} for this value.
    */
   customFieldOptionId: number;
 };
 
 /**
  * Represents a limit on the number of times a single viewer can be exposed to the same
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem} in a specified time period.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem} in a specified time period.
  */
 export type FrequencyCap = {
   /**
@@ -138,7 +140,7 @@ export type FrequencyCap = {
 };
 
 /**
- * Defines the criteria a {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} needs to satisfy to meet its delivery goal.
+ * Defines the criteria a {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemService.LineItem LineItem} needs to satisfy to meet its delivery goal.
  */
 export type Goal = {
   /**

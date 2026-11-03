@@ -3,7 +3,7 @@ import { CompanyCreditStatus, CompanyType } from './company.enum';
 import { DateTime, PageResult } from '../../../common/types';
 
 /**
- * Information required for {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company} of Type VIEWABILITY_PROVIDER.
+ * Information required for {@link https://developers.google.com/ad-manager/api/reference/v202608/CompanyService.Company Company} of Type VIEWABILITY_PROVIDER.
  * It contains all of the data needed to capture viewability metrics.
  */
 export type ViewabilityProvider = {
@@ -115,6 +115,6 @@ export type Company = {
 // export type CompanyAction = EndAgreementAction | ReInviteAction | ResendInvitationAction;
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CompanyService.Company Company} objects.
  */
 export type CompanyPage = PageResult<Company>;

@@ -1,5 +1,9 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Indicates the type of CDN configuration for {@link https://developers.google.com/ad-manager/api/reference/v202202/CdnConfigurationService.CdnConfiguration CdnConfiguration}.
+ * Indicates the type of CDN configuration for `CdnConfiguration`.
  */
 export enum CdnConfigurationType {
   /**
@@ -7,13 +11,13 @@ export enum CdnConfigurationType {
    */
   UNKNOWN = 'UNKNOWN',
   /**
-   * A configuration that specifies where and how LiveStreamEvent content should be ingested and delivered.
+   * A configuration that specifies where and how `LiveStreamEvent` content should be ingested and delivered.
    */
   LIVE_STREAM_SOURCE_CONTENT = 'LIVE_STREAM_SOURCE_CONTENT',
 }
 
 /**
- * Indicates the status of the {@link https://developers.google.com/ad-manager/api/reference/v202202/CdnConfigurationService.CdnConfiguration CdnConfiguration}.
+ * Indicates the status of the `CdnConfiguration`.
  */
 export enum CdnConfigurationStatus {
   /**
@@ -31,7 +35,7 @@ export enum CdnConfigurationStatus {
 }
 
 /**
- * Indicates the type of security policy associated with access to a CDN. Different security policies require different parameters in a **`SecurityPolicy`**.
+ * Indicates the type of security policy associated with access to a CDN. Different security policies require different parameters in a `SecurityPolicy`.
  */
 export enum SecurityPolicyType {
   /**
@@ -46,11 +50,14 @@ export enum SecurityPolicyType {
    * Security policy for accessing content on the Akamai CDN.
    */
   AKAMAI = 'AKAMAI',
+  /**
+   * Security policy for access content on Google Cloud Media CDN.
+   */
+  CLOUD_MEDIA = 'CLOUD_MEDIA',
 }
 
 /**
- * Indicates the type of origin forwarding used to support Akamai authentication policies for
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent}
+ * Indicates the type of origin forwarding used to support Akamai authentication policies for `LiveStreamEvent`
  */
 export enum OriginForwardingType {
   /**

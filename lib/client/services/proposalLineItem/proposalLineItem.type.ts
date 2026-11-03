@@ -28,11 +28,6 @@ import {
 import { NegotiationRole, RateType, ReservationStatus } from './proposalLineItem.enum';
 
 /**
- * Marketplace info for ProposalLineItem with a corresponding deal in Marketplace.
- */
-export type ProposalLineItemMarketplaceInfo = {};
-
-/**
  * Makegood info for a ProposalLineItemDto.
  */
 export type ProposalLineItemMakegoodInfo = {
@@ -48,8 +43,8 @@ export type ProposalLineItemMakegoodInfo = {
 };
 
 /**
- * A ProposalLineItem is added to a programmatic {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal}
- * and is similar to a delivery {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem}.
+ * A ProposalLineItem is added to a programmatic {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalService.Proposal Proposal}
+ * and is similar to a delivery {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem}.
  * It contains delivery details including information like impression goal or quantity, start and end times, and targeting.
  */
 export type ProposalLineItem = {
@@ -93,6 +88,11 @@ export type ProposalLineItem = {
    * This attribute is required.
    */
   goal: Goal;
+  /**
+   * The secondary goals that this ProposalLineItem is associated with. For a programmatic line item with the properties RateType.CPM and
+   * LineItemType.SPONSORSHIP, this field will have one goal which describes the impressions cap. For other cases, this field is an empty list.
+   */
+  secondaryGoals?: Goal[];
   /**
    * The contracted number of impressions or clicks. If this is a LineItemType.SPONSORSHIP ProposalLineItem, has RateType.CPD as a rate type, and isProgrammatic is false,
    * then this represents the lifetime minimum impression. If this is a LineItemType.SPONSORSHIP ProposalLineItem, has RateType.CPD as a rate type, and isProgrammatic is true,
@@ -186,6 +186,13 @@ export type ProposalLineItem = {
    */
   effectiveAppliedLabels: AppliedLabel[];
   /**
+   * If a line item has a series of competitive exclusions on it, it could be blocked from serving with line items from the same advertiser.
+   * Setting this to true will allow line items from the same advertiser to serve regardless of the other competitive exclusion labels being applied.
+   *
+   * This attribute is optional and defaults to false.
+   */
+  disableSameAdvertiserCompetitiveExclusion?: boolean;
+  /**
    * Indicates whether this ProposalLineItem has been sold. This attribute is read-only.
    */
   isSold: boolean;
@@ -261,11 +268,6 @@ export type ProposalLineItem = {
   allowedFormats: AllowedFormats[];
 
   /**
-   * The marketplace info if this proposal line item is programmatic, null otherwise.
-   */
-  marketplaceInfo: ProposalLineItemMarketplaceInfo;
-
-  /**
    * Additional terms shown to the buyer in Marketplace.
    */
   additionalTerms: string;
@@ -325,6 +327,6 @@ export type ProposalLineItem = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.
  */
 export type ProposalLineItemPage = PageResult<ProposalLineItem>;

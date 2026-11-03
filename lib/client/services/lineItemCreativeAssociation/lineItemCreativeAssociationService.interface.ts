@@ -7,13 +7,13 @@ import {
 } from './lineItemCreativeAssociation.type';
 
 /**
- * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
+ * Provides operations for creating, updating and retrieving {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
  *
- * A line item creative association (LICA) associates a {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative}
- * with a {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem}.
+ * A line item creative association (LICA) associates a {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeService.Creative Creative}
+ * with a {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem}.
  * When a line item is selected to serve, the LICAs specify which creatives can appear for the ad units that are targeted by the line item.
  * In order to be associated with a line item, the creative must have a size that exists within the attribute
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem#creativePlaceholders LineItem.creativePlaceholders}.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem#creativePlaceholders LineItem.creativePlaceholders}.
  *
  * Each LICA has a start and end date and time that defines when the creative should be displayed.
  *
@@ -21,7 +21,7 @@ import {
  */
 export interface LineItemCreativeAssociationServiceOperations {
   /**
-   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
+   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
    *
    * @param lineItemCreativeAssociations the line item creative associations to create
    * @returns the created line item creative associations with their IDs filled in
@@ -30,19 +30,19 @@ export interface LineItemCreativeAssociationServiceOperations {
     lineItemCreativeAssociations: LineItemCreativeAssociation[],
   ): Promise<LineItemCreativeAssociation[]>;
   /**
-   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociationPage LineItemCreativeAssociationPage}
-   * of {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects that satisfy the given
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.Statement#query Statement.query}.
+   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociationPage LineItemCreativeAssociationPage}
+   * of {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects that satisfy the given
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.Statement#query Statement.query}.
    * The following fields are supported for filtering:
    *
    * | PQL Property                 | PQL Property                                                                                                                                                                                                                |
    * | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   * | creativeId                   | {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation#creativeId LineItemCreativeAssociation.creativeId}                                     |
-   * | manualCreativeRotationWeight | {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation#manualCreativeRotationWeight LineItemCreativeAssociation.manualCreativeRotationWeight} |
-   * | destinationUrl               | {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation#destinationUrl LineItemCreativeAssociation.destinationUrl}                             |
-   * | lineItemId                   | {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation#lineItemId LineItemCreativeAssociation.lineItemId}                                     |
-   * | status                       | {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation#status LineItemCreativeAssociation.status}                                             |
-   * | lastModifiedDateTime         | {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation#lastModifiedDateTime LineItemCreativeAssociation.lastModifiedDateTime}                 |
+   * | creativeId                   | {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation#creativeId LineItemCreativeAssociation.creativeId}                                     |
+   * | manualCreativeRotationWeight | {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation#manualCreativeRotationWeight LineItemCreativeAssociation.manualCreativeRotationWeight} |
+   * | destinationUrl               | {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation#destinationUrl LineItemCreativeAssociation.destinationUrl}                             |
+   * | lineItemId                   | {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation#lineItemId LineItemCreativeAssociation.lineItemId}                                     |
+   * | status                       | {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation#status LineItemCreativeAssociation.status}                                             |
+   * | lastModifiedDateTime         | {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation#lastModifiedDateTime LineItemCreativeAssociation.lastModifiedDateTime}                 |
    *
    * @param filterStatement a Publisher Query Language statement used to filter a set of line item creative associations
    * @returns the line item creative associations that match the given filter
@@ -76,8 +76,8 @@ export interface LineItemCreativeAssociationServiceOperations {
     siteUrl: string,
   ): Promise<CreativeNativeStylePreview[]>;
   /**
-   * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation}
-   * objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.Statement#query Statement.query}.
+   * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation}
+   * objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.Statement#query Statement.query}.
    *
    * @param LineItemCreativeAssociationAction the action to perform
    * @param filterStatement a Publisher Query Language statement used to filter a set of line item creative associations
@@ -88,7 +88,7 @@ export interface LineItemCreativeAssociationServiceOperations {
     filterStatement: Statement,
   ): Promise<UpdateResult>;
   /**
-   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
+   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202608/LineItemCreativeAssociationService.LineItemCreativeAssociation LineItemCreativeAssociation} objects.
    *
    * @param lineItemCreativeAssociations the line item creative associations to update
    * @returns the updated line item creative associations

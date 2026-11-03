@@ -75,6 +75,6 @@ export type AdSpot = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdRuleService.AdSpot AdSpot} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/AdRuleService.AdSpot AdSpot} objects.
  */
 export type AdSpotPage = PageResult<AdSpot>;

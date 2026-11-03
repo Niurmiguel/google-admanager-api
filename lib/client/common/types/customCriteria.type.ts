@@ -1,9 +1,10 @@
 import { CmsMetadataCriteriaComparisonOperator, ComparisonOperator, LogicalOperator } from '../enums';
+import { XsiType } from './xsiType.type';
 
 /**
  * A CustomCriteria object is used to perform custom criteria targeting on custom targeting keys of type CustomTargetingKey.Type.PREDEFINED or CustomTargetingKey.Type.FREEFORM.
  */
-export type CustomCriteria = {
+export type CustomCriteria = XsiType<'CustomCriteria'> & {
   /**
    * The CustomTargetingKey.id of the CustomTargetingKey object that was created using CustomTargetingService. This attribute is required.
    */
@@ -23,7 +24,7 @@ export type CustomCriteria = {
 /**
  * A CmsMetadataCriteria object is used to target CmsMetadataValue objects.
  */
-export type CmsMetadataCriteria = {
+export type CmsMetadataCriteria = XsiType<'CmsMetadataCriteria'> & {
   /**
    * The comparison operator. This attribute is required.
    */
@@ -38,7 +39,7 @@ export type CmsMetadataCriteria = {
 /**
  * An AudienceSegmentCriteria object is used to target AudienceSegment objects.
  */
-export type AudienceSegmentCriteria = {
+export type AudienceSegmentCriteria = XsiType<'AudienceSegmentCriteria'> & {
   /**
    * The comparison operator. This attribute is required.
    */
@@ -53,7 +54,7 @@ export type AudienceSegmentCriteria = {
 /**
  * A CustomCriteriaSet comprises of a set of CustomCriteriaNode objects combined by the CustomCriteriaSet.LogicalOperator.logicalOperator. The custom criteria targeting tree is subject to the rules defined on Targeting.customTargeting.
  */
-export type CustomCriteriaSet = {
+export type CustomCriteriaSet = XsiType<'CustomCriteriaSet'> & {
   /**
    * The logical operator to be applied to CustomCriteriaSet.children. This attribute is required.
    */
@@ -62,5 +63,20 @@ export type CustomCriteriaSet = {
   /**
    * The custom criteria. This attribute is required.
    */
-  children: (CustomCriteriaSet | CustomCriteria | CmsMetadataCriteria | AudienceSegmentCriteria)[];
+  children: CustomCriteriaNode[];
 };
+
+/**
+ * A CustomCriteriaLeaf object represents a generic leaf of CustomCriteria tree structure.
+ *
+ * Abstract in the WSDL: set `attributes: { 'xsi:type': ... }` to the concrete type.
+ */
+export type CustomCriteriaLeaf = CustomCriteria | CmsMetadataCriteria | AudienceSegmentCriteria;
+
+/**
+ * A CustomCriteriaNode is a node in the custom targeting tree. A custom criteria node can either be a CustomCriteriaSet (a non-leaf node)
+ * or a CustomCriteria (a leaf node). The custom criteria targeting tree is subject to the rules defined on Targeting.customTargeting.
+ *
+ * Abstract in the WSDL: set `attributes: { 'xsi:type': ... }` to the concrete type.
+ */
+export type CustomCriteriaNode = CustomCriteriaSet | CustomCriteriaLeaf;

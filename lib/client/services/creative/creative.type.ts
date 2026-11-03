@@ -21,11 +21,38 @@ import {
   ThirdPartyDataDeclarationStatus,
 } from './creative.enum';
 
+/** Concrete creative types: the values of `xsi:type` for a Creative. */
+export type CreativeXsiType =
+  | 'AdExchangeCreative'
+  | 'AdSenseCreative'
+  | 'AspectRatioImageCreative'
+  | 'AudioCreative'
+  | 'AudioRedirectCreative'
+  | 'ClickTrackingCreative'
+  | 'CustomCreative'
+  | 'Html5Creative'
+  | 'ImageCreative'
+  | 'ImageOverlayCreative'
+  | 'ImageRedirectCreative'
+  | 'ImageRedirectOverlayCreative'
+  | 'InternalRedirectCreative'
+  | 'LegacyDfpCreative'
+  | 'ProgrammaticCreative'
+  | 'RichMediaStudioCreative'
+  | 'SetTopBoxCreative'
+  | 'TemplateCreative'
+  | 'ThirdPartyCreative'
+  | 'UnsupportedCreative'
+  | 'VastRedirectCreative'
+  | 'VideoCreative'
+  | 'VideoRedirectCreative';
+
 /**
- * Raw bytes. Declared locally because the global `BinaryData` this type used to
- * resolve to came from TypeScript's DOM lib and was removed in TypeScript 5.
+ * Raw bytes: an ArrayBuffer, a SharedArrayBuffer or a view on one (a Buffer, a
+ * Uint8Array...). Declared locally because the global `BinaryData` this type used
+ * to resolve to came from TypeScript's DOM lib and was removed in TypeScript 5.
  */
-type BinaryData = ArrayBuffer | ArrayBufferView;
+type BinaryData = ArrayBufferLike | ArrayBufferView;
 
 /**
  * An Ad Exchange dynamic allocation creative.
@@ -256,8 +283,11 @@ export type CreativeAsset = {
    * When updating the content, pass a new byte array, and set assetId to null. Otherwise, this field can be null.
    *
    * The assetByteArray will be null when the creative is retrieved.
+   *
+   * Either the bytes (a `Buffer`, a typed array or an `ArrayBuffer`), which `createCreatives()` and
+   * `updateCreatives()` send as base64, or a string already in base64.
    */
-  assetByteArray: BinaryData;
+  assetByteArray: BinaryData | string;
 
   /**
    * The file name of the asset. This attribute is required when creating a new asset (e.g. when assetByteArray is not null).
@@ -308,9 +338,10 @@ export type AspectRatioImageCreative = {
   altText: string;
 
   /**
-   * An impression tracking URL to ping when this creative is displayed. This field is optional has a maximum length of 1024 characters.
+   * A list of impression tracking URLs to ping when this creative is displayed. This field is optional and each
+   * string has a maximum length of 1024 characters.
    */
-  thirdPartyImpressionUrl: string;
+  thirdPartyImpressionTrackingUrls: string[];
 
   /**
    * Allows the actual image asset sizes to differ from the creative size. This attribute is optional.
@@ -488,9 +519,10 @@ export type ImageCreative = {
   altText: string;
 
   /**
-   * An impression tracking URL to ping when this creative is displayed. This field is optional has a maximum length of 1024 characters.
+   * A list of impression tracking URLs to ping when this creative is displayed. This field is optional and each
+   * string has a maximum length of 1024 characters.
    */
-  thirdPartyImpressionUrl: string;
+  thirdPartyImpressionTrackingUrls: string[];
 
   /**
    * The list of secondary image assets associated with this creative. This attribute is optional.
@@ -562,9 +594,10 @@ export type ImageRedirectCreative = {
   altText: string;
 
   /**
-   * An impression tracking URL to ping when this creative is displayed. This field is optional has a maximum length of 1024 characters.
+   * A list of impression tracking URLs to ping when this creative is displayed. This field is optional and each
+   * string has a maximum length of 1024 characters.
    */
-  thirdPartyImpressionUrl: string;
+  thirdPartyImpressionTrackingUrls: string[];
 };
 
 /**
@@ -978,6 +1011,17 @@ export type UrlCreativeTemplateVariableValue = {
  */
 export type BaseCreativeTemplateVariableValue = {
   /**
+   * The concrete type of the value, which the WSDL requires: `BaseCreativeTemplateVariableValue` is abstract.
+   */
+  attributes?: {
+    'xsi:type':
+      | 'AssetCreativeTemplateVariableValue'
+      | 'LongCreativeTemplateVariableValue'
+      | 'StringCreativeTemplateVariableValue'
+      | 'UrlCreativeTemplateVariableValue';
+  };
+
+  /**
    * A uniqueName of the CreativeTemplateVariable.
    */
   uniqueName: string;
@@ -1086,6 +1130,11 @@ export type ThirdPartyCreative = {
    * A list of impression tracking URLs to ping when this creative is displayed. This field is optional.
    */
   thirdPartyImpressionTrackingUrls: string[];
+
+  /**
+   * The URL of the AMP creative.
+   */
+  ampRedirectUrl: string;
 };
 
 /**
@@ -1124,8 +1173,10 @@ export type VastRedirectCreative = {
 
   /**
    * A map from ConversionEvent to a list of URLs that will be pinged when the event happens. This attribute is optional.
+   *
+   * One entry per ConversionEvent: before 0.2.0 it was typed as a single entry.
    */
-  trackingUrls: ConversionEvent_TrackingUrlsMapEntry;
+  trackingUrls: ConversionEvent_TrackingUrlsMapEntry[];
 
   /**
    * The SSL compatibility scan result for this creative.
@@ -1157,6 +1208,10 @@ export type VastRedirectCreative = {
    * Whether server-side unwrapping is disabled.
    */
   serverSideUnwrappingDisabled?: boolean;
+  /**
+   * An ad tag URL that will return a preview of the VAST XML response specific to this creative. This attribute is read-only.
+   */
+  vastPreviewUrl?: string;
 };
 
 /**
@@ -1165,6 +1220,12 @@ export type VastRedirectCreative = {
  * Read more about creatives on the {@link https://support.google.com/dfp_premium/answer/3185155 Ad Manager Help Center}.
  */
 export type Creative = {
+  /**
+   * The concrete type of the creative, which the WSDL requires: `Creative` is abstract.
+   * For example `{ 'xsi:type': 'ImageCreative' }`.
+   */
+  attributes?: { 'xsi:type': CreativeXsiType };
+
   /**
    * The ID of the advertiser that owns the creative. This attribute is required.
    */
@@ -1242,6 +1303,6 @@ export type Creative = {
   VastRedirectCreative;
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeService.Creative Creative} objects.
  */
 export type CreativePage = PageResult<Creative>;

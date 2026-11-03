@@ -1,6 +1,6 @@
 {
   "name": "@niur/google-admanager-api",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Google Ad Manager API Client Library for NodeJs",
   "main": "dist/index",
   "types": "dist/index",
@@ -21,7 +21,8 @@
     "publish:npm": "npm publish --access public",
     "test": "jest --config jestconfig.json",
     "prerelease": "npm run build",
-    "check:pack": "npm pack --dry-run --json | node scripts/check-pack.js"
+    "check:pack": "npm pack --dry-run --json | node scripts/check-pack.js",
+    "generate:enums": "node scripts/generate-enums.js"
   },
   "repository": {
     "type": "git",

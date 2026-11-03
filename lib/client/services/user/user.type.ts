@@ -30,7 +30,7 @@ type UserRecord = {
 /**
  * Represents a user of the system.
  *
- * Users may be assigned at most one {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.Role Role} per network.
+ * Users may be assigned at most one {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.Role Role} per network.
  * Each role provides a user with permissions to perform specific operations.
  * Without a role, they will not be able to perform any actions.
  */
@@ -78,15 +78,15 @@ export type Role = {
   description: string;
 
   /**
-   * The status of the {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.Role Role}.
-   * This field is read-only and can have the values {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.RoleStatus#ACTIVE RoleStatus.ACTIVE}
-   * (default) or {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.RoleStatus#INACTIVE RoleStatus.INACTIVE},
+   * The status of the {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.Role Role}.
+   * This field is read-only and can have the values {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.RoleStatus#ACTIVE RoleStatus.ACTIVE}
+   * (default) or {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.RoleStatus#INACTIVE RoleStatus.INACTIVE},
    * which determines the visibility of the role in the UI.
    */
   status: RoleStatus;
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} objects
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.User User} objects
  */
 export type UserPage = PageResult<User>;

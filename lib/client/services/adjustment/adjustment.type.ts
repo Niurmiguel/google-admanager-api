@@ -37,7 +37,7 @@ type TotalVolumeSettings = {
 
 /**
  * Settings to specify the volume of ad opportunities per day over the
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment}
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment ForecastAdjustment}
  * date range based on the traffic volume of a historical reference period.
  *
  * The daily historical traffic for the provided targeting and date range is fetched, multiplied by the provided multiplier,

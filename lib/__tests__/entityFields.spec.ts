@@ -25,15 +25,8 @@ const LINE_ITEM_TEMPLATE_WSDL = [
   'deliveryRateType', 'roadblockingType', 'creativeRotationType',
 ] as const; // prettier-ignore
 
-/**
- * Declared by ProposalLineItem but not by the WSDL (neither v202608 nor
- * v202305; it belongs to Proposal). Left as is: removing it is a separate,
- * breaking decision.
- */
-type KnownExtra = 'marketplaceInfo';
-
 /** Keys of T that the WSDL does not declare. */
-type Unknown<T, Wsdl extends readonly string[]> = Exclude<keyof T, Wsdl[number] | KnownExtra>;
+type Unknown<T, Wsdl extends readonly string[]> = Exclude<keyof T, Wsdl[number]>;
 
 describe('entity field names', () => {
   it('ProposalLineItem only declares fields of the WSDL', () => {

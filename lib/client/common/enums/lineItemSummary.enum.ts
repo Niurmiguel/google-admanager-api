@@ -1,6 +1,9 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * The strategy to use for displaying multiple {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative} \
- * objects that are associated with a {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem}.
+ * The strategy to use for displaying multiple `Creative` objects that are associated with a `LineItem`.
  */
 export enum CreativeRotationType {
   /**
@@ -12,11 +15,11 @@ export enum CreativeRotationType {
    */
   OPTIMIZED = 'OPTIMIZED',
   /**
-   * Creatives are served roughly proportionally to their weights, set on the LineItemCreativeAssociation.
+   * Creatives are served roughly proportionally to their weights, set on the `LineItemCreativeAssociation`.
    */
   MANUAL = 'MANUAL',
   /**
-   * Creatives are served exactly in sequential order, aka Storyboarding. Set on the LineItemCreativeAssociation.
+   * Creatives are served exactly in sequential order, aka Storyboarding. Set on the `LineItemCreativeAssociation`.
    */
   SEQUENTIAL = 'SEQUENTIAL',
 }
@@ -26,7 +29,7 @@ export enum CreativeRotationType {
  */
 export enum CustomPacingGoalUnit {
   /**
-   * The custom pacing goal amounts represent absolute numbers corresponding to the line item's Goal.unitType.
+   * The custom pacing goal amounts represent absolute numbers corresponding to the line item's `Goal.unitType`.
    */
   ABSOLUTE = 'ABSOLUTE',
   /**
@@ -40,68 +43,71 @@ export enum CustomPacingGoalUnit {
 }
 
 /**
- * Describes the {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem} actions that are billable.
+ * Describes the `LineItem` actions that are billable.
  */
 export enum CostType {
   /**
-   * Cost per action. The LineItem.lineItemType must be one of:
+   * Starting February 22, 2024 the CPA `CostType` will be read only as part of Spotlight deprecation, {@link https://support.google.com/admanager/answer/7519021#spotlight learn more}.
    *
-   * - LineItemType.SPONSORSHIP
-   * - LineItemType.STANDARD
-   * - LineItemType.BULK
-   * - LineItemType.NETWORK
+   * Cost per action. The `LineItem.lineItemType` must be one of:
+   *
+   * - `LineItemType.SPONSORSHIP`
+   * - `LineItemType.STANDARD`
+   * - `LineItemType.BULK`
+   * - `LineItemType.NETWORK`
    */
   CPA = 'CPA',
   /**
-   * Cost per click. The LineItem.lineItemType must be one of:
+   * Cost per click. The `LineItem.lineItemType` must be one of:
    *
-   * - LineItemType.SPONSORSHIP
-   * - LineItemType.STANDARD
-   * - LineItemType.BULK
-   * - LineItemType.NETWORK
-   * - LineItemType.PRICE_PRIORITY
-   * - LineItemType.HOUSE
+   * - `LineItemType.SPONSORSHIP`
+   * - `LineItemType.STANDARD`
+   * - `LineItemType.BULK`
+   * - `LineItemType.NETWORK`
+   * - `LineItemType.PRICE_PRIORITY`
+   * - `LineItemType.HOUSE`
    */
   CPC = 'CPC',
   /**
-   * Cost per day. The LineItem.lineItemType must be one of:
+   * Cost per day. The `LineItem.lineItemType` must be one of:
    *
-   * - LineItemType.SPONSORSHIP
-   * - LineItemType.NETWORK
+   * - `LineItemType.SPONSORSHIP`
+   * -
+   * - `LineItemType.NETWORK`
+   * -
    */
   CPD = 'CPD',
   /**
-   * Cost per mille (cost per thousand impressions). The LineItem.lineItemType must be one of:
+   * Cost per mille (cost per thousand impressions). The `LineItem.lineItemType` must be one of:
    *
-   * - LineItemType.SPONSORSHIP
-   * - LineItemType.STANDARD
-   * - LineItemType.BULK
-   * - LineItemType.NETWORK
-   * - LineItemType.PRICE_PRIORITY
-   * - LineItemType.HOUSE
+   * - `LineItemType.SPONSORSHIP`
+   * - `LineItemType.STANDARD`
+   * - `LineItemType.BULK`
+   * - `LineItemType.NETWORK`
+   * - `LineItemType.PRICE_PRIORITY`
+   * - `LineItemType.HOUSE`
    */
   CPM = 'CPM',
   /**
-   * Cost per thousand Active View viewable impressions. The LineItem.lineItemType must be LineItemType.STANDARD.
-   *
+   * Cost per thousand Active View viewable impressions. The `LineItem.lineItemType` must be `LineItemType.STANDARD`.
    */
   VCPM = 'VCPM',
   /**
-   * Cost per thousand in-target impressions. The LineItem.lineItemType must be LineItemType.STANDARD.
+   * Cost per thousand in-target impressions. The `LineItem.lineItemType` must be `LineItemType.STANDARD`.
    */
   CPM_IN_TARGET = 'CPM_IN_TARGET',
+  /**
+   * Cost per completed view. This cost type is only supported for standard reservation video line items. The `LineItem.lineItemType` must be `LineItemType.STANDARD`
+   */
+  CPCV = 'CPCV',
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
-  /**
-   * Cost per completed view. This cost type is only supported for standard reservation video line items. The LineItem.lineItemType must be LineItemType.STANDARD
-   */
-  CPCV = 'CPCV',
 }
 
 /**
- * Describes the possible discount types on the cost of booking a {@link https://developers.google.com/ad-manager/api/reference/v202202/LineItemService.LineItem LineItem}.
+ * Describes the possible discount types on the cost of booking a `LineItem`.
  */
 export enum LineItemDiscountType {
   /**
@@ -115,7 +121,7 @@ export enum LineItemDiscountType {
 }
 
 /**
- * Specifies the reservation status of the LineItem.
+ * Specifies the reservation status of the `LineItem`.
  */
 export enum LineItemSummaryReservationStatus {
   /**
@@ -149,7 +155,7 @@ export enum CompetitiveConstraintScope {
 /**
  * Child content eligibility designation.
  *
- * This field is optional and defaults to ChildContentEligibility.DISALLOWED. This field has no effect on serving enforcement unless you opt to "Child content enforcement" in the network's Child Content settings.
+ * This field is optional and defaults to `ChildContentEligibility.DISALLOWED`. This field has no effect on serving enforcement unless you opt to "Child content enforcement" in the network's Child Content settings.
  */
 export enum ChildContentEligibility {
   UNKNOWN = 'UNKNOWN',

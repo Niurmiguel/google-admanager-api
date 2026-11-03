@@ -4,6 +4,7 @@ import { CreativeServiceOperations } from './creativeService.interface';
 import { Statement, UpdateResult } from '../../../common/types';
 import { Creative, CreativePage } from './creative.type';
 import { CreativeAction } from './creative.action';
+import { encodeAssetBytes } from './assetBytes.util';
 
 export class CreativeService implements CreativeServiceOperations {
   private _client: Client;
@@ -13,7 +14,7 @@ export class CreativeService implements CreativeServiceOperations {
   }
 
   async createCreatives(creatives: Creative[]): Promise<Creative[]> {
-    return this._client.createCreatives({ creatives });
+    return this._client.createCreatives({ creatives: encodeAssetBytes(creatives) });
   }
 
   async getCreativesByStatement(filterStatement: Statement): Promise<CreativePage> {
@@ -28,12 +29,13 @@ export class CreativeService implements CreativeServiceOperations {
         attributes: {
           'xsi:type': creativeAction.constructor.name,
         },
+        ...creativeAction.buildAttributes(),
       },
       filterStatement,
     });
   }
 
   async updateCreatives(creatives: Creative[]): Promise<Creative[]> {
-    return this._client.updateCreatives({ creatives });
+    return this._client.updateCreatives({ creatives: encodeAssetBytes(creatives) });
   }
 }

@@ -3,7 +3,7 @@ import { UnitType } from '../../common/enums';
 import { CreativePlaceholder, Targeting } from '../../common/types';
 import { LineItem } from '../lineItem/lineItem.type';
 import { ProposalLineItem } from '../proposalLineItem/proposalLineItem.type';
-import { GrpAge, GrpGender, GrpUnitType, TargetingDimension } from './forecast.enum';
+import { TargetingDimension } from './forecast.enum';
 
 /**
  * Represents a prospective line item to be forecasted.
@@ -218,37 +218,7 @@ export type AlternativeUnitTypeForecast = {
 };
 
 /**
- * GRP forecast breakdown counts associated with a gender and age demographic.
- */
-export type GrpDemographicBreakdown = {
-  /**
-   * The number of units matching the demographic breakdown that can be booked without affecting the delivery of any reserved line items.
-   */
-  availableUnits: number;
-
-  /**
-   * The number of units matching the demographic and matching specified targeting and delivery settings.
-   */
-  matchedUnits: number;
-
-  /**
-   * The GrpUnitType associated with this demographic breakdown.
-   */
-  unitType: GrpUnitType;
-
-  /**
-   * The GrpGender associated with this demographic breakdown.
-   */
-  gender: GrpGender;
-
-  /**
-   *  The GrpAge associated with this demographic breakdown.
-   */
-  age: GrpAge;
-};
-
-/**
- * Describes predicted inventory availability for a {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.ProspectiveLineItem ProspectiveLineItem}.
+ * Describes predicted inventory availability for a {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.ProspectiveLineItem ProspectiveLineItem}.
  *
  * Inventory has three threshold values along a line of possible inventory. From least to most, these are:
  *
@@ -320,11 +290,6 @@ export type AvailabilityForecast = {
    * Views of this forecast, with alternative unit types.
    */
   alternativeUnitTypeForecasts: AlternativeUnitTypeForecast[];
-
-  /**
-   * The forecast result broken down by demographics.
-   */
-  demographicBreakdowns: GrpDemographicBreakdown[];
 };
 
 /**

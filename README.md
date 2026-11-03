@@ -22,6 +22,7 @@ $ npm install @niur/google-admanager-api
 
 Requires Node.js 20.19 or later. See the [changelog](CHANGELOG.md) for what changed in each version, including the
 breaking changes and the migration guide from 0.0.6.
+
 ### Overview
 
 #### Authentication
@@ -115,6 +116,89 @@ import { setMaxListeners } from 'node:events';
 const controller = new AbortController();
 setMaxListeners(100, controller.signal); // up to 100 concurrent calls with this signal
 ```
+
+##### Reports
+
+The `ReportService` enums (`Dimension`, `Column`, `DimensionAttribute`, `DateRangeType`, `ExportFormat`...) are
+exported from the package root. `ReportUtilities` waits for the job and downloads the result:
+
+```typescript
+import {
+  Column,
+  DateRangeType,
+  Dimension,
+  ExportFormat,
+  ReportService,
+  ReportUtilities,
+} from '@niur/google-admanager-api';
+
+// The entity types are not exported from the root yet: take them from the method that uses them.
+type ReportJob = Parameters<ReportService['runReportJob']>[0];
+
+const reportService = await adManagerClient.getService('ReportService');
+const job = await reportService.runReportJob({
+  reportQuery: {
+    dimensions: [Dimension.DATE, Dimension.SITE_NAME],
+    columns: [Column.AD_SERVER_IMPRESSIONS, Column.AD_SERVER_CLICKS],
+    dateRangeType: DateRangeType.LAST_WEEK,
+  },
+} as ReportJob);
+
+const report = new ReportUtilities(reportService, job.id);
+report.reportDownloadOptions = { exportFormat: ExportFormat.CSV_DUMP, useGzipCompression: true };
+const response = await report.getResponse({ timeoutMs: 15 * 60_000 });
+await response.save('./report.csv.gz'); // streamed to disk
+```
+
+The entity types (`ReportJob`, `Creative`, `LineItem`...) declare every field as required, including the ones the
+server fills in, such as `id`. An object literal that sets only what a request needs therefore has to be cast: with
+`as`, as above, or through `unknown` when TypeScript rejects the direct cast, as with the `Creative` below. A cast
+checks nothing, at compile time or at runtime: the server validates the request.
+
+##### Abstract types (`xsi:type`)
+
+Some request fields have an abstract WSDL type, and the server needs to be told which concrete type each object is.
+Set it in `attributes`, which node-soap writes as the `xsi:type` of the element; without it the request is
+rejected. The library types list the values each one accepts:
+
+| Type                                                           | `xsi:type`, for example                  |
+| -------------------------------------------------------------- | ---------------------------------------- |
+| `Creative`                                                     | `ImageCreative`, `ThirdPartyCreative`... |
+| `CustomCriteriaNode` (the `children` of a `CustomCriteriaSet`) | `CustomCriteria`, `CustomCriteriaSet`... |
+| `BaseCustomFieldValue`, and its `value`                        | `CustomFieldValue`, `TextValue`...       |
+| `BaseCreativeTemplateVariableValue`                            | `StringCreativeTemplateVariableValue`... |
+| ad rule slots, first party audience segments, `CustomField`    | `StandardPoddingAdRuleSlot`...           |
+
+```typescript
+import { readFile } from 'node:fs/promises';
+import { ComparisonOperator, CreativeService, CustomCriteriaNode } from '@niur/google-admanager-api';
+
+type Creative = Parameters<CreativeService['createCreatives']>[0][number];
+
+const creativeService = await adManagerClient.getService('CreativeService');
+const [creative] = await creativeService.createCreatives([
+  {
+    attributes: { 'xsi:type': 'ImageCreative' },
+    advertiserId: 123456,
+    name: 'Banner 300x250',
+    size: { width: 300, height: 250, isAspectRatio: false },
+    destinationUrl: 'https://example.com',
+    // Raw bytes are sent as base64; a base64 string is sent as is.
+    primaryImageAsset: { fileName: 'banner.png', assetByteArray: await readFile('./banner.png') },
+  } as unknown as Creative, // see the note on entity types under Reports
+]);
+
+// A custom criteria leaf, for the targeting of a line item (CustomCriteriaNode is exported from the root):
+const criteria: CustomCriteriaNode = {
+  attributes: { 'xsi:type': 'CustomCriteria' },
+  keyId: 1,
+  valueIds: [2],
+  operator: ComparisonOperator.IS,
+};
+```
+
+`StatementBuilder` sets the `xsi:type` of the values it binds itself. The action classes passed to the
+`perform*Action` methods set theirs from the class name.
 
 ##### Errors
 

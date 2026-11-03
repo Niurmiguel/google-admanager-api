@@ -3,7 +3,7 @@ import { OrderStatus } from './order.enum';
 import { AppliedLabel, BaseCustomFieldValue, Money } from '../../common/types';
 
 /**
- * An **`Order`** represents a grouping of individual {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem}
+ * An **`Order`** represents a grouping of individual {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem}
  * objects, each of which fulfill an ad request from a particular advertiser.
  */
 export type Order = {
@@ -18,19 +18,19 @@ export type Order = {
   /**
    * The date and time at which the **Order** and its associated line items are eligible to begin serving.
    * This attribute is readonly and is derived from the line item of the order which has the earliest
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem#startDateTime LineItem.startDateTime}.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem#startDateTime LineItem.startDateTime}.
    */
   startDateTime: DateTime;
   /**
    * The date and time at which the **Order** and its associated line items stop being served.
    * This attribute is readonly and is derived from the line item of the order which has the latest
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem#endDateTime LineItem.endDateTime}.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem#endDateTime LineItem.endDateTime}.
    */
   endDateTime: DateTime;
   /**
    * Specifies whether or not the **Order** has an unlimited end date.
    * This attribute is readonly and is true if any of the order's line items has
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem#unlimitedEndDateTime LineItem.unlimitedEndDateTime} set to true.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem#unlimitedEndDateTime LineItem.unlimitedEndDateTime} set to true.
    */
   unlimitedEndDateTime: boolean;
   /**
@@ -63,8 +63,8 @@ export type Order = {
   currencyCode: string;
 
   /**
-   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company},
-   * which is of type {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company.Type#ADVERTISER Company.Type.ADVERTISER},
+   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202608/CompanyService.Company Company},
+   * which is of type {@link https://developers.google.com/ad-manager/api/reference/v202608/CompanyService.Company.Type#ADVERTISER Company.Type.ADVERTISER},
    * to which this order belongs. This attribute is required.
    */
   advertiserId: number;
@@ -75,8 +75,8 @@ export type Order = {
   advertiserContactIds: number[];
 
   /**
-   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company Company},
-   * which is of type {@link https://developers.google.com/ad-manager/api/reference/v202202/CompanyService.Company.Type#AGENCY Company.Type.AGENCY},
+   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202608/CompanyService.Company Company},
+   * which is of type {@link https://developers.google.com/ad-manager/api/reference/v202608/CompanyService.Company.Type#AGENCY Company.Type.AGENCY},
    * with which this order is associated. This attribute is optional.
    */
   agencyId: number;
@@ -87,12 +87,12 @@ export type Order = {
   agencyContactIds: number[];
 
   /**
-   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} who created the **Order** on behalf of the advertiser. This value is readonly and is assigned by Google.
+   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.User User} who created the **Order** on behalf of the advertiser. This value is readonly and is assigned by Google.
    */
   creatorId: number;
 
   /**
-   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} responsible for trafficking the **Order**. This value is required for creating an order.
+   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.User User} responsible for trafficking the **Order**. This value is required for creating an order.
    */
   traffickerId: number;
 
@@ -102,7 +102,7 @@ export type Order = {
   secondaryTraffickerIds: number[];
 
   /**
-   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User} responsible for the sales of the **Order**. This value is optional.
+   * The unique ID of the {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.User User} responsible for the sales of the **Order**. This value is optional.
    */
   salespersonId: number;
 
@@ -131,7 +131,7 @@ export type Order = {
   /**
    * Total budget for all line items of this **Order**.
    * This value is a readonly field assigned by Google and is calculated from the associated
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem#costPerUnit LineItem.costPerUnit} values.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem#costPerUnit LineItem.costPerUnit} values.
    */
   totalBudget: Money;
 
@@ -173,6 +173,6 @@ export type Order = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/OrderService.Order Order} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/OrderService.Order Order} objects.
  */
 export type OrderPage = PageResult<Order>;

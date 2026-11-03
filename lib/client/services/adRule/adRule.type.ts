@@ -9,17 +9,20 @@ import {
   FrequencyCapBehavior,
   MidrollFrequencyType,
 } from './adRule.enum';
+import { XsiType } from '../../common/types/xsiType.type';
 
 /**
  * Simple object representing an ad slot within an AdRule. Ad rule slots contain information about the types/number of ads to display, as well as additional information on how the ad server will generate playlists.
+ *
+ * Abstract in the WSDL: set `attributes: { 'xsi:type': ... }` to the concrete type, such as `StandardPoddingAdRuleSlot`.
  */
 export type BaseAdRuleSlot =
   NoPoddingAdRuleSlot | OptimizedPoddingAdRuleSlot | StandardPoddingAdRuleSlot | UnknownAdRuleSlot;
 
 /**
- * An ad rule slot with no podding. It is defined by a BaseAdRuleSlot.maxVideoAdDuration.
+ * The fields of every ad rule slot.
  */
-export type NoPoddingAdRuleSlot = {
+type AdRuleSlotFields = {
   /**
    * The AdRuleSlotBehavior for video ads for this slot. This attribute is optional and defaults to AdRuleSlotBehavior.DEFER.
    *
@@ -69,19 +72,24 @@ export type NoPoddingAdRuleSlot = {
 };
 
 /**
+ * An ad rule slot with no podding. It is defined by a BaseAdRuleSlot.maxVideoAdDuration.
+ */
+export type NoPoddingAdRuleSlot = AdRuleSlotFields & XsiType<'NoPoddingAdRuleSlot'>;
+
+/**
  * Ad rule slot with optimized podding. Optimized pods are defined by a BaseAdRuleSlot.maxPodDuration and a BaseAdRuleSlot.maxAdsInPod, and the ad server chooses the best ads for the alloted duration.
  */
-export type OptimizedPoddingAdRuleSlot = NoPoddingAdRuleSlot & {};
+export type OptimizedPoddingAdRuleSlot = AdRuleSlotFields & XsiType<'OptimizedPoddingAdRuleSlot'>;
 
 /**
  * An ad rule slot with standard podding. A standard pod is a series of video ads played back to back. Standard pods are defined by a BaseAdRuleSlot.maxAdsInPod and a BaseAdRuleSlot.maxVideoAdDuration.
  */
-export type StandardPoddingAdRuleSlot = NoPoddingAdRuleSlot & {};
+export type StandardPoddingAdRuleSlot = AdRuleSlotFields & XsiType<'StandardPoddingAdRuleSlot'>;
 
 /**
  * The BaseAdRuleSlot subtype returned if the actual type is not exposed by the requested API version.
  */
-export type UnknownAdRuleSlot = NoPoddingAdRuleSlot & {};
+export type UnknownAdRuleSlot = AdRuleSlotFields & XsiType<'UnknownAdRuleSlot'>;
 
 /**
  * An AdRule contains data that the ad server will use to generate a playlist of video ads.
@@ -217,11 +225,11 @@ export type BreakTemplate = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdRuleService.AdRule AdRule} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/AdRuleService.AdRule AdRule} objects.
  */
 export type AdRulePage = PageResult<AdRule>;
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdRuleService.BreakTemplate BreakTemplate} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/AdRuleService.BreakTemplate BreakTemplate} objects.
  */
 export type BreakTemplatePage = PageResult<BreakTemplate>;

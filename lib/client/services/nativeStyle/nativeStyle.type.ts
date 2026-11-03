@@ -53,6 +53,6 @@ export type NativeStyle = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/NativeStyleService.NativeStyle NativeStyle} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/NativeStyleService.NativeStyle NativeStyle} objects.
  */
 export type NativeStylePage = PageResult<NativeStyle>;

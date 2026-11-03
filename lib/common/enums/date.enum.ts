@@ -1,24 +1,25 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
- * Specifies the start type to use for an entity with a start date time field. For example, a LineItem or LineItemCreativeAssociation.
+ * Specifies the start type to use for an entity with a start date time field. For example, a `LineItem` or `LineItemCreativeAssociation`.
  */
 export enum StartDateTimeType {
   /**
-   * 	Use the value in startDateTime.
+   * Use the value in `startDateTime`.
    */
   USE_START_DATE_TIME = 'USE_START_DATE_TIME',
-
   /**
-   * 	The entity will start serving immediately. startDateTime in the request is ignored and will be set to the current time. Additionally, startDateTimeType will be set to StartDateTimeType.USE_START_DATE_TIME.
+   * The entity will start serving immediately. `startDateTime` in the request is ignored and will be set to the current time. Additionally, `startDateTimeType` will be set to `StartDateTimeType.USE_START_DATE_TIME`.
    */
   IMMEDIATELY = 'IMMEDIATELY',
-
   /**
-   * 	The entity will start serving one hour from now. startDateTime in the request is ignored and will be set to one hour from the current time. Additionally, startDateTimeType will be set to StartDateTimeType.USE_START_DATE_TIME.
+   * The entity will start serving one hour from now. `startDateTime` in the request is ignored and will be set to one hour from the current time. Additionally, `startDateTimeType` will be set to `StartDateTimeType.USE_START_DATE_TIME`.
    */
   ONE_HOUR_FROM_NOW = 'ONE_HOUR_FROM_NOW',
-
   /**
-   * 	The value returned if the actual value is not exposed by the requested API version.
+   * The value returned if the actual value is not exposed by the requested API version.
    */
   UNKNOWN = 'UNKNOWN',
 }
@@ -28,27 +29,19 @@ export enum StartDateTimeType {
  */
 export enum TimeUnit {
   MINUTE = 'MINUTE',
-
   HOUR = 'HOUR',
-
   DAY = 'DAY',
-
   WEEK = 'WEEK',
-
   MONTH = 'MONTH',
-
   LIFETIME = 'LIFETIME',
-
   /**
-   * Per pod of ads in a video stream. Only valid for entities in a EnvironmentType.VIDEO_PLAYER environment.
+   * Per pod of ads in a video stream. Only valid for entities in a `EnvironmentType.VIDEO_PLAYER` environment.
    */
   POD = 'POD',
-
   /**
-   * Per video stream. Only valid for entities in a EnvironmentType.VIDEO_PLAYER environment.
+   * Per video stream. Only valid for entities in a `EnvironmentType.VIDEO_PLAYER` environment.
    */
   STREAM = 'STREAM',
-
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
@@ -60,37 +53,31 @@ export enum TimeUnit {
  */
 export enum DayOfWeek {
   /**
-   * 	The day of week named Monday.
+   * The day of week named Monday.
    */
   MONDAY = 'MONDAY',
-
   /**
-   * 	The day of week named Tuesday.
+   * The day of week named Tuesday.
    */
   TUESDAY = 'TUESDAY',
-
   /**
-   * 	The day of week named Wednesday.
+   * The day of week named Wednesday.
    */
   WEDNESDAY = 'WEDNESDAY',
-
   /**
-   * 	The day of week named Thursday.
+   * The day of week named Thursday.
    */
   THURSDAY = 'THURSDAY',
-
   /**
-   * 	The day of week named Friday.
+   * The day of week named Friday.
    */
   FRIDAY = 'FRIDAY',
-
   /**
-   * 	The day of week named Saturday.
+   * The day of week named Saturday.
    */
   SATURDAY = 'SATURDAY',
-
   /**
-   * 	The day of week named Sunday.
+   * The day of week named Sunday.
    */
   SUNDAY = 'SUNDAY',
 }
@@ -100,22 +87,19 @@ export enum DayOfWeek {
  */
 export enum MinuteOfHour {
   /**
-   * 	Zero minutes past hour.
+   * Zero minutes past hour.
    */
   ZERO = 'ZERO',
-
   /**
-   * 	Fifteen minutes past hour.
+   * Fifteen minutes past hour.
    */
   FIFTEEN = 'FIFTEEN',
-
   /**
-   * 	Thirty minutes past hour.
+   * Thirty minutes past hour.
    */
   THIRTY = 'THIRTY',
-
   /**
-   * 	Forty-five minutes past hour.
+   * Forty-five minutes past hour.
    */
   FORTY_FIVE = 'FORTY_FIVE',
 }

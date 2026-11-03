@@ -4,7 +4,7 @@ import { AdUnitAction } from './adUnit.action';
 
 /**
  * Provides operations for creating, updating and retrieving
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit} objects.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit AdUnit} objects.
  *
  * Line items connect a creative with its associated ad unit through targeting.
  *
@@ -14,35 +14,35 @@ import { AdUnitAction } from './adUnit.action';
  */
 export interface InventoryServiceOperations {
   /**
-   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit} objects.
+   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit AdUnit} objects.
    *
    * @param adUnits the ad units to create
    * @returns the created ad units, with their IDs filled in
    */
   createAdUnits(adUnits: AdUnit[]): Promise<AdUnit[]>;
   /**
-   * Returns a set of all relevant {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnitSize AdUnitSize} objects.
+   * Returns a set of all relevant {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnitSize AdUnitSize} objects.
    *
-   * The given {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.Statement Statement} is currently ignored but may be honored in future versions.
+   * The given {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.Statement Statement} is currently ignored but may be honored in future versions.
    *
    * @param filterStatement currently ignored but may be honored in future versions
    * @returns the ad unit sizes
    */
   getAdUnitSizesByStatement(filterStatement: Statement): Promise<AdUnitSize[]>;
   /**
-   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnitPage AdUnitPage} of
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit} objects that satisfy the given
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.Statement#query Statement.query}.
+   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnitPage AdUnitPage} of
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit AdUnit} objects that satisfy the given
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.Statement#query Statement.query}.
    * The following fields are supported for filtering:
    *
    * | PQL Property         | PQL Property                                                                                                                                    |
    * | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-   * | adUnitCode           | {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit#adUnitCode AdUnit.adUnitCode}                     |
-   * | id                   | {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit#id AdUnit.id}                                     |
-   * | name                 | {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit#name AdUnit.name}                                 |
-   * | parentId             | {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit#parentId AdUnit.parentId}                         |
-   * | status               | {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit#status AdUnit.status}                             |
-   * | lastModifiedDateTime | {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit#lastModifiedDateTime AdUnit.lastModifiedDateTime} |
+   * | adUnitCode           | {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit#adUnitCode AdUnit.adUnitCode}                     |
+   * | id                   | {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit#id AdUnit.id}                                     |
+   * | name                 | {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit#name AdUnit.name}                                 |
+   * | parentId             | {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit#parentId AdUnit.parentId}                         |
+   * | status               | {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit#status AdUnit.status}                             |
+   * | lastModifiedDateTime | {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit#lastModifiedDateTime AdUnit.lastModifiedDateTime} |
    *
    *
    * @param filterStatement a Publisher Query Language statement used to filter a set of ad units
@@ -50,8 +50,8 @@ export interface InventoryServiceOperations {
    */
   getAdUnitsByStatement(filterStatement: Statement): Promise<AdUnitPage>;
   /**
-   * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit}
-   * objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.Statement#query Statement.query}.
+   * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit AdUnit}
+   * objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.Statement#query Statement.query}.
    *
    * @param adUnitAction the action to perform
    * @param filterStatement a Publisher Query Language statement used to filter a set of ad units
@@ -59,7 +59,7 @@ export interface InventoryServiceOperations {
    */
   performAdUnitAction(adUnitAction: AdUnitAction, filterStatement: Statement): Promise<UpdateResult>;
   /**
-   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202202/InventoryService.AdUnit AdUnit} objects.
+   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202608/InventoryService.AdUnit AdUnit} objects.
    *
    * @param adUnits	the ad units to update
    * @returns the updated ad units

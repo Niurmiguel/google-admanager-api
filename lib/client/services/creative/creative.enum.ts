@@ -1,3 +1,7 @@
+// Generated from the Ad Manager v202608 WSDLs by scripts/generate-enums.js.
+// Do not edit values or comments by hand: run `npm run generate:enums`.
+// To add an enum, declare it empty (`export enum Name {}`) and run the script.
+
 /**
  * Represents the different types of policy violations that may be detected on a given creative.
  *
@@ -7,17 +11,15 @@ export enum CreativePolicyViolation {
   /**
    * Malware was found in the creative.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/1308246 here}.
    */
   MALWARE_IN_CREATIVE = 'MALWARE_IN_CREATIVE',
-
   /**
    * Malware was found in the landing page.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/1308246 here}.
    */
   MALWARE_IN_LANDING_PAGE = 'MALWARE_IN_LANDING_PAGE',
-
   /**
    * The redirect url contains legally objectionable content.
    */
@@ -25,10 +27,9 @@ export enum CreativePolicyViolation {
   /**
    * The creative misrepresents the product or service being advertised.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/6020955 here}.
    */
   MISREPRESENTATION_OF_PRODUCT = 'MISREPRESENTATION_OF_PRODUCT',
-
   /**
    * The creative has been determined to be self clicking.
    */
@@ -36,17 +37,15 @@ export enum CreativePolicyViolation {
   /**
    * The creative has been determined as attempting to game the Google network.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/6020954#319 here}.
    */
   GAMING_GOOGLE_NETWORK = 'GAMING_GOOGLE_NETWORK',
-
   /**
    * The landing page for the creative uses a dynamic DNS.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/6020954 here}.
    */
   DYNAMIC_DNS = 'DYNAMIC_DNS',
-
   /**
    * The creative has been determined as attempting to circumvent Google advertising systems.
    */
@@ -54,24 +53,21 @@ export enum CreativePolicyViolation {
   /**
    * Phishing found in creative or landing page.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/6020955 here}.
    */
   PHISHING = 'PHISHING',
-
   /**
    * The creative prompts the user to download a file.
    *
-   * For more information see here
+   * For more information see {@link https://support.google.com/admanager/answer/7513391 here}
    */
   DOWNLOAD_PROMPT_IN_CREATIVE = 'DOWNLOAD_PROMPT_IN_CREATIVE',
-
   /**
    * The creative sets an unauthorized cookie on a Google domain.
    *
-   * For more information see here
+   * For more information see {@link https://support.google.com/admanager/answer/7513391 here}
    */
   UNAUTHORIZED_COOKIE_DETECTED = 'UNAUTHORIZED_COOKIE_DETECTED',
-
   /**
    * The creative has been temporarily paused while we investigate.
    */
@@ -79,35 +75,31 @@ export enum CreativePolicyViolation {
   /**
    * The landing page contains an abusive experience.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/webtools/answer/7347327 here}.
    */
   ABUSIVE_EXPERIENCE = 'ABUSIVE_EXPERIENCE',
-
   /**
    * The creative is designed to mislead or trick the user into interacting with it.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adwordspolicy/answer/6020955#357 here}.
    */
   TRICK_TO_CLICK = 'TRICK_TO_CLICK',
-
   /**
    * Non-allowlisted OMID verification script.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/authorizedbuyers/answer/9115752 here}.
    */
   USE_OF_NON_ALLOWLISTED_OMID_VERIFICATION_SCRIPT = 'USE_OF_NON_ALLOWLISTED_OMID_VERIFICATION_SCRIPT',
-
   /**
-   * OMID sdk injected by creative. < p>For more information see here.
+   * OMID sdk injected by creative. < p>For more information see {@link https://support.google.com/authorizedbuyers/answer/9115752 here}.
    */
   MISUSE_OF_OMID_API = 'MISUSE_OF_OMID_API',
   /**
    * Unacceptable HTML5 ad.
    *
-   * For more information see here.
+   * For more information see {@link https://support.google.com/adspolicy/answer/6088505#266 here}.
    */
   UNACCEPTABLE_HTML_AD = 'UNACCEPTABLE_HTML_AD',
-
   /**
    * The value returned if the actual value is not exposed by the requested API version.
    */
@@ -185,11 +177,11 @@ export enum RichMediaStudioCreativeArtworkType {
  */
 export enum RichMediaStudioCreativeBillingAttribute {
   /**
-   * Applies to any RichMediaStudioCreativeFormat.IN_PAGE, without Video.
+   * Applies to any `RichMediaStudioCreativeFormat.IN_PAGE`, without Video.
    */
   IN_PAGE = 'IN_PAGE',
   /**
-   * Applies to any of these following RichMediaStudioCreativeFormat, without Video: RichMediaStudioCreativeFormat.EXPANDING, RichMediaStudioCreativeFormat.IM_EXPANDING, RichMediaStudioCreativeFormat.FLOATING, RichMediaStudioCreativeFormat.PEEL_DOWN, RichMediaStudioCreativeFormat.IN_PAGE_WITH_FLOATING
+   * Applies to any of these following `RichMediaStudioCreativeFormat`, without Video: `RichMediaStudioCreativeFormat.EXPANDING`, `RichMediaStudioCreativeFormat.IM_EXPANDING`, `RichMediaStudioCreativeFormat.FLOATING`, `RichMediaStudioCreativeFormat.PEEL_DOWN`, `RichMediaStudioCreativeFormat.IN_PAGE_WITH_FLOATING`
    */
   FLOATING_EXPANDING = 'FLOATING_EXPANDING',
   /**
@@ -197,13 +189,13 @@ export enum RichMediaStudioCreativeBillingAttribute {
    */
   VIDEO = 'VIDEO',
   /**
-   * Applies to any RichMediaStudioCreativeFormat.FLASH_IN_FLASH, without Video.
+   * Applies to any `RichMediaStudioCreativeFormat.FLASH_IN_FLASH`, without Video.
    */
   FLASH_IN_FLASH = 'FLASH_IN_FLASH',
 }
 
 /**
- * Type of RichMediaStudioChildAssetProperty
+ * Type of `RichMediaStudioChildAssetProperty`
  */
 export enum RichMediaStudioChildAssetPropertyType {
   /**
@@ -238,7 +230,7 @@ export enum SslScanResult {
 }
 
 /**
- * Enum to store the creative SSL compatibility manual override. Its three states are similar to that of SslScanResult.
+ * Enum to store the creative SSL compatibility manual override. Its three states are similar to that of `SslScanResult`.
  */
 export enum SslManualOverride {
   /**
@@ -364,7 +356,7 @@ export enum ScalableType {
 }
 
 /**
- *
+ * Enum of supported mime types
  */
 export enum MimeType {
   /**
@@ -564,6 +556,10 @@ export enum MimeType {
    */
   VIDEO_FLV = 'VIDEO_FLV',
   /**
+   * video/mp2t
+   */
+  VIDEO_MP2T = 'VIDEO_MP2T',
+  /**
    * video/mp4
    */
   VIDEO_MP4 = 'VIDEO_MP4',
@@ -619,10 +615,6 @@ export enum MimeType {
    * application/zip
    */
   ZIP = 'ZIP',
-  /**
-   * video/mp2t
-   */
-  VIDEO_MP2T = 'VIDEO_MP2T',
 }
 
 /**
@@ -638,31 +630,33 @@ export enum VideoDeliveryType {
    */
   PROGRESSIVE = 'PROGRESSIVE',
   /**
-   * Video will be served via a streaming protocol like RTMP.
+   * Video will be served via a streaming protocol like HLS or DASH.
    */
   STREAMING = 'STREAMING',
 }
 
 /**
- * The types of VAST ads that a VastRedirectCreative can point to.
+ * The types of VAST ads that a `VastRedirectCreative` can point to.
  */
 export enum VastRedirectType {
   /**
-   * The VAST XML contains only linear ads.
+   * The VAST XML contains only `linear` ads.
    */
   LINEAR = 'LINEAR',
   /**
-   * The VAST XML contains only nonlinear ads.
+   * The VAST XML contains only `nonlinear` ads.
    */
   NON_LINEAR = 'NON_LINEAR',
   /**
-   * The VAST XML contains both linear and nonlinear ads.
+   * The VAST XML contains both `linear` and `nonlinear` ads.
    */
   LINEAR_AND_NON_LINEAR = 'LINEAR_AND_NON_LINEAR',
 }
 
 /**
- * The status of the ThirdPartyDataDeclaration associated with a given creative. This is calculated by comparing the companies detected via automated scanning/parsing, with the companies declared in the ThirdPartyDataDeclaration.
+ * The status of the `ThirdPartyDataDeclaration` associated with a given creative.
+ *
+ * This is calculated by comparing the companies detected via automated scanning/parsing, with the companies declared in the `ThirdPartyDataDeclaration`.
  */
 export enum ThirdPartyDataDeclarationStatus {
   /**
@@ -670,15 +664,17 @@ export enum ThirdPartyDataDeclarationStatus {
    */
   UNKNOWN = 'UNKNOWN',
   /**
-   * At least one detected ad technology provider wasn't declared at the network level or on the creative's ThirdPartyDataDeclaration.
+   * At least one detected ad technology provider wasn’t declared at the network level or on the creative's `ThirdPartyDataDeclaration`.
    */
   INCOMPLETE = 'INCOMPLETE',
   /**
-   * All detected ad technology providers have been declared, either at the network level or on the creative's ThirdPartyDataDeclaration.
+   * All detected ad technology providers have been declared, either at the network level or on the creative's `ThirdPartyDataDeclaration`.
    */
   COMPLETE = 'COMPLETE',
   /**
-   * This entity has not been recently scanned. There is either no scanning data for this creative, or the scanning data is stale. This can happen if the creative is not associated with any line items that are active or eligible to serve.
+   * This entity has not been recently scanned.
+   *
+   * There is either no scanning data for this creative, or the scanning data is stale. This can happen if the creative is not associated with any line items that are active or eligible to serve.
    */
   UNSCANNED = 'UNSCANNED',
 }

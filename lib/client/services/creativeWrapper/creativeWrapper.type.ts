@@ -91,6 +91,6 @@ export type CreativeWrapper = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeWrapperService.CreativeWrapper CreativeWrapper} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeWrapperService.CreativeWrapper CreativeWrapper} objects.
  */
 export type CreativeWrapperPage = PageResult<CreativeWrapper>;

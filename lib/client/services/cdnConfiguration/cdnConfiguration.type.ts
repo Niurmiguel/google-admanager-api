@@ -47,6 +47,15 @@ type SecurityPolicySettings = {
    * set to OriginForwardingType.CONVENTIONAL, and will be set to null otherwise.
    */
   mediaPlaylistOriginPathPrefix: string;
+  /**
+   * The name of the EdgeCacheKeyset on the Media CDN configuration that will be used to validate signed requests from DAI to ingest content.
+   */
+  keysetName?: string;
+  /**
+   * The amount of time in seconds for which a request signed with a short token will be valid.
+   * Only required if signedRequestMaximumExpirationTtl has been set in the Media CDN configuration.
+   */
+  signedRequestExpirationTtlSeconds?: number;
 };
 
 /**
@@ -113,6 +122,6 @@ export type CdnConfiguration = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CdnConfigurationService.CdnConfiguration CdnConfiguration} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CdnConfigurationService.CdnConfiguration CdnConfiguration} objects.
  */
 export type CdnConfigurationPage = PageResult<CdnConfiguration>;

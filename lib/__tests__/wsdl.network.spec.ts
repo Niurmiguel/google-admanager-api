@@ -7,9 +7,11 @@
  * No credentials are needed: WSDLs are public and the authentication check
  * uses a fake token on purpose.
  *
- * They also check that fixtures/wsdl-inputs.<version>.json, which the offline
- * serviceArguments spec relies on, matches the live WSDLs. To regenerate it
- * (for instance after changing API_VERSION):
+ * They also check that the fixtures the offline specs rely on match the live
+ * WSDLs: fixtures/wsdl-inputs.<version>.json (serviceArguments spec, read with
+ * node-soap) and fixtures/wsdl-schema.<version>.json (wsdlSchema spec, read
+ * with scripts/wsdl-schema.js). To regenerate both (for instance after
+ * changing API_VERSION):
  *
  *   ADMANAGER_NETWORK_TESTS=1 ADMANAGER_UPDATE_WSDL_FIXTURE=1 npx jest --config jestconfig.json wsdl.network
  */
@@ -22,11 +24,13 @@ import { API_VERSION, SERVICE_MAP } from '../common/constants';
 import { AdManagerClient } from '../client';
 import { AdManagerRequestError } from '../common/utils';
 import { FAKE_TOKEN } from './support/fakeAdManager';
+import { WsdlModel, buildSchema, formatSchema, parseWsdl, wsdlUrl } from '../../scripts/wsdl-schema';
 
 const enabled = process.env.ADMANAGER_NETWORK_TESTS === '1';
 const updateFixture = process.env.ADMANAGER_UPDATE_WSDL_FIXTURE === '1';
 const describeNetwork = enabled ? describe : describe.skip;
 const fixturePath = join(__dirname, 'fixtures', `wsdl-inputs.${API_VERSION}.json`);
+const schemaPath = join(__dirname, 'fixtures', `wsdl-schema.${API_VERSION}.json`);
 
 type ServiceName = keyof typeof SERVICE_MAP;
 
@@ -93,10 +97,21 @@ describeNetwork(`Ad Manager ${API_VERSION} public WSDLs`, () => {
     }
   });
 
+  const models: Record<string, WsdlModel> = {};
+
+  /** The WSDL text, for scripts/wsdl-schema.js (node-soap does not keep it). */
+  async function downloadWsdl(url: string): Promise<string> {
+    const res = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+    if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
+    return res.text();
+  }
+
   it.each(serviceNames)('%s: WSDL loads and declares every operation the wrapper calls', async (name) => {
-    const client = await createClientAsync(`https://ads.google.com/apis/ads/publisher/${API_VERSION}/${name}?wsdl`);
+    const url = wsdlUrl(API_VERSION, name);
+    const [client, xml] = await Promise.all([createClientAsync(url), downloadWsdl(url)]);
     const inputs = operationInputs(client);
     live[name] = inputs;
+    models[name] = parseWsdl(xml);
 
     const missing = (await operationsCalledBy(name)).filter((op) => !(op in inputs));
 
@@ -104,6 +119,18 @@ describeNetwork(`Ad Manager ${API_VERSION} public WSDLs`, () => {
     if (!updateFixture) {
       // The offline serviceArguments spec checks argument names against this fixture.
       expect(fixture[name]).toEqual(inputs);
+    }
+  });
+
+  it('the offline schema fixture matches the live WSDLs', async () => {
+    // Needs every service: runs after the tests above (Jest keeps the order of a file).
+    expect(Object.keys(models).sort()).toEqual(serviceNames);
+    const schema = buildSchema(models);
+
+    if (updateFixture) {
+      await writeFile(schemaPath, formatSchema(schema));
+    } else {
+      expect(schema).toEqual(JSON.parse(await readFile(schemaPath, 'utf8')));
     }
   });
 
