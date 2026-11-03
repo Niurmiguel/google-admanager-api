@@ -2,9 +2,10 @@
  * The library checked against the v202608 WSDLs, offline, in both directions:
  *
  * - enums: the values of the WSDL, in its order, each key equal to its value;
- * - types: the fields of the WSDL (inherited ones included), no more, and
- *   arrays where the WSDL says maxOccurs="unbounded", read with the
- *   TypeScript checker from lib/ (types do not exist at runtime);
+ * - types: the fields of the WSDL (inherited ones included), no more,
+ *   arrays where the WSDL says maxOccurs="unbounded", and of the WSDL type:
+ *   the same primitive (string, number, boolean), enum or type. Read with
+ *   the TypeScript checker from lib/ (types do not exist at runtime);
  * - actions: every action class of the WSDL is exported from the package
  *   root and its perform*Action call sends its xsi:type and its fields, in
  *   order (checked at runtime, with a client that only records);
@@ -102,15 +103,24 @@ const INVERTED_HIERARCHIES: Record<string, string> = {
     'they lack uniqueName.',
 };
 
+/** CreativeAsset.assetByteArray: raw bytes or a base64 string. */
+const BASE64_BINARY_KINDS = 'string | type ArrayBuffer | type ArrayBufferView | type SharedArrayBuffer';
+
 const LIB_VALUE =
   "Typed with the library's Value, which includes arrays (StatementBuilder sends them as a SetValue): " +
   'not an array of values.';
 
-/** `Type.field` differences from the WSDL: missing, extra or with the wrong cardinality. */
+const NEVER =
+  'The base type intersects the subtypes, so this field is number & string, never (see INVERTED_HIERARCHIES). ' +
+  'Each subtype declares it with its own type, which is checked.';
+
+/** `Type.field` differences from the WSDL: missing, extra, or with the wrong cardinality or type. */
 const KNOWN_FIELD_DIFFERENCES: Record<string, string> = {
   'String_ValueMapEntry.value': LIB_VALUE,
   'BaseCustomFieldValue.value': LIB_VALUE,
   'CustomFieldValue.value': LIB_VALUE,
+  'CreativeTemplateVariable.defaultValue': NEVER,
+  'BaseCreativeTemplateVariableValue.value': NEVER,
 };
 
 /** `Service.Action` differences, at runtime. */
@@ -125,8 +135,14 @@ const serviceNames = Object.keys(SERVICE_MAP).sort() as ServiceName[];
 // --- the library, as the TypeScript checker sees it ---
 
 type LibEnum = { name: string; at: string; members: [key: string, value: string | undefined][] };
-type LibProp = { name: string; isArray: boolean; at: string };
-type LibType = { name: string; at: string; union: boolean; props: LibProp[] };
+/**
+ * What a property holds, the array aside: `string`, `number`, `boolean`,
+ * `enum <Name>` or `type <Name>`, with the type itself for the last one.
+ */
+type Kind = { label: string; type?: ts.Type };
+/** `kinds`: one per member of a union, sorted by label. */
+type LibProp = { name: string; isArray: boolean; kinds: Kind[]; at: string };
+type LibType = { name: string; at: string; union: boolean; props: LibProp[]; type: ts.Type };
 type LibClass = { name: string; at: string; heritage: string[]; abstract: boolean };
 
 function readLibrary() {
@@ -149,6 +165,31 @@ function readLibrary() {
   };
   const isArray = (t: ts.Type): boolean =>
     checker.isArrayType(t) || checker.isTupleType(t) || (t.isUnion() && t.types.some(isArray));
+  const kindsOf = (t: ts.Type): Kind[] => {
+    const F = ts.TypeFlags;
+    if (t.flags & (F.Undefined | F.Null)) return [];
+    // Without a type to compare: never the same as a WSDL type.
+    if (t.flags & (F.Any | F.Unknown)) return [{ label: checker.typeToString(t) }];
+    if (t.flags & F.BooleanLike) return [{ label: 'boolean' }];
+    // A string enum is a union of its members; a single member is a literal of it.
+    if (t.flags & F.EnumLike || (t.isUnion() && t.types.every((m) => m.flags & F.EnumLiteral))) {
+      return [{ label: `enum ${checker.typeToString(t).split('.')[0]}` }];
+    }
+    // A named union is the type it names (the library's Value is a recursive one).
+    if (t.isUnion() && t.aliasSymbol) return [{ label: `type ${t.aliasSymbol.name}`, type: t }];
+    if (t.isUnion()) {
+      const kinds = new Map(t.types.flatMap(kindsOf).map((k) => [k.label, k]));
+      return [...kinds.values()].sort((a, b) => a.label.localeCompare(b.label));
+    }
+    if (checker.isArrayType(t)) return kindsOf(checker.getTypeArguments(t as ts.TypeReference)[0]);
+    if (t.flags & F.StringLike) return [{ label: 'string' }];
+    if (t.flags & F.NumberLike) return [{ label: 'number' }];
+    // An alias can be lost (`{} & {...}` is simplified to its second part): the
+    // name is only a hint, see sameType.
+    return [{ label: `type ${t.aliasSymbol?.name ?? t.symbol?.name ?? checker.typeToString(t)}`, type: t }];
+  };
+  /** Structurally the same type: each is assignable to the other. */
+  const sameType = (a: ts.Type, b: ts.Type) => checker.isTypeAssignableTo(a, b) && checker.isTypeAssignableTo(b, a);
 
   const enums = new Map<string, LibEnum[]>();
   const types = new Map<string, LibType[]>();
@@ -177,7 +218,12 @@ function readLibrary() {
             const decl = sym.declarations?.[0];
             if (!decl || props.has(sym.getName())) continue;
             const propType = checker.getTypeOfSymbolAtLocation(sym, decl);
-            props.set(sym.getName(), { name: sym.getName(), isArray: isArray(propType), at: at(decl) });
+            props.set(sym.getName(), {
+              name: sym.getName(),
+              isArray: isArray(propType),
+              kinds: kindsOf(propType),
+              at: at(decl),
+            });
           }
         }
         add(types, node.name.text, {
@@ -185,6 +231,7 @@ function readLibrary() {
           at: at(node),
           union: type.isUnion(),
           props: [...props.values()],
+          type,
         });
       } else if (ts.isClassDeclaration(node) && node.name) {
         classes.push({
@@ -196,7 +243,7 @@ function readLibrary() {
       }
     }
   }
-  return { enums, types, classes };
+  return { enums, types, classes, sameType };
 }
 
 const dotless = (name: string) => name.replace(/\./g, '');
@@ -306,34 +353,66 @@ describe(`library matches the ${API_VERSION} WSDL schema`, () => {
     const plainTypes = Object.keys(schema.types).filter((t) => !actionTypeNames.has(t) && !hierarchyOf.has(t));
 
     /**
-     * Missing/extra fields and cardinality of library declarations against WSDL
-     * fields. With `partial`, only extra fields and cardinality: a union of
-     * subtypes declares a field when one of its members does.
+     * Whether a library property holds what a WSDL field type says: the same
+     * primitive (string, number or boolean), the enum, or the type. A type
+     * matches by name or, when TypeScript lost the name, by structure; a field
+     * of an abstract type may hold a union of the type and its subtypes.
+     */
+    function holds(kinds: Kind[], type: string): boolean {
+      const labels = kinds.map((k) => k.label).join(' | ');
+      if (type === 'xsd:string') return labels === 'string';
+      if (/^xsd:(int|long|double|float)$/.test(type)) return labels === 'number';
+      if (type === 'xsd:boolean') return labels === 'boolean';
+      if (type === 'xsd:base64Binary') return labels === BASE64_BINARY_KINDS;
+      if (type.startsWith('xsd:')) throw new Error(`no rule for ${type}`);
+      if (schema.enums[type]) return libEnumNamesFor(type).some((n) => labels === `enum ${n}`);
+      const allowed = [type, ...descendants(schema.types, type)].map((t) => TYPE_ALIASES[t] ?? dotless(t));
+      return (
+        kinds.length > 0 &&
+        kinds.every(
+          (k) =>
+            k.type &&
+            (allowed.includes(k.label.slice('type '.length)) ||
+              allowed.some((n) => (lib.types.get(n) ?? []).some((d) => lib.sameType(k.type!, d.type)))),
+        )
+      );
+    }
+
+    /**
+     * Cardinality and type of a library property against the WSDL fields of
+     * that name (several in a hierarchy: it has to match one of them).
+     */
+    function fieldDifferences(owner: string, variants: SchemaField[], p: LibProp): string[] {
+      const name = variants[0][0];
+      if (variants.some(([, type, isArray]) => p.isArray === isArray && holds(p.kinds, type))) return [];
+      const wsdl = [...new Set(variants.map(([, type, isArray]) => `${type}${isArray ? '[]' : ''}`))].join(' or ');
+      const own = `${p.kinds.map((k) => k.label).join(' | ') || 'nothing'}${p.isArray ? '[]' : ''}`;
+      return [`${owner}.${name}: ${wsdl} in the WSDL, ${own} in the library (${p.at})`];
+    }
+
+    /**
+     * Missing/extra fields, cardinality and type of library declarations against
+     * WSDL fields. With `partial`, only extra fields, cardinality and type: a
+     * union of subtypes declares a field when one of its members does.
      */
     function differences(owner: string, wsdlFields: SchemaField[], libTypes: LibType[], partial = false): string[] {
       const out: string[] = [];
-      const wsdlNames = new Set(wsdlFields.map(([n]) => n));
+      const byName = new Map<string, SchemaField[]>();
+      for (const f of wsdlFields) byName.set(f[0], [...(byName.get(f[0]) ?? []), f]);
       const libProps = libTypes.flatMap((t) => t.props).filter((p) => p.name !== 'attributes');
       const libNames = new Set(libProps.map((p) => p.name));
-      for (const [name, , isArray] of wsdlFields) {
+      for (const [name, variants] of byName) {
         if (!libNames.has(name) && !partial) out.push(`${owner}.${name}: missing`);
-        for (const p of libProps.filter((x) => x.name === name)) {
-          if (p.isArray !== isArray)
-            out.push(`${owner}.${name}: ${isArray ? 'array' : 'scalar'} in the WSDL (${p.at})`);
-        }
+        for (const p of libProps.filter((x) => x.name === name)) out.push(...fieldDifferences(owner, variants, p));
       }
-      for (const p of libProps) if (!wsdlNames.has(p.name)) out.push(`${owner}.${p.name}: not in the WSDL (${p.at})`);
+      for (const p of libProps) if (!byName.has(p.name)) out.push(`${owner}.${p.name}: not in the WSDL (${p.at})`);
       return [...new Set(out)];
     }
 
-    /** Fields of a type and, for a union declaration, of all its subtypes. */
+    /** Fields of a type and, for a union declaration, of all its subtypes (a name can repeat). */
     function fieldsFor(wsdlName: string, union: boolean): SchemaField[] {
       if (!union) return allFields(schema.types, wsdlName);
-      const fields = new Map<string, SchemaField>();
-      for (const t of [wsdlName, ...descendants(schema.types, wsdlName)]) {
-        for (const f of allFields(schema.types, t)) fields.set(f[0], f);
-      }
-      return [...fields.values()];
+      return [wsdlName, ...descendants(schema.types, wsdlName)].flatMap((t) => allFields(schema.types, t));
     }
 
     function unexpected(found: string[]): string[] {
@@ -366,10 +445,9 @@ describe(`library matches the ${API_VERSION} WSDL schema`, () => {
 
     it.each(Object.keys(INVERTED_HIERARCHIES))('%s hierarchy, as a whole', (rootType) => {
       const members = [rootType, ...descendants(schema.types, rootType)];
-      const wsdlFields = new Map<string, SchemaField>();
-      for (const t of members) for (const f of allFields(schema.types, t)) wsdlFields.set(f[0], f);
+      const wsdlFields = members.flatMap((t) => allFields(schema.types, t));
       const decls = members.flatMap((t) => lib.types.get(TYPE_ALIASES[t] ?? dotless(t)) ?? []);
-      expect(unexpected(differences(rootType, [...wsdlFields.values()], decls))).toEqual([]);
+      expect(unexpected(differences(rootType, wsdlFields, decls))).toEqual([]);
     });
 
     /**
@@ -384,12 +462,9 @@ describe(`library matches the ${API_VERSION} WSDL schema`, () => {
       expect(decls.length ? [] : [`${libName} is not declared in lib/`]).toEqual([]);
       for (const decl of decls) {
         const libProps = new Map(decl.props.map((p) => [p.name, p]));
-        const found = schema.types[wsdlName].fields.flatMap(([name, , isArray]) => {
-          const p = libProps.get(name);
-          if (!p) return [`${wsdlName}.${name}: missing (${decl.at})`];
-          return p.isArray === isArray
-            ? []
-            : [`${wsdlName}.${name}: ${isArray ? 'array' : 'scalar'} in the WSDL (${p.at})`];
+        const found = schema.types[wsdlName].fields.flatMap((field) => {
+          const p = libProps.get(field[0]);
+          return p ? fieldDifferences(wsdlName, [field], p) : [`${wsdlName}.${field[0]}: missing (${decl.at})`];
         });
         expect(unexpected(found)).toEqual([]);
       }
