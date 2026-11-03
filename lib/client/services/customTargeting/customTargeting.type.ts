@@ -42,7 +42,7 @@ export type CustomTargetingKey = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomTargetingService.CustomTargetingKey CustomTargetingKey} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomTargetingService.CustomTargetingKey CustomTargetingKey} objects.
  */
 export type CustomTargetingKeyPage = PageResult<CustomTargetingKey>;
 
@@ -86,6 +86,6 @@ export type CustomTargetingValue = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomTargetingService.CustomTargetingValue CustomTargetingValue} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomTargetingService.CustomTargetingValue CustomTargetingValue} objects.
  */
 export type CustomTargetingValuePage = PageResult<CustomTargetingValue>;

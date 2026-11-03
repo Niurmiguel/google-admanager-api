@@ -1290,6 +1290,6 @@ export type Creative = {
   VastRedirectCreative;
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeService.Creative Creative} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeService.Creative Creative} objects.
  */
 export type CreativePage = PageResult<Creative>;

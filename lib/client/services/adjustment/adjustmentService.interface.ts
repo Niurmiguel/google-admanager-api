@@ -9,8 +9,8 @@ import {
 
 /**
  * Provides methods for creating, updating, and retrieving
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment}s and
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment TrafficForecastSegment}s.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment ForecastAdjustment}s and
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegment TrafficForecastSegment}s.
  *
  * Forecast adjustments allow editing the volume and traffic composition of forecasted inventory.
  * Traffic forecast segments divide forecasted inventory into segments to which forecast adjustments can be applied.
@@ -24,50 +24,50 @@ export interface AdjustmentServiceOperations {
    */
   calculateDailyAdOpportunityCounts(forecastAdjustment: ForecastAdjustment): Promise<ForecastAdjustment>;
   /**
-   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment} objects.
+   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment ForecastAdjustment} objects.
    *
    * @param forecastAdjustments the forecast adjustments to create
    * @returns the persisted forecast adjustments with their IDs populated
    */
   createForecastAdjustments(forecastAdjustments: ForecastAdjustment[]): Promise<ForecastAdjustment[]>;
   /**
-   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment TrafficForecastSegment} objects.
+   * Creates new {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegment TrafficForecastSegment} objects.
    *
    * @param trafficForecastSegments the traffic forecast segments to create
    * @returns the persisted traffic forecast segments with their IDs populated
    */
   createTrafficForecastSegments(trafficForecastSegments: TrafficForecastSegment[]): Promise<TrafficForecastSegment[]>;
   /**
-   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustmentPage ForecastAdjustmentPage}
-   * of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment}
-   * objects that satisfy the given {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.Statement#query Statement.query}.
+   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustmentPage ForecastAdjustmentPage}
+   * of {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment ForecastAdjustment}
+   * objects that satisfy the given {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.Statement#query Statement.query}.
    *
    * The following fields are supported for filtering:
    *
    * | PQL Property             | PQL Property                                                                                                                                                                     |
    * | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   * | id                       | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment#id ForecastAdjustment.id}                                             |
-   * | trafficForecastSegmentId | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment#trafficForecastSegmentId ForecastAdjustment.trafficForecastSegmentId} |
-   * | name                     | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment#name ForecastAdjustment.name}                                         |
+   * | id                       | {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment#id ForecastAdjustment.id}                                             |
+   * | trafficForecastSegmentId | {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment#trafficForecastSegmentId ForecastAdjustment.trafficForecastSegmentId} |
+   * | name                     | {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment#name ForecastAdjustment.name}                                         |
    * | startDate                | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment#startDate ForecastAdjustment.startDate}                               |
    * | endDate                  | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment#endDate ForecastAdjustment.endDate}                                   |
-   * | status                   | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment#status ForecastAdjustment.status}                                     |
+   * | status                   | {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment#status ForecastAdjustment.status}                                     |
    *
    * @param filterStatement a Publisher Query Language statement to filter a list of traffic forecast segments
    * @returns a page of forecast adjustments that match the filter
    */
   getForecastAdjustmentsByStatement(filterStatement: Statement): Promise<ForecastAdjustmentPage>;
   /**
-   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegmentPage TrafficForecastSegmentPage}
-   * of {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment TrafficForecastSegment}
-   * objects that satisfy the given {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.Statement#query Statement.query}.
+   * Gets a {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegmentPage TrafficForecastSegmentPage}
+   * of {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegment TrafficForecastSegment}
+   * objects that satisfy the given {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.Statement#query Statement.query}.
    *
    * The following fields are supported for filtering:
    *
    * | PQL Property | PQL Property                                                                                                                                                     |
    * | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-   * | id           | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment#id TrafficForecastSegment.id}                     |
-   * | name         | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment#name TrafficForecastSegment.name}                 |
+   * | id           | {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegment#id TrafficForecastSegment.id}                     |
+   * | name         | {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegment#name TrafficForecastSegment.name}                 |
    * | creationTime | {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment#creationTime TrafficForecastSegment.creationTime} |
    *
    * @param filterStatement a Publisher Query Language statement to filter a list of traffic forecast segments
@@ -75,8 +75,8 @@ export interface AdjustmentServiceOperations {
    */
   getTrafficForecastSegmentsByStatement(filterStatement: Statement): Promise<TrafficForecastSegmentPage>;
   /**
-   * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment}
-   *  objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.Statement#query Statement.query}.
+   * Performs actions on {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment ForecastAdjustment}
+   *  objects that match the given {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.Statement#query Statement.query}.
    *
    * @param forecastAdjustmentAction the action to perform
    * @param filterStatement a Publisher Query Language statement used to filter
@@ -90,7 +90,7 @@ export interface AdjustmentServiceOperations {
   ): Promise<UpdateResult>;
 
   /**
-   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.ForecastAdjustment ForecastAdjustment} objects.
+   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.ForecastAdjustment ForecastAdjustment} objects.
    *
    * @param forecastAdjustments the forecast adjustments to update
    * @returns the updated forecast adjustments
@@ -98,7 +98,7 @@ export interface AdjustmentServiceOperations {
   updateForecastAdjustments(forecastAdjustments: ForecastAdjustment[]): Promise<ForecastAdjustment[]>;
 
   /**
-   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.TrafficForecastSegment TrafficForecastSegment} objects.
+   * Updates the specified {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.TrafficForecastSegment TrafficForecastSegment} objects.
    *
    * @param trafficForecastSegments the traffic forecast segments to update
    * @returns the updated traffic forecast segments

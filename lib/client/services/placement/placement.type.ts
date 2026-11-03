@@ -41,6 +41,6 @@ export type Placement = SiteTargetingInfo & {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/PlacementService.Placement Placement} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/PlacementService.Placement Placement} objects.
  */
 export type PlacementPage = PageResult<Placement>;

@@ -31,6 +31,6 @@ export type CreativeSet = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CreativeSetService.CreativeSet CreativeSet} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CreativeSetService.CreativeSet CreativeSet} objects.
  */
 export type CreativeSetPage = PageResult<CreativeSet>;

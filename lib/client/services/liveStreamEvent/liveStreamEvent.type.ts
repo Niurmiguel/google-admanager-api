@@ -314,7 +314,7 @@ export type LiveStreamConditioning = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/LiveStreamEventService.LiveStreamEvent LiveStreamEvent} objects.
  */
 export type LiveStreamEventPage = PageResult<LiveStreamEvent>;
 

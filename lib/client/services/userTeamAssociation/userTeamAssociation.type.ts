@@ -2,8 +2,8 @@ import { TeamAccessType } from '../team/team.enum';
 import { PageResult } from '../../../common/types';
 
 /**
- * UserRecordTeamAssociation represents the association between a {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.UserRecord UserRecord}
- *  and a {@link https://developers.google.com/ad-manager/api/reference/v202202/TeamService.Team Team}.
+ * UserRecordTeamAssociation represents the association between a {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.UserRecord UserRecord}
+ *  and a {@link https://developers.google.com/ad-manager/api/reference/v202608/TeamService.Team Team}.
  */
 export type UserRecordTeamAssociation = {
   /**
@@ -21,8 +21,8 @@ export type UserRecordTeamAssociation = {
 };
 
 /**
- * UserTeamAssociation associates a {@link https://developers.google.com/ad-manager/api/reference/v202202/UserService.User User}
- * with a {@link https://developers.google.com/ad-manager/api/reference/v202202/TeamService.Team Team} to provide the user access to the entities that belong to the team.
+ * UserTeamAssociation associates a {@link https://developers.google.com/ad-manager/api/reference/v202608/UserService.User User}
+ * with a {@link https://developers.google.com/ad-manager/api/reference/v202608/TeamService.Team Team} to provide the user access to the entities that belong to the team.
  */
 export type UserTeamAssociation = UserRecordTeamAssociation & {
   /**
@@ -32,6 +32,6 @@ export type UserTeamAssociation = UserRecordTeamAssociation & {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/UserTeamAssociationService.UserTeamAssociation UserTeamAssociation} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/UserTeamAssociationService.UserTeamAssociation UserTeamAssociation} objects.
  */
 export type UserTeamAssociationPage = PageResult<UserTeamAssociation>;

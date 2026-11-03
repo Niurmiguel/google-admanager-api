@@ -3,7 +3,7 @@ import { PageResult } from '../../../common/types';
 
 /**
  * A Team defines a grouping of users and what entities they have access to.
- * Users are added to teams with {@link https://developers.google.com/ad-manager/api/reference/v202202/UserTeamAssociationService.UserTeamAssociation UserTeamAssociation} objects.
+ * Users are added to teams with {@link https://developers.google.com/ad-manager/api/reference/v202608/UserTeamAssociationService.UserTeamAssociation UserTeamAssociation} objects.
  */
 export type Team = {
   /**
@@ -37,6 +37,6 @@ export type Team = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/TeamService.Team Team} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/TeamService.Team Team} objects.
  */
 export type TeamPage = PageResult<Team>;

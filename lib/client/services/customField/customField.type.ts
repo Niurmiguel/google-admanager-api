@@ -3,8 +3,8 @@ import { PageResult } from '../../../common/types';
 
 /**
  * An option represents a permitted value for a custom field that has a
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField#dataType CustomField.dataType} of
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomFieldDataType#DROP_DOWN CustomFieldDataType.DROP_DOWN}.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField#dataType CustomField.dataType} of
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomFieldDataType#DROP_DOWN CustomFieldDataType.DROP_DOWN}.
  */
 export type CustomFieldOption = {
   /**
@@ -70,6 +70,6 @@ export type CustomField = {
 } & DropDownCustomField;
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/CustomFieldService.CustomField CustomField} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/CustomFieldService.CustomField CustomField} objects.
  */
 export type CustomFieldPage = PageResult<CustomField>;

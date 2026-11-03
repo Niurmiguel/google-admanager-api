@@ -6,7 +6,7 @@ import { DateTimeRange, TimeOfDay } from '../../../common/types';
 import { DayOfWeek } from '../../../common/enums';
 
 /**
- * A {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.Location Location} represents a geographical entity that can be targeted.
+ * A {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.Location Location} represents a geographical entity that can be targeted.
  * If a location type is not available because of the API version you are using,
  * the location will be represented as just the base class, otherwise it will be sub-classed correctly.
  */
@@ -78,17 +78,17 @@ export type AdUnitTargeting = {
  */
 export type InventoryTargeting = {
   /**
-   * A list of targeted {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.AdUnitTargeting AdUnitTargeting}.
+   * A list of targeted {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.AdUnitTargeting AdUnitTargeting}.
    */
   targetedAdUnits: AdUnitTargeting[];
 
   /**
-   * A list of excluded {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.AdUnitTargeting AdUnitTargeting}.
+   * A list of excluded {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.AdUnitTargeting AdUnitTargeting}.
    */
   excludedAdUnits: AdUnitTargeting[];
 
   /**
-   * A list of targeted {@link https://developers.google.com/ad-manager/api/reference/v202202/PlacementService.Placement Placement} ids.
+   * A list of targeted {@link https://developers.google.com/ad-manager/api/reference/v202608/PlacementService.Placement Placement} ids.
    */
   targetedPlacementIds: number[];
 };
@@ -126,9 +126,9 @@ export type DayPartTargeting = {
 
   /**
    * Specifies the time zone to be used for delivering
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem} objects.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem} objects.
    * This attribute is optional and defaults to
-   * {@link https://developers.google.com/ad-manager/api/reference/v202202/AdjustmentService.DeliveryTimeZone#BROWSER DeliveryTimeZone.BROWSER}.
+   * {@link https://developers.google.com/ad-manager/api/reference/v202608/AdjustmentService.DeliveryTimeZone#BROWSER DeliveryTimeZone.BROWSER}.
    *
    * Setting this has no effect if targeting all days and times.
    */

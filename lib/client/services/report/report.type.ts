@@ -11,7 +11,7 @@ import {
 
 /**
  * Represents the options for an API report download request.
- * See {@link https://developers.google.com/ad-manager/api/reference/v202202/ReportService#getReportDownloadUrlWithOptions ReportService.getReportDownloadUrlWithOptions}.
+ * See {@link https://developers.google.com/ad-manager/api/reference/v202608/ReportService#getReportDownloadUrlWithOptions ReportService.getReportDownloadUrlWithOptions}.
  */
 export type ReportDownloadOptions = {
   /**
@@ -147,6 +147,6 @@ export type SavedQuery = {
 };
 
 /**
- * A page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ReportService.SavedQuery SavedQuery} objects.
+ * A page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ReportService.SavedQuery SavedQuery} objects.
  */
 export type SavedQueryPage = PageResult<SavedQuery>;

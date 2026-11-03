@@ -43,8 +43,8 @@ export type ProposalLineItemMakegoodInfo = {
 };
 
 /**
- * A ProposalLineItem is added to a programmatic {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalService.Proposal Proposal}
- * and is similar to a delivery {@link https://developers.google.com/ad-manager/api/reference/v202202/ForecastService.LineItem LineItem}.
+ * A ProposalLineItem is added to a programmatic {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalService.Proposal Proposal}
+ * and is similar to a delivery {@link https://developers.google.com/ad-manager/api/reference/v202608/ForecastService.LineItem LineItem}.
  * It contains delivery details including information like impression goal or quantity, start and end times, and targeting.
  */
 export type ProposalLineItem = {
@@ -327,6 +327,6 @@ export type ProposalLineItem = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ProposalLineItemService.ProposalLineItem ProposalLineItem} objects.
  */
 export type ProposalLineItemPage = PageResult<ProposalLineItem>;

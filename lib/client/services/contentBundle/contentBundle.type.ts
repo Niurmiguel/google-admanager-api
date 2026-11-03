@@ -2,7 +2,7 @@ import { DateTime, PageResult } from '../../../common/types';
 import { ContentBundleStatus } from './contentBundle.enum';
 
 /**
- * A ContentBundle is a grouping of individual {@link https://developers.google.com/ad-manager/api/reference/v202202/ContentService.Content?hl=pt Content}.
+ * A ContentBundle is a grouping of individual {@link https://developers.google.com/ad-manager/api/reference/v202608/ContentService.Content?hl=pt Content}.
  * A ContentBundle is defined as including the Content that match certain filter rules, along with the option to explicitly include or exclude certain Content IDs.
  */
 export type ContentBundle = {
@@ -25,6 +25,6 @@ export type ContentBundle = {
 };
 
 /**
- * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/ContentBundleService.ContentBundle?hl=pt ContentBundle} objects.
+ * Captures a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/ContentBundleService.ContentBundle?hl=pt ContentBundle} objects.
  */
 export type ContentBundlePage = PageResult<ContentBundle>;

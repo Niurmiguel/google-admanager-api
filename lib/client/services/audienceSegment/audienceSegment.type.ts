@@ -10,10 +10,10 @@ import {
 
 /**
  * Data provider that owns this segment.
- * For a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}, it would be the
- * publisher network. For a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.SharedAudienceSegment SharedAudienceSegment}
- * or a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.ThirdPartyAudienceSegment ThirdPartyAudienceSegment},
- * it would be the entity that provides that {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment}.
+ * For a {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}, it would be the
+ * publisher network. For a {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.SharedAudienceSegment SharedAudienceSegment}
+ * or a {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.ThirdPartyAudienceSegment ThirdPartyAudienceSegment},
+ * it would be the entity that provides that {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.AudienceSegment AudienceSegment}.
  */
 type AudienceSegmentDataProvider = {
   /**
@@ -23,7 +23,7 @@ type AudienceSegmentDataProvider = {
 };
 
 /**
- * An {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} represents audience segment object.
+ * An {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.AudienceSegment AudienceSegment} represents audience segment object.
  */
 type AudienceSegment = {
   /**
@@ -80,15 +80,15 @@ type AudienceSegment = {
 };
 
 /**
- * A {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.SharedAudienceSegment SharedAudienceSegment}
- * is an {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment}
+ * A {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.SharedAudienceSegment SharedAudienceSegment}
+ * is an {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.AudienceSegment AudienceSegment}
  * owned by another entity and shared with the publisher network.
  */
 type SharedAudienceSegment = AudienceSegment & {};
 
 /**
- * A {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.ThirdPartyAudienceSegment ThirdPartyAudienceSegment} is an
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment}
+ * A {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.ThirdPartyAudienceSegment ThirdPartyAudienceSegment} is an
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.AudienceSegment AudienceSegment}
  * owned by a data provider and licensed to the Ad Manager publisher.
  */
 type ThirdPartyAudienceSegment = AudienceSegment & {
@@ -117,8 +117,8 @@ type ThirdPartyAudienceSegment = AudienceSegment & {
 };
 
 /**
- * A {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.NonRuleBasedFirstPartyAudienceSegment NonRuleBasedFirstPartyAudienceSegment}
- * is a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}
+ * A {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.NonRuleBasedFirstPartyAudienceSegment NonRuleBasedFirstPartyAudienceSegment}
+ * is a {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}
  * owned by the publisher network. It doesn't contain a rule. Cookies are usually added to this segment via cookie upload.
  */
 type NonRuleBasedFirstPartyAudienceSegment = AudienceSegment &
@@ -131,8 +131,8 @@ type NonRuleBasedFirstPartyAudienceSegment = AudienceSegment &
   };
 
 /**
- * A {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.RuleBasedFirstPartyAudienceSegmentSummary RuleBasedFirstPartyAudienceSegmentSummary}
- * is a {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}
+ * A {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.RuleBasedFirstPartyAudienceSegmentSummary RuleBasedFirstPartyAudienceSegmentSummary}
+ * is a {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.FirstPartyAudienceSegment FirstPartyAudienceSegment}
  * owned by the publisher network.
  */
 type RuleBasedFirstPartyAudienceSegmentSummary = AudienceSegment &
@@ -199,7 +199,7 @@ export type FirstPartyAudienceSegment =
   | RuleBasedFirstPartyAudienceSegment;
 
 /**
- * Represents a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
+ * Represents a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/AudienceSegmentService.AudienceSegment AudienceSegment} objects.
  */
 export type AudienceSegmentPage = PageResult<
   FirstPartyAudienceSegment | ThirdPartyAudienceSegment | SharedAudienceSegment

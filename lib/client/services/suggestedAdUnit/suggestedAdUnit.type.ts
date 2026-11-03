@@ -41,13 +41,13 @@ export type SuggestedAdUnit = {
 };
 
 /**
- * Contains a page of {@link https://developers.google.com/ad-manager/api/reference/v202202/SuggestedAdUnitService.SuggestedAdUnit SuggestedAdUnit} objects.
+ * Contains a page of {@link https://developers.google.com/ad-manager/api/reference/v202608/SuggestedAdUnitService.SuggestedAdUnit SuggestedAdUnit} objects.
  */
 export type SuggestedAdUnitPage = PageResult<SuggestedAdUnit>;
 
 /**
  * Represents the result of performing an action on
- * {@link https://developers.google.com/ad-manager/api/reference/v202202/SuggestedAdUnitService.SuggestedAdUnit SuggestedAdUnit} objects.
+ * {@link https://developers.google.com/ad-manager/api/reference/v202608/SuggestedAdUnitService.SuggestedAdUnit SuggestedAdUnit} objects.
  */
 export type SuggestedAdUnitUpdateResult = {
   /**
