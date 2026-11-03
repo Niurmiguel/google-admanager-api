@@ -51,6 +51,11 @@ export type AdDecisionCreative = {
   samError: SamError;
 
   isTranscoded: boolean;
+
+  /**
+   * Whether this creative was dropped from the AdDecision during serving.
+   */
+  isDropped?: boolean;
 };
 
 export type TrackingEventPing = {

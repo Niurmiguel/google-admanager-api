@@ -1,6 +1,7 @@
 import { VideoPositionTargeting } from './videoPosition.type';
 import { DeliveryTimeZone, RequestPlatform } from '../enums';
 import { CustomCriteriaSet } from './customCriteria.type';
+import { Size } from './general.type';
 import { DateTimeRange, TimeOfDay } from '../../../common/types';
 import { DayOfWeek } from '../../../common/enums';
 
@@ -571,6 +572,31 @@ export type Targeting = {
    * Publisher provided signals targeting information.
    */
   publisherProvidedSignalsTargeting?: PublisherProvidedSignalsTargeting;
+  /**
+   * Specifies the sizes that are targeted by the entity. This is currently only supported on YieldGroup and TrafficDataRequest.
+   */
+  inventorySizeTargeting?: InventorySizeTargeting;
+};
+
+/**
+ * A size that is targeted on a request.
+ */
+export type TargetedSize = {
+  size: Size;
+};
+
+/**
+ * Represents a collection of targeted and excluded inventory sizes. This is currently only available on YieldGroup and TrafficDataRequest.
+ */
+export type InventorySizeTargeting = {
+  /**
+   * Whether the inventory sizes should be targeted or excluded.
+   */
+  isTargeted?: boolean;
+  /**
+   * The sizes to target or exclude.
+   */
+  targetedSizes?: TargetedSize[];
 };
 
 /**

@@ -36,7 +36,6 @@ const TECHNOLOGY =
 const VALUE =
   "The library's Value is the JavaScript value that StatementBuilder converts into the right Value " +
   'subtype, not this SOAP type. Not modeled yet.';
-const NOT_YET = 'Missing in 0.1.0: see KNOWN_FIELD_DIFFERENCES.';
 
 /** WSDL types the library does not declare. */
 const NOT_MODELED: Record<string, string> = {
@@ -69,11 +68,6 @@ const NOT_MODELED: Record<string, string> = {
   CustomCriteriaLeaf: 'CustomCriteriaSet.children lists the concrete criteria types instead.',
   RuleBasedFirstPartyAudienceSegment: 'FirstPartyAudienceSegment only covers the segments without a rule.',
   FirstPartyAudienceSegmentRule: 'Only used by RuleBasedFirstPartyAudienceSegment.',
-  InventorySizeTargeting: NOT_YET,
-  TargetedSize: NOT_YET,
-  PrerollSettings: NOT_YET,
-  LiveStreamConditioning: NOT_YET,
-  DashBridge: NOT_YET,
 };
 
 /** WSDL types whose library namesake means something else: not compared. */
@@ -122,18 +116,6 @@ const KNOWN_FIELD_DIFFERENCES: Record<string, string> = {
   'BaseCustomFieldValue.value': LIB_VALUE,
   'Creative.ampRedirectUrl': CREATIVE_HIERARCHY,
   'Creative.thirdPartyImpressionUrl': CREATIVE_HIERARCHY,
-  'AdDecisionCreative.isDropped': 'Missing.',
-  'LineItem.youtubeKidsRestricted': 'Missing.',
-  'LineItemSummary.youtubeKidsRestricted': 'Missing.',
-  'LiveStreamEvent.prerollSettings': 'Missing.',
-  'LiveStreamEvent.liveStreamConditioning': 'Missing.',
-  'ProposalLineItem.secondaryGoals': 'Missing.',
-  'ProposalLineItem.disableSameAdvertiserCompetitiveExclusion': 'Missing.',
-  'ProposalLineItem.marketplaceInfo': 'Not in the WSDL: it belongs to Proposal.',
-  'SalespersonSplit.split': 'Not in the WSDL.',
-  'SecurityPolicySettings.keysetName': 'Missing.',
-  'SecurityPolicySettings.signedRequestExpirationTtlSeconds': 'Missing.',
-  'Targeting.inventorySizeTargeting': 'Missing.',
 };
 
 /** `Service.Action` differences, at runtime. */

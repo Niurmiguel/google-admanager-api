@@ -30,7 +30,7 @@ export type ProposalCompanyAssociation = {
 };
 
 /**
- * A SalespersonSplit represents a salesperson and their split.
+ * A SalespersonSplit represents a salesperson.
  */
 export type SalespersonSplit = {
   /**
@@ -39,10 +39,6 @@ export type SalespersonSplit = {
    * This attribute is required.
    */
   userId: number;
-  /**
-   * The split can be attributed to the salesperson. The percentage value is stored as millipercents, and must be multiples of 10 with the range from 0 to 100000. The default value is 0.
-   */
-  split: number;
 };
 
 /**

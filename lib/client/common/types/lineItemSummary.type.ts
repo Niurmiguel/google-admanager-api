@@ -396,6 +396,12 @@ export type LineItemSummary = {
   programmaticCreativeSource: ProgrammaticCreativeSource;
 
   thirdPartyMeasurementSettings: ThirdPartyMeasurementSettings;
+
+  /**
+   * Designates this line item as intended for YT Kids app. If true, all creatives associated with this line item must be reviewed and approved.
+   * See the {@link https://support.google.com/yt-partner-sales/answer/10015534 Ad Manager Help Center} for more information.
+   */
+  youtubeKidsRestricted?: boolean;
   /**
    * The max duration of a video creative associated with this LineItem in milliseconds.
    *
