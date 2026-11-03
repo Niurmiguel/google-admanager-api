@@ -21,7 +21,8 @@
     "publish:npm": "npm publish --access public",
     "test": "jest --config jestconfig.json",
     "prerelease": "npm run build",
-    "check:pack": "npm pack --dry-run --json | node scripts/check-pack.js"
+    "check:pack": "npm pack --dry-run --json | node scripts/check-pack.js",
+    "generate:enums": "node scripts/generate-enums.js"
   },
   "repository": {
     "type": "git",
