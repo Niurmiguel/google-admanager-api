@@ -88,6 +88,7 @@ const TYPE_ALIASES: Record<string, string> = {
  * lack the inherited ones. Fixing that changes how every one of these types
  * reads, so it is left for a later version; until then each hierarchy is
  * compared as a whole: the union of the fields of the base and its subtypes.
+ * Each type of the hierarchy must still declare its own (not inherited) fields.
  */
 const INVERTED_HIERARCHIES: Record<string, string> = {
   Creative: 'Creative declares the fields of every creative type; ImageCreative and the rest lack the inherited ones.',
@@ -104,14 +105,12 @@ const INVERTED_HIERARCHIES: Record<string, string> = {
 const LIB_VALUE =
   "Typed with the library's Value, which includes arrays (StatementBuilder sends them as a SetValue): " +
   'not an array of values.';
-const CREATIVE_HIERARCHY = 'Part of the Creative hierarchy, left for when it is fixed (see INVERTED_HIERARCHIES).';
 
 /** `Type.field` differences from the WSDL: missing, extra or with the wrong cardinality. */
 const KNOWN_FIELD_DIFFERENCES: Record<string, string> = {
   'String_ValueMapEntry.value': LIB_VALUE,
   'BaseCustomFieldValue.value': LIB_VALUE,
-  'Creative.ampRedirectUrl': CREATIVE_HIERARCHY,
-  'Creative.thirdPartyImpressionUrl': CREATIVE_HIERARCHY,
+  'CustomFieldValue.value': LIB_VALUE,
 };
 
 /** `Service.Action` differences, at runtime. */
@@ -371,6 +370,29 @@ describe(`library matches the ${API_VERSION} WSDL schema`, () => {
       for (const t of members) for (const f of allFields(schema.types, t)) wsdlFields.set(f[0], f);
       const decls = members.flatMap((t) => lib.types.get(TYPE_ALIASES[t] ?? dotless(t)) ?? []);
       expect(unexpected(differences(rootType, [...wsdlFields.values()], decls))).toEqual([]);
+    });
+
+    /**
+     * The union above hides a field that one type lacks while another type of
+     * the hierarchy declares it. Each type still declares the fields the WSDL
+     * gives it (not the inherited ones), with their cardinality.
+     */
+    const hierarchyTypes = [...hierarchyOf.keys()].filter((t) => schema.types[t].fields.length);
+    it.each(hierarchyTypes)('%s declares its own fields (inverted hierarchy)', (wsdlName) => {
+      const libName = TYPE_ALIASES[wsdlName] ?? dotless(wsdlName);
+      const decls = lib.types.get(libName) ?? [];
+      expect(decls.length ? [] : [`${libName} is not declared in lib/`]).toEqual([]);
+      for (const decl of decls) {
+        const libProps = new Map(decl.props.map((p) => [p.name, p]));
+        const found = schema.types[wsdlName].fields.flatMap(([name, , isArray]) => {
+          const p = libProps.get(name);
+          if (!p) return [`${wsdlName}.${name}: missing (${decl.at})`];
+          return p.isArray === isArray
+            ? []
+            : [`${wsdlName}.${name}: ${isArray ? 'array' : 'scalar'} in the WSDL (${p.at})`];
+        });
+        expect(unexpected(found)).toEqual([]);
+      }
     });
 
     it('has no stale entries', () => {

@@ -38,6 +38,9 @@ and fields that v202608 rejects, so code that used them already failed at runtim
 - `ReportQuery.adxReportCurrency` is renamed `reportCurrency`, the name v202608 uses. It is optional.
 - `VideoPositionTarget.adSpotId` is a `number`, not a `number[]`: the WSDL declares a single id.
 - `VastRedirectCreative.trackingUrls` is a `ConversionEvent_TrackingUrlsMapEntry[]`, not a single entry.
+- `ImageCreative`, `ImageRedirectCreative` and `AspectRatioImageCreative` declare
+  `thirdPartyImpressionTrackingUrls: string[]` instead of `thirdPartyImpressionUrl: string`, which v202608 does not
+  have. `ThirdPartyCreative` declares `ampRedirectUrl: string`, required like the other fields of the type.
 - `SalespersonSplit.split`, `ProposalLineItem.marketplaceInfo` and the empty `ProposalLineItemMarketplaceInfo` type
   are removed.
 - `CreativeAction` declares `buildAttributes()`, like the other action base classes. A class of your own that
@@ -72,7 +75,8 @@ and fields that v202608 rejects, so code that used them already failed at runtim
 - Fields of v202608 that were missing, all optional: `LineItem.youtubeKidsRestricted`,
   `Targeting.inventorySizeTargeting` (`InventorySizeTargeting`, `TargetedSize`),
   `LiveStreamEvent.prerollSettings` and `liveStreamConditioning` (`PrerollSettings`, `LiveStreamConditioning`,
-  `DashBridge`), `ProposalLineItem.secondaryGoals` and `disableSameAdvertiserCompetitiveExclusion`,
+  `DashBridge`), `VastRedirectCreative.vastPreviewUrl`, `ProposalLineItem.secondaryGoals` and
+  `disableSameAdvertiserCompetitiveExclusion`,
   `SecurityPolicySettings.keysetName` and `signedRequestExpirationTtlSeconds`, `AdDecisionCreative.isDropped`
   and `SavedQuery.isCompatibleWithApiVersion`.
 - `CreativeAsset.assetByteArray` also accepts a base64 string.

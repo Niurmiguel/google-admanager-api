@@ -337,9 +337,10 @@ export type AspectRatioImageCreative = {
   altText: string;
 
   /**
-   * An impression tracking URL to ping when this creative is displayed. This field is optional has a maximum length of 1024 characters.
+   * A list of impression tracking URLs to ping when this creative is displayed. This field is optional and each
+   * string has a maximum length of 1024 characters.
    */
-  thirdPartyImpressionUrl: string;
+  thirdPartyImpressionTrackingUrls: string[];
 
   /**
    * Allows the actual image asset sizes to differ from the creative size. This attribute is optional.
@@ -517,9 +518,10 @@ export type ImageCreative = {
   altText: string;
 
   /**
-   * An impression tracking URL to ping when this creative is displayed. This field is optional has a maximum length of 1024 characters.
+   * A list of impression tracking URLs to ping when this creative is displayed. This field is optional and each
+   * string has a maximum length of 1024 characters.
    */
-  thirdPartyImpressionUrl: string;
+  thirdPartyImpressionTrackingUrls: string[];
 
   /**
    * The list of secondary image assets associated with this creative. This attribute is optional.
@@ -591,9 +593,10 @@ export type ImageRedirectCreative = {
   altText: string;
 
   /**
-   * An impression tracking URL to ping when this creative is displayed. This field is optional has a maximum length of 1024 characters.
+   * A list of impression tracking URLs to ping when this creative is displayed. This field is optional and each
+   * string has a maximum length of 1024 characters.
    */
-  thirdPartyImpressionUrl: string;
+  thirdPartyImpressionTrackingUrls: string[];
 };
 
 /**
@@ -1126,6 +1129,11 @@ export type ThirdPartyCreative = {
    * A list of impression tracking URLs to ping when this creative is displayed. This field is optional.
    */
   thirdPartyImpressionTrackingUrls: string[];
+
+  /**
+   * The URL of the AMP creative.
+   */
+  ampRedirectUrl: string;
 };
 
 /**
@@ -1199,6 +1207,10 @@ export type VastRedirectCreative = {
    * Whether server-side unwrapping is disabled.
    */
   serverSideUnwrappingDisabled?: boolean;
+  /**
+   * An ad tag URL that will return a preview of the VAST XML response specific to this creative. This attribute is read-only.
+   */
+  vastPreviewUrl?: string;
 };
 
 /**
