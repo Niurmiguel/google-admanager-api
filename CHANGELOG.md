@@ -310,6 +310,7 @@ failed one, used to truncate the target file to 0 bytes and resolve as if it had
 - The error for an invalid service account JSON no longer quotes the input, which holds the private key.
 - The HTTP, SOAP and authentication dependencies are upgraded to major versions without the known advisories that
   affected 0.0.6.
-- Releases are built and tested in one job and the tested tarball is published from another, with npm provenance,
-  actions pinned to commit SHAs, no install scripts and no dependency cache. A GitHub release marked as
-  pre-release is published with the `next` dist-tag instead of `latest`.
+- Releases are built and tested in one job and the tested tarball is staged on npm from another, with npm trusted
+  publishing (OIDC, no stored npm token) and provenance, actions pinned to commit SHAs, no install scripts and no
+  dependency cache. A staged version is only published once a maintainer approves it on npmjs.com with 2FA. A
+  GitHub release marked as pre-release is staged with the `next` dist-tag instead of `latest`.
