@@ -8,6 +8,10 @@ breaking changes; they are always listed under **Breaking changes**.
 
 ## [Unreleased]
 
+### Added
+
+- `RELEASING.md`: how versions are numbered and released.
+
 ## [0.2.0] - 2026-11-02
 
 The library now mirrors the v202608 WSDLs exactly where 0.1.0 did not: the enums are generated from them, and a
